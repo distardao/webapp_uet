@@ -1,10 +1,10 @@
 {
 	"App": {
-		"AnDepTrai": "An đẹp trai"
+		"AnDepTrai": "Test"
 	},
 	"loi": "Lỗi!!",
 	"Translate": {
-		"title" : "Language Translation",
+		"title" : "UET Language Translation",
 		"phathienngonngu": "PHÁT HIỆN NGÔN NGỮ",
 		"bandich": "Bản dịch",
 		"dangdich": "Đang dịch ...",
