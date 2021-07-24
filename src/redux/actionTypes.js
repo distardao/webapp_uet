@@ -1,0 +1,2 @@
+export const SAY_AN_DEP_TRAI = 'SAY_AN_DEP_TRAI';
+export const CREATE_TRANSLATION = 'CREATE_TRANSLATION';

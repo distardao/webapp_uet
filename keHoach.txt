@@ -1,0 +1,4 @@
+T4: Xong UI, (Mong là) xong Notification
+T5: Ghép API (chưa cần redux), Làm copy, làm text to speech (nhớ ktra xem trình duyệt có sp ko) (Khánh), Quân setup localStorage helpers methods, An set up speech to text
+T6: Ghép API với redux (An, Khánh), ghép lịch sử, từ vựng với redux, hoàn thiện các chức năng thêm vào từ vựng, xóa 1, xóa hết  (Quân)
+T7: Test

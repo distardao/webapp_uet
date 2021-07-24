@@ -1,0 +1,36 @@
+stages:
+    - deploy_build
+    - deploy_up
+
+deploy_build:
+  image: node:12
+  stage: deploy_build
+  script:
+    - yarn install
+    - yarn build
+  cache:
+    key:
+      files:
+        - package.json
+    paths:
+      - node_modules
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - build
+  only:
+    refs:
+      - master
+
+deploy_up:
+  image: docker/compose
+  stage: deploy_up
+  script:
+    - cp -rf docker/* ./
+    - docker-compose down --remove-orphans
+    - docker-compose up -d --build
+  dependencies:
+      - deploy_build
+  only:
+    refs:
+      - master

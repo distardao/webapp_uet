@@ -1,0 +1,38 @@
+{
+	"App": {
+		"AnDepTrai": "An đẹp trai"
+	},
+	"loi": "Lỗi!!",
+	"Translate": {
+		"title" : "Language Translation",
+		"phathienngonngu": "PHÁT HIỆN NGÔN NGỮ",
+		"bandich": "Bản dịch",
+		"dangdich": "Đang dịch ...",
+		"listLanguage": {
+			"viet": "Việt",
+			"trung": "Trung",
+			"lao": "Lào",
+			"khome": "Khơme"
+		},
+		"daThemVaoTuVung": "Đã thêm vào từ vựng",
+		"daSaoChep": "Đã sao chép",
+		"vanban": "Văn bản",
+		"tailieu": "Tài liệu"
+	},
+	"History":{
+		"title1" : "Lịch sử trống",
+		"title2" : "Xây dựng danh sách từ vựng của riêng bạn",
+		"lichsudadich":"Lịch sử đã dịch",
+		"tuvungdaluu":"Từ vựng đã lưu",
+		"tuvung":"Từ vựng",
+		"lichsu": "Lịch sử",
+		"listLanguage": {
+			"viet": "Việt",
+			"trung": "Trung",
+			"lao": "Lào",
+			"khome": "Khơme"
+		},
+		"daThemVaoTuVung": "Đã thêm vào từ vựng",
+		"daSaoChep": "Đã sao chép"
+	}
+}

@@ -1,0 +1,20 @@
+{
+    "zh-vi":{
+        "textFrom": "Trung",
+        "codeFrom": "zh",
+        "textTo": "Việt",
+        "codeTo": "vi"
+    },
+    "lo-vi":{
+        "textFrom": "Lào",
+        "codeFrom": "lo",
+        "textTo": "Việt",
+        "codeTo": "vi"
+    },
+    "km-vi":{
+        "textFrom": "Khơme",
+        "codeFrom": "km",
+        "textTo": "Việt",
+        "codeTo": "vi"
+    }
+}
