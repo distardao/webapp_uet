@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
@@ -6,7 +7,6 @@ import TextareaAutosize from 'react-textarea-autosize';
 // import { HiVolumeUp } from 'react-icons/hi';
 // import { BsFillMicFill } from 'react-icons/bs';
 import { CgClose } from 'react-icons/cg';
-import axios from 'axios';
 import styles from '../translateStyle.module.css';
 import { useTranslation  } from 'react-i18next';
 // import * as axiosHelper from '../../../helpers/axiosHelper';
@@ -23,7 +23,8 @@ function InputTranslateBox(props) {
 		setResultTranslate,
 		makeTranslation,
 		toText,
-		autoDetectLang
+		autoDetectLang,
+		setFromLanguage
 	} = props;
 	const { t } = useTranslation();
 	let timeOutID;
@@ -42,21 +43,46 @@ function InputTranslateBox(props) {
 	useEffect(() => {
 		clearTimeout(timeOutID);
 		if(textInputTranslate !== ''){
+			const langdic = {
+				trung: /[\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]/,
+				lao: /[\u0E80-\u0EFF]/,
+				khmer: /[\u1780-\u17FF]/,
+				// add other languages her
+			};
 			// console.log('autodetect:', autoDetectLang);
 			if(autoDetectLang){
-				timeOutID = setTimeout(async () => {
-					const data = { data:textInputTranslate };
-					const headers = { 
-						'Content-Type': 'application/json',
-					};
-					axios.post('http://nmtuet.ddns.net:1710/detect_lang', data, {headers})
-						.then(res => {
-							const detect = res.data;
-							console.log('detect: ', detect);
-						})
-						.catch(error => console.log(error));
-				}, 1000);
+				Object.entries(langdic).forEach(([key, value]) => {
+					// loop to read all the dictionary items if not true
+					if (value.test(textInputTranslate) === true) {
+						let langCodeDetect;
+						let langTextDetect;
+						if (key === 'trung') {
+							langTextDetect = t('Translate.listLanguage.trung');
+							langCodeDetect = 'zh';
+						} else if (key === 'lao') {
+							langTextDetect = t('Translate.listLanguage.lao');
+							langCodeDetect = 'lo';
+						} else if (key === 'khmer') {
+							langTextDetect = t('Translate.listLanguage.khome');
+							langCodeDetect = 'km';
+						} else {
+							langTextDetect = 'null';
+							console.log('không phát hiện', langTextDetect);
+						}
+						setFromLanguage((prevState) => ({
+							...prevState,
+							text: langTextDetect,
+							code: langCodeDetect,
+						}));
+						fromLanguage.text = langTextDetect;
+						fromLanguage.code = langCodeDetect;
+						console.log('langCodeDetect', langCodeDetect);
+						console.log('langTextDetect', langTextDetect);
+						console.log('fromLanguage', fromLanguage);
+					}
+				});
 			}
+			
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 			timeOutID = setTimeout(async () => {
 				try {

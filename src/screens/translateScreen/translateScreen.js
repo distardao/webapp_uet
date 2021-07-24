@@ -57,6 +57,7 @@ function TranslateScreen() {
 								setToLanguage={setToLanguage}
 								setExchangeLanguahe={setExchangeLanguahe}
 								setAutoDetectLang={setAutoDetectLang}
+								autoDetectLang={autoDetectLang}
 							/>
 						</Row>
 					</Col>
@@ -73,6 +74,7 @@ function TranslateScreen() {
 										setResultTranslate={setResultTranslate}
 										isLoading={isLoading}
 										autoDetectLang={autoDetectLang}
+										setFromLanguage={setFromLanguage}
 									/>
 								</Col>
 								<Col md={6} style={{ position: 'relative' }}>

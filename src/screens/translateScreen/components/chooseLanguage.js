@@ -14,7 +14,7 @@ export default function ChooseLanguage(props) {
 		toLanguage,
 		setFromLanguage,
 		setToLanguage,
-		// autoDetectLang,
+		autoDetectLang,
 		setAutoDetectLang,
 		// setExchangeLanguah
 	} = props;
@@ -37,6 +37,7 @@ export default function ChooseLanguage(props) {
 		setAutoDetectLang(true);
 	};
 	const changeFromLanguage = (language) => {
+		setAutoDetectLang(false);
 		if (exchangeLanguage) {
 			setFromLanguage(language);
 			setToLanguage({
@@ -67,6 +68,16 @@ export default function ChooseLanguage(props) {
 			</div>
 		);
 	};
+	const buttonDetectTrue = () => {
+		return (
+			<Button size="sm" variant="success" style={{ marginRight: '5px' }} onClick={() => {autoDetect();}}><HiLightBulb style={{ lineHeight: '5px' }} />{t('Translate.phathienngonngu')}</Button>
+		);
+	};
+	const buttonDetectFalse = () => {
+		return (
+			<Button size="sm" variant="outline-primary" style={{ marginRight: '5px' }} onClick={() => {autoDetect();}}><HiLightBulb style={{ lineHeight: '5px' }} />{t('Translate.phathienngonngu')}</Button>
+		);
+	};
 	const buttonToLanguage = () => {
 		return (
 			<Button size="sm" variant="outline-primary">{!exchangeLanguage?fromLanguage.text:toLanguage.text}</Button>
@@ -84,7 +95,7 @@ export default function ChooseLanguage(props) {
 				<Row>
 					<Col md={12}>
 						<ButtonToolbar>
-							<Button size="sm" variant="outline-primary" style={{ marginRight: '5px' }} onClick={() => {autoDetect();}}><HiLightBulb style={{ lineHeight: '5px' }} />{t('Translate.phathienngonngu')}</Button>
+							{autoDetectLang?buttonDetectTrue():buttonDetectFalse()}
 							{exchangeLanguage ? buttonFromLanguage() : buttonToLanguage()}
 						</ButtonToolbar>
 									
