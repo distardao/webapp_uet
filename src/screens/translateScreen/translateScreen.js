@@ -23,8 +23,8 @@ function TranslateScreen() {
 	const [isLoading, setLoading] = useState(true);
 	const [autoDetectLang, setAutoDetectLang] = useState(false);
 	const [fromLanguage, setFromLanguage] = useState({
-		text: t('Translate.listLanguage.trung'),
-		code: 'zh'
+		text: t('Translate.listLanguage.anh'),
+		code: 'en'
 	});
 	const [toLanguage, setToLanguage] = useState({
 		text: t('Translate.listLanguage.viet'),
@@ -43,11 +43,11 @@ function TranslateScreen() {
 				</Row>
 			</Container>
 			<Container>
-				<Row style={{ padding: '10px 0'}}>
+				<Row style={{ padding: '20px 0'}}>
 					<ChooseTextCategory textCategory={textCategory} setTextCategory={setTextCategory} />
 				</Row>
 				<Row className={styles.content}>
-					<Col md={12} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} >
+					<Col md={12} style={{ padding: '0px', borderBottom: '1px solid #ccc' }} >
 						<Row>
 							<ChooseLanguage
 								exchangeLanguage={exchangeLanguage}

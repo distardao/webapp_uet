@@ -116,3 +116,25 @@
   font-size: 24px;
   word-wrap: break-word;
 }
+
+.activeChoose{
+  border-width: 0;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  border-bottom: 2px solid #1d5193;
+  background-color: #fff;
+  color: #1d5193;
+  font-weight: bold;
+}
+
+.normal{
+  border-width: 0;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  border-bottom: 2px solid #fff;
+  background-color: #fff;
+  color: rgb(121, 121, 121) !important;
+  font-weight: bold;
+}

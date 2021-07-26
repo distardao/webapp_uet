@@ -1,9 +1,8 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import {Row, Col, ButtonToolbar, Button, Dropdown} from 'react-bootstrap';
+import {Row, Col, ButtonToolbar} from 'react-bootstrap';
 import styles from '../translateStyle.module.css';
 import { FaExchangeAlt } from 'react-icons/fa';
-import { HiLightBulb } from 'react-icons/hi';
 import { useTranslation  } from 'react-i18next';
 
 export default function ChooseLanguage(props) {
@@ -21,6 +20,10 @@ export default function ChooseLanguage(props) {
 	// const listLanguage = [t('Translate.listLanguage.trung'), t('Translate.listLanguage.lao'), t('Translate.listLanguage.khome')];
 	const listLanguage = [
 		{
+			text: t('Translate.listLanguage.anh'),
+			code: 'en'
+		},
+		{
 			text: t('Translate.listLanguage.trung'),
 			code: 'zh'
 		},
@@ -33,54 +36,64 @@ export default function ChooseLanguage(props) {
 			code: 'km'
 		}
 	];
+	const listLanguageTo = [
+		{
+			text: t('Translate.listLanguage.viet'),
+			code: 'vi'
+		}
+	];
 	const autoDetect = () => {
 		setAutoDetectLang(true);
 	};
 	const changeFromLanguage = (language) => {
 		setAutoDetectLang(false);
-		if (exchangeLanguage) {
-			setFromLanguage(language);
-			setToLanguage({
-				text: t('Translate.listLanguage.viet'),
-				code: 'vi'
-			});
-		} else {
-			setFromLanguage({
-				text: t('Translate.listLanguage.viet'),
-				code: 'vi'
-			});
-			setToLanguage(language);
-		}
+		setFromLanguage(language);
+	};
+	const changeToLanguage = (language) => {
+		setToLanguage(language);
 	};
 	const buttonFromLanguage = () => {
 		return (
 			<div>
-				<Dropdown size="sm">
-					<Dropdown.Toggle size="sm" variant="primary" id="dropdown-basic">{exchangeLanguage?fromLanguage.text:toLanguage.text}</Dropdown.Toggle>
-					<Dropdown.Menu>
-						{
-							listLanguage.map((item, key) => 
-								<Dropdown.Item key={key} size="sm" href="" onClick={() => changeFromLanguage(item)}>{item.text}</Dropdown.Item>
-							)
-						}
-					</Dropdown.Menu>
-				</Dropdown>
+				<ul className="nav">
+					{
+						listLanguage.map((item, key) => 
+							// eslint-disable-next-line react/jsx-key
+							<li className="nav-item">
+								<button key={key} className={`nav-link ${item.code === fromLanguage.code && !autoDetectLang? styles.activeChoose : styles.normal} `} onClick={() => changeFromLanguage(item)} >{item.text}</button>
+							</li>
+						)
+					}
+				</ul>
 			</div>
 		);
 	};
 	const buttonDetectTrue = () => {
 		return (
-			<Button size="sm" variant="success" style={{ marginRight: '5px' }} onClick={() => {autoDetect();}}><HiLightBulb style={{ lineHeight: '5px' }} />{t('Translate.phathienngonngu')}</Button>
+			<button size="sm" className={styles.activeChoose} style={{ marginRight: '5px' }} onClick={() => {autoDetect();}}>{t('Translate.phathienngonngu')}</button>
 		);
 	};
 	const buttonDetectFalse = () => {
 		return (
-			<Button size="sm" variant="outline-primary" style={{ marginRight: '5px' }} onClick={() => {autoDetect();}}><HiLightBulb style={{ lineHeight: '5px' }} />{t('Translate.phathienngonngu')}</Button>
+			<button size="sm" className={styles.normal} style={{ marginRight: '5px' }} onClick={() => {autoDetect();}}>{t('Translate.phathienngonngu')}</button>
 		);
 	};
 	const buttonToLanguage = () => {
 		return (
-			<Button size="sm" variant="outline-primary">{!exchangeLanguage?fromLanguage.text:toLanguage.text}</Button>
+			<div>
+				<ul className="nav">
+					{
+						listLanguageTo.map((item, key) => 
+							// eslint-disable-next-line react/jsx-key
+							<li className="nav-item">
+								<button key={key} className={`nav-link ${item.code === toLanguage.code ? styles.activeChoose : styles.normal} `} onClick={() => changeToLanguage(item)} >{item.text}</button>
+							</li>
+						)
+					}
+					
+				</ul>
+			</div>
+			// <button size="sm" className={styles.activeChoose}>{!exchangeLanguage?fromLanguage.text:toLanguage.text}</button>
 		);
 	};
 	// const switchLanguage = () => {
@@ -102,7 +115,7 @@ export default function ChooseLanguage(props) {
 					</Col>
 				</Row>
 			</Col>
-			<Col md={1} style={{ textAlign: 'center' }}>
+			<Col md={1} style={{ textAlign: 'center', paddingTop: '5px' }}>
 				<button className={[styles.buttonExchange]} >
 					<FaExchangeAlt />
 				</button>
