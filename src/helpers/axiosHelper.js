@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const axiosDefault = axios.create({
-	// baseURL: 'http://nmtuet.ddns.net:1710/',
-	baseURL: 'http://nmtuet.ddnsfree.com:6010/',
+	baseURL: 'http://nmtuet.ddns.net:1710/',
+	// baseURL: 'http://nmtuet.ddnsfree.com:6010/',
 	headers: {
 		'Content-Type': 'application/json',
 	},
