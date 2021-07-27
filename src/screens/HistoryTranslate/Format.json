@@ -1,4 +1,11 @@
 {
+    "en-vi":{
+        "textFrom": "Anh",
+        "codeFrom": "en",
+        "textTo": "Việt",
+        "codeTo": "vi",
+        "isSave": false
+    },
     "zh-vi":{
         "textFrom": "Trung",
         "codeFrom": "zh",

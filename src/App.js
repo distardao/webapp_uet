@@ -11,17 +11,13 @@ import About from './screens/about';
 
 function App() {
 	return (
-		<>
-			<Router>
-				<Navbar />
-				<Switch>
-					<Route path='/' exact component={TranslateScreen} />
-					<Route path='/about' exact component={About} />
-				</Switch>
-			</Router>
-			{/* <TranslateScreen />
-			<HistoryTranslate /> */}
-		</>
+		<Router>
+			<Navbar />
+			<Switch>
+				<Route path='/' exact component={TranslateScreen} />
+				<Route path='/about' exact component={About} />
+			</Switch>
+		</Router>
 	);
 }
 

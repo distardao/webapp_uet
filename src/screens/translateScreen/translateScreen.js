@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
 	Container,
 	Row,
@@ -15,7 +15,13 @@ import ChooseLanguage from './components/chooseLanguage';
 import InputTranslateBox from './components/inputTranslateBox'; 
 import ResultTranslateBox from './components/resultTranslateBox';
 import HistoryTranslate from '../HistoryTranslate';
+import { useDispatch  } from 'react-redux';
+import { sideBarHide } from '../../redux/actions/navbarAction';
 function TranslateScreen() {
+	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(sideBarHide(false));
+	},[dispatch]);
 	// eslint-disable-next-line react/prop-types
 	// const { toText } = props;
 	const { t } = useTranslation();
