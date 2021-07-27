@@ -58,7 +58,7 @@ export default function ChooseLanguage(props) {
 				<ul className="nav">
 					{
 						listLanguage.map((item, key) => 
-							<li key={key} className="nav-item">
+							<li key={key} className="nav-item" style={{ marginBottom: '-0.5px' }}>
 								<button className={`nav-link ${item.code === fromLanguage.code && !autoDetectLang? styles.activeChoose : styles.normal} `} onClick={() => changeFromLanguage(item)} >{item.text}</button>
 							</li>
 						)
@@ -69,7 +69,7 @@ export default function ChooseLanguage(props) {
 	};
 	const buttonDetectTrue = () => {
 		return (
-			<button size="sm" className={styles.activeChoose} style={{ marginRight: '5px' }} onClick={() => {autoDetect();}}>{t('Translate.phathienngonngu')}</button>
+			<button size="sm" className={styles.activeChoose} style={{ marginRight: '5px', marginBottom: '-0.5px' }} onClick={() => {autoDetect();}}>{t('Translate.phathienngonngu')}</button>
 		);
 	};
 	const buttonDetectFalse = () => {
@@ -83,7 +83,7 @@ export default function ChooseLanguage(props) {
 				<ul className="nav">
 					{
 						listLanguageTo.map((item, key) => 
-							<li key={key} className="nav-item">
+							<li key={key} className="nav-item" style={{ marginBottom: '-0.5px' }}>
 								<button  className={`nav-link ${item.code === toLanguage.code ? styles.activeChoose : styles.normal} `} onClick={() => changeToLanguage(item)} >{item.text}</button>
 							</li>
 						)
