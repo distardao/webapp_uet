@@ -3,11 +3,46 @@
     /* height: 50px; */
     color: #fff;
     /* text-align: center; */
-    vertical-align: middle;
-  }
+}
+.buttonSidebars{
+  width: 50px;
+  position: relative;
+}
+.buttonSidebar{
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  padding-bottom: 8px;
+  font-size: 24px;
+  border: none;
+  background-color: #1d5193;
+  color: #fff;
+}
+.buttonSidebar:hover{
+  background-color: #295b9b;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  padding-bottom: 8px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 24px;
+  border: none;
+}
+.buttonSidebar:active{
+  background-color: #0d4b9c;
+}
 .title{
-  font-size: 30px;
-  padding: 10px;
+  font-size: 28px;
+  padding: 8px;
   align-items: center;
 }
 .documentOption{

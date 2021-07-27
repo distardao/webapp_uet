@@ -66,7 +66,8 @@ function InputTranslateBox(props) {
 							langTextDetect = t('Translate.listLanguage.khome');
 							langCodeDetect = 'km';
 						} else {
-							langTextDetect = 'null';
+							langTextDetect = t('Translate.listLanguage.anh');
+							langCodeDetect = 'en';
 							console.log('không phát hiện', langTextDetect);
 						}
 						setFromLanguage((prevState) => ({

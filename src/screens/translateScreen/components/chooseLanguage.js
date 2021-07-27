@@ -58,9 +58,8 @@ export default function ChooseLanguage(props) {
 				<ul className="nav">
 					{
 						listLanguage.map((item, key) => 
-							// eslint-disable-next-line react/jsx-key
-							<li className="nav-item">
-								<button key={key} className={`nav-link ${item.code === fromLanguage.code && !autoDetectLang? styles.activeChoose : styles.normal} `} onClick={() => changeFromLanguage(item)} >{item.text}</button>
+							<li key={key} className="nav-item">
+								<button className={`nav-link ${item.code === fromLanguage.code && !autoDetectLang? styles.activeChoose : styles.normal} `} onClick={() => changeFromLanguage(item)} >{item.text}</button>
 							</li>
 						)
 					}
@@ -84,9 +83,8 @@ export default function ChooseLanguage(props) {
 				<ul className="nav">
 					{
 						listLanguageTo.map((item, key) => 
-							// eslint-disable-next-line react/jsx-key
-							<li className="nav-item">
-								<button key={key} className={`nav-link ${item.code === toLanguage.code ? styles.activeChoose : styles.normal} `} onClick={() => changeToLanguage(item)} >{item.text}</button>
+							<li key={key} className="nav-item">
+								<button  className={`nav-link ${item.code === toLanguage.code ? styles.activeChoose : styles.normal} `} onClick={() => changeToLanguage(item)} >{item.text}</button>
 							</li>
 						)
 					}

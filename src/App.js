@@ -4,27 +4,23 @@ import './App.css';
 // import { useTranslation  } from 'react-i18next'; 
 // import { useSelector, useDispatch } from 'react-redux';
 // import { sayAnDepTrai } from './redux/actions/testAction';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Navbar from './components/Navbar/Navbar';
 import TranslateScreen from './screens/translateScreen/translateScreen';
-import HistoryTranslate from './screens/HistoryTranslate';
+import About from './screens/about';
 
 function App() {
-	// const testData = useSelector(state => state.testReducer.anDepTrai);
-	// const dispatch = useDispatch();
-	// const { t } = useTranslation();
-	// const testContent = 'Đại tỉ phú An đẹp trai wooooo kakakakakaka';
-	// const changePraise = (e) => {
-	// 	e.preventDefault();
-	// 	dispatch(sayAnDepTrai(testContent));
-	// };
 	return (
-		// <div className="App">
-		// 	<h1>{t('App.AnDepTrai')}</h1>
-		// 	<h1>{testData}</h1>
-		// 	<button onClick={changePraise}>Change</button>
-		// </div>
 		<>
-			<TranslateScreen />
-			<HistoryTranslate />
+			<Router>
+				<Navbar />
+				<Switch>
+					<Route path='/' exact component={TranslateScreen} />
+					<Route path='/about' exact component={About} />
+				</Switch>
+			</Router>
+			{/* <TranslateScreen />
+			<HistoryTranslate /> */}
 		</>
 	);
 }

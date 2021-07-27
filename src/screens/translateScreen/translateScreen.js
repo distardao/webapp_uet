@@ -3,18 +3,18 @@ import {
 	Container,
 	Row,
 	Col,
-	Image,
 	Button,
 } from 'react-bootstrap';
 import { useTranslation  } from 'react-i18next';
+// import { CgMenu } from 'react-icons/cg';
 // import { connect } from 'react-redux';
 import styles from './translateStyle.module.css';
-import Logo from '../../assets/images/lg.png';
+// import Logo from '../../assets/images/lg.png';
 import ChooseTextCategory from './components/chooseTextCategory';
 import ChooseLanguage from './components/chooseLanguage';
 import InputTranslateBox from './components/inputTranslateBox'; 
 import ResultTranslateBox from './components/resultTranslateBox';
-
+import HistoryTranslate from '../HistoryTranslate';
 function TranslateScreen() {
 	// eslint-disable-next-line react/prop-types
 	// const { toText } = props;
@@ -35,13 +35,15 @@ function TranslateScreen() {
 	const [resultTranslate, setResultTranslate] = useState('');
 	return (
 		<>
-			<Container fluid>
+			{/* <Container fluid>
 				<Row className={styles.headerTop}>
-					<Col className={styles.title}>
-						<Image style={{ width: '40px' }} src={Logo} alt="" roundedCircle /> {t('Translate.title')}
-					</Col>
+					<div className={styles.buttonSidebars}><button className={styles.buttonSidebar}><CgMenu /></button></div>
+					<div className={styles.title}> */}
+			{/* <Image style={{ width: '40px' }} src={Logo} alt="" roundedCircle /> */}
+			{/* {t('Translate.title')} */}
+			{/* </div>
 				</Row>
-			</Container>
+			</Container> */}
 			<Container>
 				<Row style={{ padding: '20px 0'}}>
 					<ChooseTextCategory textCategory={textCategory} setTextCategory={setTextCategory} />
@@ -97,10 +99,8 @@ function TranslateScreen() {
 						)}
 					</Col>
 				</Row>
-				
-					
-				
 			</Container>
+			<HistoryTranslate />
 		</>
 	);
 }
