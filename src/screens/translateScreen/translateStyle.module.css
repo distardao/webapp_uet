@@ -173,3 +173,17 @@
   color: rgb(121, 121, 121) !important;
   font-weight: bold;
 }
+
+.ResultTranslateBox{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.boxdich{
+  padding-top: 10px;
+  min-height: 108px;
+}
+.boxclick{
+  align-content: flex-end;
+  height: 40px;
+}

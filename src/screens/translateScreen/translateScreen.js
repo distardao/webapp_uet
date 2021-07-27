@@ -85,7 +85,7 @@ function TranslateScreen() {
 										setFromLanguage={setFromLanguage}
 									/>
 								</Col>
-								<Col md={6} style={{ position: 'relative' }}>
+								<Col md={6} className={styles.ResultTranslateBox}>
 									<ResultTranslateBox 
 										isLoading={isLoading}
 										resultTranslate={resultTranslate}

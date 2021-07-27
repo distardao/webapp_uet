@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
 import { useTranslation  } from 'react-i18next';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 // import { BsStar, BsFillStarFill } from 'react-icons/bs';
-import { MdContentCopy } from 'react-icons/md';
+import { MdContentCopy, MdEdit } from 'react-icons/md';
 import styles from '../translateStyle.module.css';
 import { useNotification } from '../../../components/NotificationProvider';
 // import Fomart from './Format.json';
@@ -20,7 +20,6 @@ export default function ResultTranslateBox(props) {
 		navigator.clipboard.writeText(text);
 		dispatchNoti(t('Translate.daSaoChep'));
 	};
-	
 	// const saveTranslateToVocabulary = async () => {
 	// 	const newDict = {
 	// 		...Fomart[direction],
@@ -39,32 +38,38 @@ export default function ResultTranslateBox(props) {
 	// }, [isLoading]);
 	return (
 		<>
-			<Row style={{ paddingTop: '10px', minHeight: '108px' }}>
-				<Col md={12}>
-					<p className={isLoading?styles.resultTranslate_bandich:styles.resultTranslate_dadich}>{resultTranslate}</p>
-				</Col>
-			</Row>
-			<Row className="">
+			<div className={styles.boxdich}>
+				<p className={isLoading?styles.resultTranslate_bandich:styles.resultTranslate_dadich}>{resultTranslate}</p>
+			</div>
+			<div className={styles.boxclick}>
 				{
 					!isLoading?(
 						<>
 							{/* <Col md={1}> */}
 							{/* <button className={styles.buttonUtility}><HiVolumeUp /></button> */}
 							{/* </Col> */}
-							<Col className="align-self-end">
-								<button onClick={() => copyTextResult(resultTranslate)} className={styles.buttonUtility}><MdContentCopy /></button>
-								{/* {!saveCopy?(
-									<button onClick={() => saveTranslateToVocabulary()} className={styles.buttonUtility}><BsStar /></button>
-								):(
-									<button className={styles.buttonUtility}><BsFillStarFill color='#FBBC04' /></button>
-								)} */}
-								
-							</Col>
+							{/* {!saveCopy?(
+								<button onClick={() => saveTranslateToVocabulary()} className={styles.buttonUtility}><BsStar /></button>
+							):(
+								<button className={styles.buttonUtility}><BsFillStarFill color='#FBBC04' /></button>
+							)} */}
+							<button onClick={() => copyTextResult(resultTranslate)} className={styles.buttonUtility}><MdContentCopy /></button>
+							<OverlayTrigger
+								placement="bottom"
+								delay={{ show: 250, hide: 400 }}
+								overlay={
+									<Tooltip>
+										Đề xuất chỉnh sửa
+									</Tooltip>
+								}
+							>
+								<button className={styles.buttonUtility} ><MdEdit /></button>
+							</OverlayTrigger>
 						</>
 					):
 						('')
 				}
-			</Row>
+			</div>
 		</>
 	);
 }
