@@ -12,6 +12,10 @@ export const SidebarData = [
 		path: '/rules-and-policy',
 	},
 	{
+		title: 'Hỗ trợ',
+		path: '/help',
+	},
+	{
 		title: 'Liên hệ',
 		path: '/contact',
 	},
