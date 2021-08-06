@@ -15,6 +15,11 @@ import styles from './navbarStyle.module.css';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import OutsideClick from '../../helpers/outsideClick';
+import { useGoogleLogout } from 'react-google-login';
+
+const clientId =
+	'1006597644137-plgvccnt0d3keaojro5q3j69vkjudfvs.apps.googleusercontent.com';
+
 function Navbar() {
 	const boxRef = useRef(null);
 	const boxOutsideClick = OutsideClick(boxRef);
@@ -32,9 +37,29 @@ function Navbar() {
 	const showSidebar = () => {
 		dispatch(sideBarShow(true));
 	};
+
 	const hideSidebar = () => {
 		dispatch(sideBarHide(false));
 	};
+
+	const onFailure = (res) => {
+		console.log('Login failed: res:', res);
+		alert(
+			'Failed to login. 😢 Please ping this to repo owner twitter.com/sivanesh_fiz'
+		);
+	};
+
+	const onLogoutSuccess = () => {
+		console.log('Logged out Success');
+		alert('Logged out Successfully ✌');
+		window.location.replace('/login');
+	};
+
+	const { signOut } = useGoogleLogout({
+		clientId,
+		onLogoutSuccess,
+		onFailure,
+	});
 	return (
 		<div ref={boxRef}>
 			<Container fluid>
@@ -44,6 +69,9 @@ function Navbar() {
 						{/* <Image style={{ width: '40px' }} src={Logo} alt="" roundedCircle /> */}
 						{t('Translate.title')}
 					</div>
+					<button onClick={signOut} style={{ borderRadius: 10 }} className="btn btn-warning btn-block">
+						<i className="fab fa-google fa-fw" /> Đăng xuất
+					</button>
 				</Row>
 			</Container>
 			<nav className={sidebar ? [styles.nav_menu, styles.active].join(' ') : styles.nav_menu}>
