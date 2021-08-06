@@ -12,6 +12,7 @@ import Login from './screens/Login';
 import Register from './screens/Register';
 import ForgotPassword from './screens/ForgotPassword';
 import RulesAndPolicy from './screens/RulesAndPolicy';
+import Help from './screens/Help';
 
 function App() {
 	return (
@@ -24,6 +25,7 @@ function App() {
 				<Route path='/register' exact component={Register} />
 				<Route path='/forgot-password' exact component={ForgotPassword} />
 				<Route path='/rules-and-policy' exact component={RulesAndPolicy} />
+				<Route path='/help' exact component={Help} />
 			</Switch>
 		</Router>
 	);
