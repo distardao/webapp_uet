@@ -1,7 +1,5 @@
 import React, {useEffect, useRef} from 'react';
 import { 
-	Container,
-	Row,
 	Image,
 } from 'react-bootstrap';
 // import * as FaIcons from 'react-icons/fa';
@@ -36,16 +34,17 @@ function Navbar() {
 		dispatch(sideBarHide(false));
 	};
 	return (
-		<div ref={boxRef}>
-			<Container fluid>
-				<Row className={styles.headerTop}>
-					<div  className={styles.buttonSidebars}><button onClick={() => showSidebar()} className={styles.buttonSidebar}><CgMenu /></button></div>
-					<div className={styles.title}>
-						{/* <Image style={{ width: '40px' }} src={Logo} alt="" roundedCircle /> */}
-						{t('Translate.title')}
-					</div>
-				</Row>
-			</Container>
+		<div ref={boxRef} style={{display: 'flex', height: '6vh'}}>
+			<div style={{display: 'flex', flex: 1, backgroundColor:' #1d5193', color: 'white', flexDirection: 'row'}}>
+				<div style={{position: 'relative', width:50 }}>
+					<button onClick={() => showSidebar()} className={styles.buttonSidebar}>
+						<CgMenu />
+					</button>
+				</div>
+				<div style={{flex: 1, fontSize: 28, alignSelf:'center',}}>
+					{t('Translate.title')}
+				</div>
+			</div>
 			<nav className={sidebar ? [styles.nav_menu,styles.active].join(' ') : styles.nav_menu}>
 				<ul className={styles.nav_menu_items}>
 					<li className={styles.logo}>
