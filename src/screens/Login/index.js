@@ -3,6 +3,7 @@ import React from 'react';
 // import './bootstrap.css';
 import Flat from '../../assets/images/Image_flag.png';
 import { Image } from 'react-bootstrap'
+import LoginGoogle from './LoginGoogle'
 
 function index() {
 	return (
@@ -34,9 +35,7 @@ function index() {
 													Đăng nhập
 												</a>
 												<hr />
-												<a href="/" style={{ backgroundColor: '#EA4335', borderRadius: 10 }} className="btn btn-danger btn-block">
-													<i className="fab fa-google fa-fw" /> Đăng nhập với Google
-												</a>
+												<LoginGoogle />
 											</form>
 											<hr />
 											<div className="text-center">
