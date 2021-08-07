@@ -3,9 +3,12 @@ import {
 	Container,
 	Row,
 	Image,
+	Overlay,
+	Tooltip,
 } from 'react-bootstrap';
 // import * as FaIcons from 'react-icons/fa';
 import { CgMenu } from 'react-icons/cg';
+import { AiOutlineUser } from 'react-icons/ai';
 
 import { Link } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
@@ -60,18 +63,35 @@ function Navbar() {
 		onLogoutSuccess,
 		onFailure,
 	});
+
+	const [show, setShow] = React.useState(false);
+	const target = useRef(null);
+
 	return (
 		<div ref={boxRef}>
 			<Container fluid>
 				<Row className={styles.headerTop}>
 					<div className={styles.buttonSidebars}><button onClick={() => showSidebar()} className={styles.buttonSidebar}><CgMenu /></button></div>
-					<div className={styles.title}>
-						{/* <Image style={{ width: '40px' }} src={Logo} alt="" roundedCircle /> */}
-						{t('Translate.title')}
+					<div style={{ display: 'flex', flex: 1, justifyContent: 'space-between' }}>
+						<div className={styles.title}>
+							{/* <Image style={{ width: '40px' }} src={Logo} alt="" roundedCircle /> */}
+							{t('Translate.title')}
+						</div>
+						<button ref={target} onClick={() => setShow(!show)} className={styles.buttonUser}><AiOutlineUser /></button>
+						<Overlay target={target.current} show={show} placement="bottom">
+							{(props) => (
+								<Tooltip id="overlay-example" {...props}>
+									<p>Thông tin</p>
+									<button style={{ backgroundColor: '#000', borderWidth: 0 }} onClick={signOut}>
+										<p style={{ color: '#fff' }}>Đăng xuất</p>
+									</button>
+								</Tooltip>
+							)}
+						</Overlay>
+						{/* <button onClick={signOut} style={{ borderRadius: 10 }} className="btn btn-warning">
+							<i className="fab fa-google fa-fw" /> Đăng xuất
+						</button> */}
 					</div>
-					<button onClick={signOut} style={{ borderRadius: 10 }} className="btn btn-warning btn-block">
-						<i className="fab fa-google fa-fw" /> Đăng xuất
-					</button>
 				</Row>
 			</Container>
 			<nav className={sidebar ? [styles.nav_menu, styles.active].join(' ') : styles.nav_menu}>
