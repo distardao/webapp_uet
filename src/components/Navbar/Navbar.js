@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useEffect, useRef } from 'react';
 import {
 	Container,
@@ -5,6 +7,7 @@ import {
 	Image,
 	Overlay,
 	Tooltip,
+	Button,
 } from 'react-bootstrap';
 // import * as FaIcons from 'react-icons/fa';
 import { CgMenu } from 'react-icons/cg';
@@ -19,6 +22,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import OutsideClick from '../../helpers/outsideClick';
 import { useGoogleLogout } from 'react-google-login';
+import Modal from '../Modal';
 
 const clientId =
 	'1006597644137-plgvccnt0d3keaojro5q3j69vkjudfvs.apps.googleusercontent.com';
@@ -26,6 +30,7 @@ const clientId =
 function Navbar() {
 	const boxRef = useRef(null);
 	const boxOutsideClick = OutsideClick(boxRef);
+	const [modalShow, setModalShow] = React.useState(false);
 	// console.log('boxOutsideClick',boxOutsideClick);
 
 	// const [sidebar, setSidebar] = useState(false);
@@ -81,13 +86,20 @@ function Navbar() {
 						<Overlay target={target.current} show={show} placement="bottom">
 							{(props) => (
 								<Tooltip id="overlay-example" {...props}>
-									<p>Thông tin</p>
-									<button style={{ backgroundColor: '#000', borderWidth: 0 }} onClick={signOut}>
-										<p style={{ color: '#fff' }}>Đăng xuất</p>
-									</button>
+									<div style={{ backgroundColor: '#fff', margin: -8, padding: 8, borderRadius: 5 }} >
+										<Button onClick={() => { setModalShow(true), setShow(!show); }} style={{ backgroundColor: '#fff', borderWidth: 0, marginBottom: 5 }}>
+											<p style={{ color: '#000', marginBottom: 5, marginTop: 5 }}>Chỉnh sửa thông tin</p>
+										</Button>
+										<Button onClick={signOut} style={{ backgroundColor: '#fff', borderWidth: 0 }}>
+											<p style={{ color: '#000', marginBottom: 5 }}>Đăng xuất</p>
+										</Button>
+									</div>
 								</Tooltip>
 							)}
 						</Overlay>
+						<Modal
+							show={modalShow}
+							onHide={() => setModalShow(false)} />
 						{/* <button onClick={signOut} style={{ borderRadius: 10 }} className="btn btn-warning">
 							<i className="fab fa-google fa-fw" /> Đăng xuất
 						</button> */}
