@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useEffect, useRef } from 'react';
@@ -30,8 +31,8 @@ function Navbar() {
 	const boxRef = useRef(null);
 	const boxOutsideClick = OutsideClick(boxRef);
 	const [modalShow, setModalShow] = React.useState(false);
+	const path = window.location.pathname;
 	// console.log('boxOutsideClick',boxOutsideClick);
-
 
 	const fakeAuth = {
 		isAuthenticated: sessionStorage.getItem(IS_AUTH),
@@ -77,11 +78,7 @@ function Navbar() {
 		<div ref={boxRef}>
 			<Container fluid>
 				<Row className={styles.headerTop}>
-					{fakeAuth.isAuthenticated ? (
-						<div className={styles.buttonSidebars}><button onClick={() => showSidebar()} className={styles.buttonSidebar}><CgMenu /></button></div>
-					) : (
-						<div style={{ width: 20 }} />
-					)}
+					<div className={styles.buttonSidebars}><button onClick={() => showSidebar()} className={styles.buttonSidebar}><CgMenu /></button></div>
 					<div style={{ display: 'flex', flex: 1, justifyContent: 'space-between' }}>
 						<div className={styles.title}>
 							{/* <Image style={{ width: '40px' }} src={Logo} alt="" roundedCircle /> */}
@@ -98,9 +95,15 @@ function Navbar() {
 									<Dropdown.Item onClick={signOut}>Đăng xuất</Dropdown.Item>
 								</Dropdown.Menu>
 							</Dropdown>
-						) : <a href="/login" style={{ color: '#fff', alignSelf: 'center', marginRight: 20 }}>
-							Đăng nhập
-						</a>}
+						) : (
+							(path == 'login' || 'forgot-password' || 'register') ? (
+								null
+							) : (
+								<a href="/login" style={{ color: '#fff', alignSelf: 'center', marginRight: 20 }}>
+									Đăng nhập
+								</a>
+							)
+						)}
 						<Modal
 							show={modalShow}
 							onHide={() => setModalShow(false)} />
@@ -128,7 +131,7 @@ function Navbar() {
 					})}
 				</ul>
 			</nav>
-		</div>
+		</div >
 	);
 }
 

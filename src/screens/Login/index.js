@@ -4,8 +4,16 @@ import React from 'react';
 import Flat from '../../assets/images/Image_flag.png';
 import { Image } from 'react-bootstrap'
 import LoginGoogle from './LoginGoogle'
+import { useForm } from 'react-hook-form';
 
-function index() {
+function Login() {
+	const {
+		register, handleSubmit, formState: { errors },
+	} = useForm();
+
+	const LoginNormal = () => {
+		alert('Chưa thể đăng nhập')
+	}
 	return (
 		<div style={{ height: '93.8vh', backgroundColor: '#4e73df' }}>
 			<div className="container">
@@ -24,16 +32,18 @@ function index() {
 											<div className="text-center">
 												<h1 className="h4 text-gray-900 mb-4">Chào mừng bạn trờ lại</h1>
 											</div>
-											<form className="user">
+											<form className="user" onSubmit={handleSubmit(LoginNormal)}>
 												<div className="form-group">
-													<input type="email" className="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." />
+													<input type="email"  {...register('account', { required: true })} className="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." />
+													{errors.account && <span className="text-danger">Trường này là bắt buộc</span>}
 												</div>
 												<div className="form-group">
-													<input type="password" className="form-control" id="exampleInputPassword" placeholder="Password" />
+													<input type="password"  {...register('password', { required: true })} className="form-control" id="exampleInputPassword" placeholder="Password" />
+													{errors.password && <span className="text-danger">Trường này là bắt buộc</span>}
 												</div>
-												<a href="/login" style={{ backgroundColor: '#4E73DF', borderRadius: 10 }} className="btn btn-primary btn-block">
+												<button type="summit" style={{ backgroundColor: '#4E73DF', borderRadius: 10 }} className="btn btn-primary btn-block">
 													Đăng nhập
-												</a>
+												</button>
 												<hr />
 												<LoginGoogle />
 											</form>
@@ -56,5 +66,5 @@ function index() {
 	)
 }
 
-export default index;
+export default Login;
 
