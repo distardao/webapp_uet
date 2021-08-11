@@ -32,8 +32,6 @@ function Navbar() {
 	const boxOutsideClick = OutsideClick(boxRef);
 	const [modalShow, setModalShow] = React.useState(false);
 	const path = window.location.pathname;
-	console.log('🚀 ~ file: Navbar.js ~ line 35 ~ Navbar ~ path', path);
-	// console.log('boxOutsideClick',boxOutsideClick);
 
 	const fakeAuth = {
 		isAuthenticated: sessionStorage.getItem(IS_AUTH),
