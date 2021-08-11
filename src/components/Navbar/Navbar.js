@@ -74,6 +74,18 @@ function Navbar() {
 	});
 
 	return (
+		// <div ref={boxRef} style={{display: 'flex', height: '6vh'}}>
+		// 	<div style={{display: 'flex', flex: 1, backgroundColor:' #1d5193', color: 'white', flexDirection: 'row'}}>
+		// 		<div style={{position: 'relative', width:50 }}>
+		// 			<button onClick={() => showSidebar()} className={styles.buttonSidebar}>
+		// 				<CgMenu />
+		// 			</button>
+		// 		</div>
+		// 		<div style={{flex: 1, fontSize: 28, alignSelf:'center',}}>
+		// 			{t('Translate.title')}
+		// 		</div>
+		// 	</div>
+		// 	<nav className={sidebar ? [styles.nav_menu,styles.active].join(' ') : styles.nav_menu}>
 		<div ref={boxRef}>
 			<Container fluid>
 				<Row className={styles.headerTop}>

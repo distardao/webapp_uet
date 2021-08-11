@@ -4,6 +4,10 @@ export const SidebarData = [
 		path: '/',
 	},
 	{
+		title: 'Lịch sử và từ vựng',
+		path: '/HistoryAndFavorite',
+	},
+	{
 		title: 'Giới thiệu',
 		path: '/about',
 	},
