@@ -1,8 +1,15 @@
 import React from 'react';
 import traslateImage from '../../assets/images/icondangonngu.png';
 import { Image } from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
 
-function index() {
+function Forgot() {
+	const {
+		register, handleSubmit, formState: { errors },
+	} = useForm();
+	const ForgotAccount = () => {
+		alert('Chưa thể đăng ký tài khoản');
+	};
 	return (
 		<div style={{ height: '93.8vh', backgroundColor: '#4e73df' }}>
 			<div className="container">
@@ -21,13 +28,14 @@ function index() {
 											<div className="text-center">
 												<h1 className="h4 text-gray-900 mb-4">Quên mật khẩu?</h1>
 											</div>
-											<form className="user">
+											<form className="user" onSubmit={handleSubmit(ForgotAccount)}>
 												<div className="form-group">
-													<input type="email" className="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email" />
+													<input type="email" name='email' {...register('email', { required: true })} className="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email" />
+													{errors.email && <span className="text-danger">Trường này là bắt buộc</span>}
 												</div>
-												<a href="/" style={{ backgroundColor: '#4E73DF', borderRadius: 10 }} className="btn btn-primary btn-block">
+												<button type='submit' style={{ backgroundColor: '#4E73DF', borderRadius: 10 }} className="btn btn-primary btn-block">
 													Gửi
-												</a>
+												</button>
 											</form>
 											<hr />
 											<div className="text-center">
@@ -48,5 +56,5 @@ function index() {
 	);
 }
 
-export default index;
+export default Forgot;
 
