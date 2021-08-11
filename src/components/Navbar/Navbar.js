@@ -32,6 +32,7 @@ function Navbar() {
 	const boxOutsideClick = OutsideClick(boxRef);
 	const [modalShow, setModalShow] = React.useState(false);
 	const path = window.location.pathname;
+	console.log('🚀 ~ file: Navbar.js ~ line 35 ~ Navbar ~ path', path);
 	// console.log('boxOutsideClick',boxOutsideClick);
 
 	const fakeAuth = {
@@ -96,7 +97,7 @@ function Navbar() {
 								</Dropdown.Menu>
 							</Dropdown>
 						) : (
-							(path == 'login' || 'forgot-password' || 'register') ? (
+							path == ('/login' || '/forgot-password' || '/register') ? (
 								null
 							) : (
 								<a href="/login" style={{ color: '#fff', alignSelf: 'center', marginRight: 20 }}>
