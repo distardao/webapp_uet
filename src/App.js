@@ -1,13 +1,11 @@
 /* eslint-disable quotes */
 import React from 'react';
 import './App.css';
-// import { useTranslation  } from 'react-i18next'; 
-// import { useSelector, useDispatch } from 'react-redux';
-// import { sayAnDepTrai } from './redux/actions/testAction';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import TranslateScreen from './screens/translateScreen/translateScreen';
 import About from './screens/about';
+import HistoryAndFavorite from "./screens/HistoryAndFavorite";
 import Login from './screens/Login';
 import Register from './screens/Register';
 import ForgotPassword from './screens/ForgotPassword';
@@ -21,6 +19,7 @@ function App() {
 			<Switch>
 				<Route path='/' exact component={TranslateScreen} />
 				<Route path='/about' exact component={About} />
+				<Route path='/historyAndFavorite' exact component={HistoryAndFavorite} />
 				<Route path='/login' exact component={Login} />
 				<Route path='/register' exact component={Register} />
 				<Route path='/forgot-password' exact component={ForgotPassword} />
