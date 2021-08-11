@@ -5,9 +5,7 @@ import {
 	Container,
 	Row,
 	Image,
-	Overlay,
-	Tooltip,
-	Button,
+	Dropdown,
 } from 'react-bootstrap';
 // import * as FaIcons from 'react-icons/fa';
 import { CgMenu } from 'react-icons/cg';
@@ -23,6 +21,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import OutsideClick from '../../helpers/outsideClick';
 import { useGoogleLogout } from 'react-google-login';
 import Modal from '../Modal';
+import { IS_AUTH } from '../../constants/envVar';
 
 const clientId =
 	'1006597644137-plgvccnt0d3keaojro5q3j69vkjudfvs.apps.googleusercontent.com';
@@ -32,6 +31,11 @@ function Navbar() {
 	const boxOutsideClick = OutsideClick(boxRef);
 	const [modalShow, setModalShow] = React.useState(false);
 	// console.log('boxOutsideClick',boxOutsideClick);
+
+
+	const fakeAuth = {
+		isAuthenticated: sessionStorage.getItem(IS_AUTH),
+	};
 
 	// const [sidebar, setSidebar] = useState(false);
 	const sidebar = useSelector(state => state.navbarReducer.shownavbar);
@@ -53,13 +57,13 @@ function Navbar() {
 	const onFailure = (res) => {
 		console.log('Login failed: res:', res);
 		alert(
-			'Failed to login. 😢 Please ping this to repo owner twitter.com/sivanesh_fiz'
+			'Failed to login.'
 		);
 	};
 
 	const onLogoutSuccess = () => {
-		console.log('Logged out Success');
 		alert('Logged out Successfully ✌');
+		sessionStorage.clear();
 		window.location.replace('/login');
 	};
 
@@ -68,9 +72,6 @@ function Navbar() {
 		onLogoutSuccess,
 		onFailure,
 	});
-
-	const [show, setShow] = React.useState(false);
-	const target = useRef(null);
 
 	return (
 		<div ref={boxRef}>
@@ -82,21 +83,20 @@ function Navbar() {
 							{/* <Image style={{ width: '40px' }} src={Logo} alt="" roundedCircle /> */}
 							{t('Translate.title')}
 						</div>
-						<button ref={target} onClick={() => setShow(!show)} className={styles.buttonUser}><AiOutlineUser /></button>
-						<Overlay target={target.current} show={show} placement="bottom">
-							{(props) => (
-								<Tooltip id="overlay-example" {...props}>
-									<div style={{ backgroundColor: '#fff', margin: -8, padding: 8, borderRadius: 5 }} >
-										<Button onClick={() => { setModalShow(true), setShow(!show); }} style={{ backgroundColor: '#fff', borderWidth: 0, marginBottom: 5 }}>
-											<p style={{ color: '#000', marginBottom: 5, marginTop: 5 }}>Chỉnh sửa thông tin</p>
-										</Button>
-										<Button onClick={signOut} style={{ backgroundColor: '#fff', borderWidth: 0 }}>
-											<p style={{ color: '#000', marginBottom: 5 }}>Đăng xuất</p>
-										</Button>
-									</div>
-								</Tooltip>
-							)}
-						</Overlay>
+						{fakeAuth.isAuthenticated ? (
+							<Dropdown style={{ alignSelf: 'center', paddingRight: 10 }}>
+								<Dropdown.Toggle style={{ display: 'flex', alignItems: 'center' }}>
+									<AiOutlineUser size={25} />
+								</Dropdown.Toggle>
+								<Dropdown.Menu>
+									<Dropdown.Item onClick={() => setModalShow(true)}>Chỉnh sửa thông tin</Dropdown.Item>
+									<Dropdown.Divider />
+									<Dropdown.Item onClick={signOut}>Đăng xuất</Dropdown.Item>
+								</Dropdown.Menu>
+							</Dropdown>
+						) : <a href="/login" style={{ color: '#fff', alignSelf: 'center', marginRight: 10 }}>
+							Đăng nhập
+						</a>}
 						<Modal
 							show={modalShow}
 							onHide={() => setModalShow(false)} />

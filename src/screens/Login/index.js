@@ -31,7 +31,7 @@ function index() {
 												<div className="form-group">
 													<input type="password" className="form-control" id="exampleInputPassword" placeholder="Password" />
 												</div>
-												<a href="/" style={{ backgroundColor: '#4E73DF', borderRadius: 10 }} className="btn btn-primary btn-block">
+												<a href="/login" style={{ backgroundColor: '#4E73DF', borderRadius: 10 }} className="btn btn-primary btn-block">
 													Đăng nhập
 												</a>
 												<hr />
