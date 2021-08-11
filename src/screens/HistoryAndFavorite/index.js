@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import styles from './historyAndFavorite.module.css';
+import { ButtonToolbar } from 'react-bootstrap';
 import { MdMoreVert, MdArrowForward, MdSearch, MdStarBorder, MdContentCopy, MdVolumeUp } from 'react-icons/md';
 
 
@@ -18,7 +19,7 @@ export default function HistoryAndFavorite() {
 							<div>text 1</div>
 							<div>text 2</div>
 						</div>
-						<div style={{color: '#A3A3A3'}}>Trung <MdArrowForward style={{marginLeft: 10, marginRight: 10}}/> Viet</div>
+						<div style={{color: '#A3A3A3', fontSize: 22}}>Trung <MdArrowForward style={{marginLeft: 10, marginRight: 10}}/> Viet</div>
 					</div>
 					<div style={{flex: 0.1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center'}}>
 						<MdMoreVert size={25} onClick={() => {}}/>
@@ -33,12 +34,10 @@ export default function HistoryAndFavorite() {
 		<div style={{ display: 'flex', flex: 1, backgroundColor: 'white', height:'94vh' }}>
 			<div className={styles.innerBox}>
 				<div className={styles.tabBox}>
-					<div className={styles.tab}>
-						LỊCH SỬ
-					</div>
-					<div className={styles.tab}>
-						TỪ VỰNG
-					</div>
+					<ButtonToolbar>
+						<button className={styles.tab}>LỊCH SỬ</button>
+						<button className={styles.tab}>TỪ VỰNG</button>
+					</ButtonToolbar>
 				</div>
 				<div className={styles.innerBody}>
 					<div className={styles.innerBodyLeft}>
