@@ -1,18 +1,12 @@
-/* li {
-  font-size: 30px;
-} */
-
 .inputSearch {
+  margin-right: 10px;
   border: none;
   flex: 1;
 }
 
-.inputSearch:focus {
-  border: 1px solid white;
-}
-
 .buttonDropDown {
   background-color: white;
+  padding: 5px;
   border-radius: 50%;
   justify-content: center;
   display: flex;
@@ -20,10 +14,9 @@
   border: 1px solid white;
 }
 
-.buttonDropDown:hover,
-.buttonDropDown:active {
-  border: 1px solid #888888;
-  background-color: grey;
+.buttonDropDown:hover {
+  padding: 5px;
+  background-color: #dad6d6;
 }
 
 .buttonList {
@@ -40,6 +33,18 @@
 }
 
 .buttonListChosen {
+  padding: 12px;
+  display: flex;
+  color: black;
+  flex: 1;
+  border: none;
+  margin: 10px;
+  background: white;
+  border: 1px solid #888888;
+  border-radius: 10px;
+}
+
+.buttonListChosenActive {
   padding: 12px;
   display: flex;
   color: black;
@@ -95,7 +100,21 @@
   border-bottom: 1px solid white;
 }
 
-.tab:active,
+.tabActive {
+  font-weight: normal;
+  font-weight: 500;
+  font-size: 2.3vh;
+  text-transform: uppercase;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-right: 30px;
+  padding-left: 30px;
+  background-color: white;
+  border-width: 0;
+  border: 0;
+  border-bottom: 1px solid #1d5193;
+}
+
 .tab:hover {
   border-bottom: 1px solid #1d5193;
 }
@@ -133,6 +152,7 @@
 
 .innerBodyRightBox {
   padding: 20px;
+  padding-bottom: 10px;
   border: 1px solid rgba(0, 0, 0, 0.7);
   border-radius: 10px;
   color: black;

@@ -14,7 +14,7 @@ import ChooseTextCategory from './components/chooseTextCategory';
 import ChooseLanguage from './components/chooseLanguage';
 import InputTranslateBox from './components/inputTranslateBox'; 
 import ResultTranslateBox from './components/resultTranslateBox';
-import HistoryTranslate from '../HistoryTranslate';
+// import HistoryTranslate from '../HistoryTranslate';
 import { useDispatch  } from 'react-redux';
 import { sideBarHide } from '../../redux/actions/navbarAction';
 function TranslateScreen() {
@@ -106,7 +106,7 @@ function TranslateScreen() {
 					</Col>
 				</Row>
 			</Container>
-			<HistoryTranslate />
+			{/* <HistoryTranslate /> */}
 		</>
 	);
 }
