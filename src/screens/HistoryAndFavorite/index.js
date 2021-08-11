@@ -21,8 +21,8 @@ export default function HistoryAndFavorite() {
 						<div style={{color: '#A3A3A3'}}>Trung <MdArrowForward style={{marginLeft: 10, marginRight: 10}}/> Viet</div>
 					</div>
 					<div style={{flex: 0.1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center'}}>
-						<MdMoreVert size={25} onClick={() => console.log('Hello')}/>
-						<MdArrowForward size={25} onClick={() => console.log('Hello')}/>
+						<MdMoreVert size={25} onClick={() => {}}/>
+						<MdArrowForward size={25} onClick={() => {}}/>
 					</div>
 				</div>
 			</div>
