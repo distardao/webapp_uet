@@ -77,7 +77,11 @@ function Navbar() {
 		<div ref={boxRef}>
 			<Container fluid>
 				<Row className={styles.headerTop}>
-					<div className={styles.buttonSidebars}><button onClick={() => showSidebar()} className={styles.buttonSidebar}><CgMenu /></button></div>
+					{fakeAuth.isAuthenticated ? (
+						<div className={styles.buttonSidebars}><button onClick={() => showSidebar()} className={styles.buttonSidebar}><CgMenu /></button></div>
+					) : (
+						<div style={{ width: 20 }} />
+					)}
 					<div style={{ display: 'flex', flex: 1, justifyContent: 'space-between' }}>
 						<div className={styles.title}>
 							{/* <Image style={{ width: '40px' }} src={Logo} alt="" roundedCircle /> */}
@@ -94,7 +98,7 @@ function Navbar() {
 									<Dropdown.Item onClick={signOut}>Đăng xuất</Dropdown.Item>
 								</Dropdown.Menu>
 							</Dropdown>
-						) : <a href="/login" style={{ color: '#fff', alignSelf: 'center', marginRight: 10 }}>
+						) : <a href="/login" style={{ color: '#fff', alignSelf: 'center', marginRight: 20 }}>
 							Đăng nhập
 						</a>}
 						<Modal
