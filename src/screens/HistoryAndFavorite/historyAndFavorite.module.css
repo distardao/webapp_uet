@@ -89,6 +89,14 @@
   margin-right: 20px;
   padding-right: 30px;
   padding-left: 30px;
+  background-color: white;
+  border-width: 0;
+  border: 0;
+  border-bottom: 1px solid white;
+}
+
+.tab:active,
+.tab:hover {
   border-bottom: 1px solid #1d5193;
 }
 
