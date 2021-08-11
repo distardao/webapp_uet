@@ -1,5 +1,7 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import { useGoogleLogin } from 'react-google-login';
+import { IS_AUTH } from '../../constants/envVar';
 
 // refresh token
 import { refreshTokenSetup } from './refreshToken';
@@ -9,12 +11,13 @@ const clientId =
 
 function LoginHooks() {
 	const onSuccess = (res) => {
-		console.log('🚀 ~ file: LoginGoogle.js ~ line 12 ~ onSuccess ~ res', res);
-		console.log('Login Success: currentUser:', res.profileObj);
+		// console.log('🚀 ~ file: LoginGoogle.js ~ line 12 ~ onSuccess ~ res', res);
+		// console.log('Login Success: currentUser:', res.profileObj);
 		alert(
 			`Logged in successfully welcome ${res.profileObj.name} 😍. \n See console for full profile object.`
 		);
 		refreshTokenSetup(res);
+		sessionStorage.setItem(IS_AUTH, res);
 		if (res.profileObj) {
 			window.location.replace('/');
 		}
