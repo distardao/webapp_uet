@@ -1,8 +1,15 @@
 import React from 'react';
 import traslateImage from '../../assets/images/icondangonngu.png';
 import { Image } from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
 
-function index() {
+function Register() {
+	const {
+		register, handleSubmit, formState: { errors },
+	} = useForm();
+	const RegisterAccount = () => {
+		alert('Chưa thể đăng ký tài khoản');
+	};
 	return (
 		<div style={{ height: '93.8vh', backgroundColor: '#4e73df' }}>
 			<div className="container">
@@ -21,22 +28,30 @@ function index() {
 											<div className="text-center">
 												<h1 className="h4 text-gray-900 mb-4">Tạo tài khoản</h1>
 											</div>
-											<form className="user">
+											<form className="user" onSubmit={handleSubmit(RegisterAccount)}>
 												<div className="form-group">
-													<input type="text" className="form-control" id="exampleInputPassword" placeholder="Tên" />
+													<input type="text" name='name' {...register('name', { required: true })} className="form-control" id="exampleInputPassword" placeholder="Tên" />
+													{errors.email && <span className="text-danger">Trường này là bắt buộc</span>}
 												</div>
 												<div className="form-group">
-													<input type="email" className="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email" />
+													<input type="email" name='email' {...register('email', { required: true })} className="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email" />
+													{errors.email && <span className="text-danger">Trường này là bắt buộc</span>}
 												</div>
 												<div className="form-group">
-													<input type="password" className="form-control" id="exampleInputPassword" placeholder="Mật khẩu" />
+													<input type="password" name='password' {...register('password', { required: true, minLength: 6, pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{6,}$/ })} className="form-control" id="exampleInputPassword" placeholder="Mật khẩu" />
+													{errors.password?.type === 'required' && <span className="text-danger">Không được để trống</span>}
+													{errors.password?.type === 'minLength' && <span className="text-danger">Tối thiểu phải 6 ký tự</span>}
+													{errors.password?.type === 'pattern' && <span className="text-danger">Mật khẩu chưa đủ phức tạp</span>}
 												</div>
 												<div className="form-group">
-													<input type="password" className="form-control" id="exampleInputPassword" placeholder="Xác nhận mật khẩu" />
+													<input type="password" name='rePassword' {...register('rePassword', { required: true, minLength: 6, pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{6,}$/ })} className="form-control" id="exampleInputPassword" placeholder="Xác nhận mật khẩu" />
+													{errors.rePassword?.type === 'required' && <span className="text-danger">Không được để trống</span>}
+													{errors.rePassword?.type === 'minLength' && <span className="text-danger">Tối thiểu phải 6 ký tự</span>}
+													{errors.rePassword?.type === 'pattern' && <span className="text-danger">Mật khẩu chưa đủ phức tạp</span>}
 												</div>
-												<a href="/" style={{ backgroundColor: '#4E73DF', borderRadius: 10 }} className="btn btn-primary btn-block">
+												<button type='submit' style={{ backgroundColor: '#4E73DF', borderRadius: 10 }} className="btn btn-primary btn-block">
 													Đăng ký
-												</a>
+												</button>
 											</form>
 											<hr />
 											<div className="text-center">
@@ -57,5 +72,5 @@ function index() {
 	);
 }
 
-export default index;
+export default Register;
 

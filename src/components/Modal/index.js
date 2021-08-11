@@ -57,12 +57,9 @@ function ModalInfo(props) {
 							<p style={{ marginBottom: 0 }}>
 								Mật khẩu cũ
 							</p>
-							<p style={{ marginLeft: 5, marginBottom: 0, color: 'red', fontSize: 20 }}>
-								*
-							</p>
 						</div>
 						<input type="text" name="password" {...register('password', { required: true, minLength: 6, pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{6,}$/ })} style={{ borderColor: '#C4C4C4', borderStyle: 'solid', borderRadius: 7, width: '100%' }} />
-						{errors.password?.type === 'required' && <span className="text-danger">Trường này là bắt buộc</span>}
+						{errors.password?.type === 'required' && <span className="text-danger">Không được để trống</span>}
 						{errors.password?.type === 'minLength' && <span className="text-danger">Tối thiểu phải 6 ký tự</span>}
 						{errors.password?.type === 'pattern' && <span className="text-danger">Mật khẩu chưa đủ phức tạp</span>}
 					</div>
@@ -71,12 +68,9 @@ function ModalInfo(props) {
 							<p style={{ marginBottom: 0 }}>
 								Mật khẩu mới
 							</p>
-							<p style={{ marginLeft: 5, marginBottom: 0, color: 'red', fontSize: 20 }}>
-								*
-							</p>
 						</div>
 						<input type="text" name="newPassword" {...register('newPassword', { required: true, minLength: 6, pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{6,}$/ })} style={{ borderColor: '#C4C4C4', borderStyle: 'solid', borderRadius: 7, width: '100%' }} />
-						{errors.newPassword?.type === 'required' && <span className="text-danger">Trường này là bắt buộc</span>}
+						{errors.newPassword?.type === 'required' && <span className="text-danger">Không được để trống</span>}
 						{errors.newPassword?.type === 'minLength' && <span className="text-danger">Tối thiểu phải 6 ký tự</span>}
 						{errors.newPassword?.type === 'pattern' && <span className="text-danger">Mật khẩu chưa đủ phức tạp</span>}
 					</div>
@@ -85,12 +79,9 @@ function ModalInfo(props) {
 							<p style={{ marginBottom: 0 }}>
 								xác nhận mật khẩu mới
 							</p>
-							<p style={{ marginLeft: 5, marginBottom: 0, color: 'red', fontSize: 20 }}>
-								*
-							</p>
 						</div>
 						<input type="text" name="reNewPassword" {...register('reNewPassword', { required: true, minLength: 6, pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{6,}$/ })} style={{ borderColor: '#C4C4C4', borderStyle: 'solid', borderRadius: 7, width: '100%' }} />
-						{errors.reNewPassword?.type === 'required' && <span className="text-danger">Trường này là bắt buộc</span>}
+						{errors.reNewPassword?.type === 'required' && <span className="text-danger">Không được để trống</span>}
 						{errors.reNewPassword?.type === 'minLength' && <span className="text-danger">Tối thiểu phải 6 ký tự</span>}
 						{errors.reNewPassword?.type === 'pattern' && <span className="text-danger">Mật khẩu chưa đủ phức tạp</span>}
 					</div>
