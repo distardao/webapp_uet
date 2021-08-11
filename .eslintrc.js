@@ -43,6 +43,7 @@ module.exports = {
 			'always'
 		],
 		'no-unused-vars': 2,
+		'no-console': 1,
 	},
 	'settings': {
 		'react': {
