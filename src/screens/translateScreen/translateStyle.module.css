@@ -146,6 +146,14 @@
   -moz-box-shadow: none;
   box-shadow: none;
 }
+.buttonTextUtility {
+  background-color: #f3f3f3;
+  color: #000;
+  border: none;
+  font-size: 20px;
+  padding: 4px 8px;
+}
+
 .buttonUtility {
   background-color: #fff;
   color: #000;
@@ -164,10 +172,32 @@
   background-color: #ccc;
 }
 .resultTranslate_bandich {
-  font-size: 30px;
+  resize: none;
+  border: none;
+  float: left;
+  width: 100%;
+  padding: 0 10px;
+  overflow: auto;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  overflow: hidden;
+  font-size: 24px;
   color: rgb(167, 167, 167);
 }
 .resultTranslate_dadich {
+  resize: none;
+  border: none;
+  float: left;
+  width: 100%;
+  padding: 0 10px;
+  overflow: auto;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  overflow: hidden;
   font-size: 24px;
   word-wrap: break-word;
 }
@@ -204,12 +234,15 @@
   justify-content: space-between;
 }
 .boxdich {
+  display: flex;
   padding-top: 10px;
+  padding-bottom: 30px;
   min-height: 108px;
 }
 .boxclick {
-  align-content: flex-end;
-  height: 40px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 @media screen and (max-width: 1440px) {
@@ -223,6 +256,12 @@
   .outerContainer {
     padding-left: 50px;
     padding-right: 50px;
+  }
+}
+
+@media screen and (max-width: 769px) {
+  .ResultTranslateBox {
+    border-top: 1px solid #ccc;
   }
 }
 
