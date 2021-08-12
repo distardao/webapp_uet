@@ -87,7 +87,6 @@
   align-items: center;
 }
 
-
 .nav_menu {
   background-color: #ffffff;
   width: 270px;
@@ -157,6 +156,11 @@
   width: 100%;
 }
 
+@media screen and (orientation: portrait) {
+  .title {
+    font-size: 20px;
+  }
+}
 
 /* span {
   margin-left: 16px;
