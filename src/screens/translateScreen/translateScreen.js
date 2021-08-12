@@ -1,33 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { 
+import {
 	Container,
 	Row,
 	Col,
 	Button,
 } from 'react-bootstrap';
-import { useTranslation  } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 // import { CgMenu } from 'react-icons/cg';
 // import { connect } from 'react-redux';
 import styles from './translateStyle.module.css';
 // import Logo from '../../assets/images/lg.png';
 import ChooseTextCategory from './components/chooseTextCategory';
 import ChooseLanguage from './components/chooseLanguage';
-import InputTranslateBox from './components/inputTranslateBox'; 
+import InputTranslateBox from './components/inputTranslateBox';
 import ResultTranslateBox from './components/resultTranslateBox';
+import { useDispatch } from 'react-redux';
 // import HistoryTranslate from '../HistoryTranslate';
-import { useDispatch  } from 'react-redux';
 import { sideBarHide } from '../../redux/actions/navbarAction';
+import FeedBack from './ModalFeedback';
 function TranslateScreen() {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(sideBarHide(false));
-	},[dispatch]);
+	}, [dispatch]);
 	// eslint-disable-next-line react/prop-types
 	// const { toText } = props;
 	const { t } = useTranslation();
 	const [textCategory, setTextCategory] = useState(true);
 	const [isLoading, setLoading] = useState(true);
 	const [autoDetectLang, setAutoDetectLang] = useState(false);
+	const [modalShow, setModalShow] = React.useState(false);
 	const [fromLanguage, setFromLanguage] = useState({
 		text: t('Translate.listLanguage.anh'),
 		code: 'en'
@@ -51,7 +53,7 @@ function TranslateScreen() {
 				</Row>
 			</Container> */}
 			<Container>
-				<Row style={{ padding: '20px 0'}}>
+				<Row style={{ padding: '20px 0' }}>
 					<ChooseTextCategory textCategory={textCategory} setTextCategory={setTextCategory} />
 				</Row>
 				<Row className={styles.content}>
@@ -70,7 +72,7 @@ function TranslateScreen() {
 						</Row>
 					</Col>
 					<Col md={12} className={styles.boxTranslate}>
-						{textCategory?(
+						{textCategory ? (
 							<Row style={{ minHeight: '150px' }}>
 								<Col md={6} style={{ borderRight: '1px solid #ccc' }}>
 									<InputTranslateBox
@@ -86,13 +88,13 @@ function TranslateScreen() {
 									/>
 								</Col>
 								<Col md={6} className={styles.ResultTranslateBox}>
-									<ResultTranslateBox 
+									<ResultTranslateBox
 										isLoading={isLoading}
 										resultTranslate={resultTranslate}
 									/>
 								</Col>
 							</Row>
-						):(
+						) : (
 							<Row style={{ minHeight: '150px' }} className={styles.documentOption}>
 								<Col md={12} >
 									<span style={{ fontSize: '20px' }}>Chọn tài liệu</span><br />
@@ -105,6 +107,14 @@ function TranslateScreen() {
 						)}
 					</Col>
 				</Row>
+				<div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 5 }}>
+					<button onClick={() => setModalShow(true)} style={{ backgroundColor: '#fff', borderWidth: 0, color: '#63676C', fontStyle: 'italic', fontSize: 13 }}>
+						Gửi phản hồi
+					</button>
+				</div>
+				<FeedBack
+					show={modalShow}
+					onHide={() => setModalShow(false)} />
 			</Container>
 			{/* <HistoryTranslate /> */}
 		</>

@@ -30,7 +30,7 @@ function Forgot() {
 											</div>
 											<form className="user" onSubmit={handleSubmit(ForgotAccount)}>
 												<div className="form-group">
-													<input type="email" name='email' {...register('email', { required: true })} className="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email" />
+													<input type="email" name='email'  {...register('email', { required: true })} style={{ height: 50, borderRadius: 15 }} className="mb-4 form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email" />
 													{errors.email && <span className="text-danger">Trường này là bắt buộc</span>}
 												</div>
 												<button type='submit' style={{ backgroundColor: '#4E73DF', borderRadius: 10 }} className="btn btn-primary btn-block">

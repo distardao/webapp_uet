@@ -30,11 +30,11 @@ function Register() {
 											</div>
 											<form className="user" onSubmit={handleSubmit(RegisterAccount)}>
 												<div className="form-group">
-													<input type="text" name='name' {...register('name', { required: true })} className="form-control" id="exampleInputPassword" placeholder="Tên" />
+													<input type="text" name='name' {...register('name', { required: true })} style={{ height: 50, borderRadius: 15 }} className="mb-4 form-control" id="exampleInputPassword" placeholder="Tên" />
 													{errors.email && <span className="text-danger">Trường này là bắt buộc</span>}
 												</div>
 												<div className="form-group">
-													<input type="email" name='email' {...register('email', { required: true })} className="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email" />
+													<input type="email" name='email' {...register('email', { required: true })} style={{ height: 50, borderRadius: 15 }} className="mb-4 form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email" />
 													{errors.email && <span className="text-danger">Trường này là bắt buộc</span>}
 												</div>
 												<div className="form-group">
