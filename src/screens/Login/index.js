@@ -30,15 +30,15 @@ function Login() {
 									<div className="col-lg-6 align-self-center">
 										<div className="m-5">
 											<div className="text-center">
-												<h1 className="h4 text-gray-900 mb-4">Chào mừng bạn trờ lại</h1>
+												<h1 className="h4 text-gray-900 mb-5">Chào mừng bạn trờ lại</h1>
 											</div>
 											<form className="user" onSubmit={handleSubmit(LoginNormal)}>
 												<div className="form-group">
-													<input type="email"  {...register('account', { required: true })} className="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." />
+													<input type="email"   {...register('account', { required: true })} style={{ height: 50, borderRadius: 15 }} className="mb-4 form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." />
 													{errors.account && <span className="text-danger">Trường này là bắt buộc</span>}
 												</div>
 												<div className="form-group">
-													<input type="password"  {...register('password', { required: true })} className="form-control" id="exampleInputPassword" placeholder="Password" />
+													<input type="password"  {...register('password', { required: true })} style={{ height: 50, borderRadius: 15 }} className="mb-4 form-control" id="exampleInputPassword" placeholder="Password" />
 													{errors.password && <span className="text-danger">Trường này là bắt buộc</span>}
 												</div>
 												<button type="summit" style={{ backgroundColor: '#4E73DF', borderRadius: 10 }} className="btn btn-primary btn-block">

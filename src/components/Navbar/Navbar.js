@@ -118,9 +118,6 @@ function Navbar() {
 						<Modal
 							show={modalShow}
 							onHide={() => setModalShow(false)} />
-						{/* <button onClick={signOut} style={{ borderRadius: 10 }} className="btn btn-warning">
-							<i className="fab fa-google fa-fw" /> Đăng xuất
-						</button> */}
 					</div>
 				</Row>
 			</Container>
