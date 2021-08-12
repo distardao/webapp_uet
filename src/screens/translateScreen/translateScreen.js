@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { 
-	Container,
 	Row,
 	Col,
 	Button,
@@ -50,25 +49,23 @@ function TranslateScreen() {
 			{/* </div>
 				</Row>
 			</Container> */}
-			<Container>
-				<Row style={{ padding: '20px 0'}}>
+			<div className={styles.outerContainer}>
+				<div className={styles.outerTab}>
 					<ChooseTextCategory textCategory={textCategory} setTextCategory={setTextCategory} />
-				</Row>
-				<Row className={styles.content}>
-					<Col md={12} style={{ padding: '0px', borderBottom: '1px solid #ccc' }} >
-						<Row>
-							<ChooseLanguage
-								exchangeLanguage={exchangeLanguage}
-								fromLanguage={fromLanguage}
-								toLanguage={toLanguage}
-								setFromLanguage={setFromLanguage}
-								setToLanguage={setToLanguage}
-								setExchangeLanguahe={setExchangeLanguahe}
-								setAutoDetectLang={setAutoDetectLang}
-								autoDetectLang={autoDetectLang}
-							/>
-						</Row>
-					</Col>
+				</div>
+				<div className={styles.content}>
+					<div style={{ padding: '0px 20px', borderBottom: '1px solid #ccc', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}} >
+						<ChooseLanguage
+							exchangeLanguage={exchangeLanguage}
+							fromLanguage={fromLanguage}
+							toLanguage={toLanguage}
+							setFromLanguage={setFromLanguage}
+							setToLanguage={setToLanguage}
+							setExchangeLanguahe={setExchangeLanguahe}
+							setAutoDetectLang={setAutoDetectLang}
+							autoDetectLang={autoDetectLang}
+						/>
+					</div>
 					<Col md={12} className={styles.boxTranslate}>
 						{textCategory?(
 							<Row style={{ minHeight: '150px' }}>
@@ -104,8 +101,8 @@ function TranslateScreen() {
 							</Row>
 						)}
 					</Col>
-				</Row>
-			</Container>
+				</div>
+			</div>
 			{/* <HistoryTranslate /> */}
 		</>
 	);
