@@ -16,18 +16,26 @@ export default function ChooseLanguage(props) {
 		setVariantText('primary');
 		setVariantDoc('outline-primary');
 		setTextCategory(true);
-		console.log('text');
 	};
 	const selectOptionDocument = () => {
 		setVariantText('outline-primary');
 		setVariantDoc('primary');
 		setTextCategory(false);
-		console.log('document');
 	};
 	return (
 		<>
-			<Button onClick={() => selectOptionText()} style={{ marginRight: '10px'}} size="sm" variant={variantText}><VscWordWrap /> {t('Translate.vanban')}</Button>
-			<Button onClick={() => selectOptionDocument()} size="sm" variant={variantDoc}><BsFileEarmarkText /> {t('Translate.tailieu')}</Button>
+			<Button onClick={() => selectOptionText()} style={{ display: 'flex', fontSize: 20, fontWeight: 500, marginRight: '20px'}} variant={variantText}>
+				<div style={{paddingRight: 5, alignContent: 'center'}}>
+					<VscWordWrap size={28}/>	
+				</div> 
+				{t('Translate.vanban')}
+			</Button>
+			<Button onClick={() => selectOptionDocument()} style={{ display: 'flex', fontSize: 20, fontWeight: 500 }} variant={variantDoc}>
+				<div style={{paddingRight: 5, alignContent: 'center'}}>
+					<BsFileEarmarkText size={28}/> 
+				</div> 
+				{t('Translate.tailieu')}
+			</Button>
 		</>
 	);
 }

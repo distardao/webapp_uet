@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-	Container,
+import { 
 	Row,
 	Col,
 	Button,
@@ -52,25 +51,23 @@ function TranslateScreen() {
 			{/* </div>
 				</Row>
 			</Container> */}
-			<Container>
-				<Row style={{ padding: '20px 0' }}>
+			<div className={styles.outerContainer}>
+				<div className={styles.outerTab}>
 					<ChooseTextCategory textCategory={textCategory} setTextCategory={setTextCategory} />
-				</Row>
-				<Row className={styles.content}>
-					<Col md={12} style={{ padding: '0px', borderBottom: '1px solid #ccc' }} >
-						<Row>
-							<ChooseLanguage
-								exchangeLanguage={exchangeLanguage}
-								fromLanguage={fromLanguage}
-								toLanguage={toLanguage}
-								setFromLanguage={setFromLanguage}
-								setToLanguage={setToLanguage}
-								setExchangeLanguahe={setExchangeLanguahe}
-								setAutoDetectLang={setAutoDetectLang}
-								autoDetectLang={autoDetectLang}
-							/>
-						</Row>
-					</Col>
+				</div>
+				<div className={styles.content}>
+					<div style={{ padding: '0px 20px', borderBottom: '1px solid #ccc', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}} >
+						<ChooseLanguage
+							exchangeLanguage={exchangeLanguage}
+							fromLanguage={fromLanguage}
+							toLanguage={toLanguage}
+							setFromLanguage={setFromLanguage}
+							setToLanguage={setToLanguage}
+							setExchangeLanguahe={setExchangeLanguahe}
+							setAutoDetectLang={setAutoDetectLang}
+							autoDetectLang={autoDetectLang}
+						/>
+					</div>
 					<Col md={12} className={styles.boxTranslate}>
 						{textCategory ? (
 							<Row style={{ minHeight: '150px' }}>
@@ -87,12 +84,11 @@ function TranslateScreen() {
 										setFromLanguage={setFromLanguage}
 									/>
 								</Col>
-								<Col md={6} className={styles.ResultTranslateBox}>
-									<ResultTranslateBox
-										isLoading={isLoading}
-										resultTranslate={resultTranslate}
-									/>
-								</Col>
+								<ResultTranslateBox 
+									isLoading={isLoading}
+									resultTranslate={resultTranslate}
+									setResultTranslate={setResultTranslate}
+								/>
 							</Row>
 						) : (
 							<Row style={{ minHeight: '150px' }} className={styles.documentOption}>
@@ -106,7 +102,7 @@ function TranslateScreen() {
 							</Row>
 						)}
 					</Col>
-				</Row>
+				</div>
 				<div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 5 }}>
 					<button onClick={() => setModalShow(true)} style={{ backgroundColor: '#fff', borderWidth: 0, color: '#63676C', fontStyle: 'italic', fontSize: 13 }}>
 						Gửi phản hồi
@@ -115,7 +111,7 @@ function TranslateScreen() {
 				<FeedBack
 					show={modalShow}
 					onHide={() => setModalShow(false)} />
-			</Container>
+			</div>
 			{/* <HistoryTranslate /> */}
 		</>
 	);

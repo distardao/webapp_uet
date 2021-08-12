@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
-import { Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import TextareaAutosize from 'react-textarea-autosize';
 // import { HiVolumeUp } from 'react-icons/hi';
@@ -124,19 +123,19 @@ function InputTranslateBox(props) {
 	// };
 	return (
 		<>
-			<Row style={{ paddingTop: '10px', paddingBottom: '30px' }}>
-				<Col md={11} style={{ paddingRight: '0' }} >
+			<div style={{ paddingTop: '10px', paddingBottom: '30px', display: 'flex' }}>
+				<div style={{ paddingRight: '0', flex: 1 }} >
 					<TextareaAutosize
 						minRows={3}
 						onChange={handleChange}
 						value={textInputTranslate}
 						// ref={textareaRef}
 						className={[styles.from_language]}/>
-				</Col>
-				<Col md={1} style={{ padding: '0' }} className={['text-center']}>
-					{!isLoading?(<button onClick={closeInput} className={styles.buttonUtility}><CgClose /></button>):''}
-				</Col>
-			</Row>
+				</div>
+				<div md={1} style={{ padding: '0' }} className={['text-center']}>
+					{!isLoading?(<button onClick={closeInput} className={styles.buttonUtility}><CgClose size={20}/></button>):''}
+				</div>
+			</div>
 
 			{/* <Row className="align-items-center" style={{ height: '50px' }}>
 				<Col md={1}>

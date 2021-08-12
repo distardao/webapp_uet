@@ -12,10 +12,6 @@ export const SidebarData = [
 		path: '/HistoryAndFavorite',
 	},
 	{
-		title: 'Gửi phản hồi',
-		path: '/contact',
-	},
-	{
 		title: 'Điều khoản và chính sách',
 		path: '/rules-and-policy',
 	},

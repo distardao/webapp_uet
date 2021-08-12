@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import {Row, Col, ButtonToolbar} from 'react-bootstrap';
+import { ButtonToolbar} from 'react-bootstrap';
 import styles from '../translateStyle.module.css';
 import { FaExchangeAlt } from 'react-icons/fa';
 import { useTranslation  } from 'react-i18next';
 
 export default function ChooseLanguage(props) {
+
 	const { t } = useTranslation();
 	const {
 		exchangeLanguage,
@@ -69,12 +70,12 @@ export default function ChooseLanguage(props) {
 	};
 	const buttonDetectTrue = () => {
 		return (
-			<button size="sm" className={styles.activeChoose} style={{ marginRight: '5px', marginBottom: '-0.5px' }} onClick={() => {autoDetect();}}>{t('Translate.phathienngonngu')}</button>
+			<button className={styles.activeChoose} onClick={() => {autoDetect();}}>{t('Translate.phathienngonngu')}</button>
 		);
 	};
 	const buttonDetectFalse = () => {
 		return (
-			<button size="sm" className={styles.normal} style={{ marginRight: '5px' }} onClick={() => {autoDetect();}}>{t('Translate.phathienngonngu')}</button>
+			<button className={styles.normal} onClick={() => {autoDetect();}}>{t('Translate.phathienngonngu')}</button>
 		);
 	};
 	const buttonToLanguage = () => {
@@ -100,27 +101,23 @@ export default function ChooseLanguage(props) {
 	// 	setFromLanguage(toLanguage);
 	// 	setToLanguage(tmp);
 	// };
+
 	return (
 		<>
-			<Col>
-				<Row>
-					<Col md={12}>
-						<ButtonToolbar>
-							{autoDetectLang?buttonDetectTrue():buttonDetectFalse()}
-							{exchangeLanguage ? buttonFromLanguage() : buttonToLanguage()}
-						</ButtonToolbar>
-									
-					</Col>
-				</Row>
-			</Col>
-			<Col md={1} style={{ textAlign: 'center', paddingTop: '5px' }}>
+			<div style={{ flex: 1, display: 'flex', overflow:'auto', whiteSpace: 'nowrap'}}>
+				<ButtonToolbar>
+					{autoDetectLang? buttonDetectTrue():buttonDetectFalse()}
+					{exchangeLanguage ? buttonFromLanguage() : buttonToLanguage()}
+				</ButtonToolbar>
+			</div>
+			<div style={{  alignSelf: 'center'}}>
 				<button className={[styles.buttonExchange]} >
-					<FaExchangeAlt />
+					<FaExchangeAlt size={18}/>
 				</button>
-			</Col>
-			<Col>
+			</div>
+			<div style={{ flex: 1, }}>
 				{!exchangeLanguage ? buttonFromLanguage() : buttonToLanguage()}
-			</Col>
+			</div>
 		</>
 	);
 }

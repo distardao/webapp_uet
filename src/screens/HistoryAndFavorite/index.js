@@ -2,6 +2,8 @@
 import React, { useState, forwardRef } from 'react';
 import styles from './historyAndFavorite.module.css';
 import { ButtonToolbar, Dropdown } from 'react-bootstrap';
+import { IS_AUTH } from '../../constants/envVar';
+import FeedBack from './components/ModalFeedBack';
 import { MdMoreVert, MdArrowForward, MdStarBorder, MdContentCopy, MdVolumeUp } from 'react-icons/md';
 
 
@@ -9,6 +11,10 @@ const history = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 const favorite = [17, 18 ];
 
 export default function HistoryAndFavorite() {
+	const fakeAuth = {
+		isAuthenticated: sessionStorage.getItem(IS_AUTH),
+	};
+	const [modelShown, setModelShown] = useState(!fakeAuth.isAuthenticated);
 	const [option, setOption] = useState('history');
 	const [shownId, setShownId] = useState(1);
 
@@ -132,6 +138,10 @@ export default function HistoryAndFavorite() {
 					</div>
 				</div>
 			</div>
+			<FeedBack
+				show={modelShown}
+				onHide={() => setModelShown(false)} 
+			/>
 		</div>
 	);
 }
