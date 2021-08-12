@@ -14,8 +14,8 @@ import ChooseTextCategory from './components/chooseTextCategory';
 import ChooseLanguage from './components/chooseLanguage';
 import InputTranslateBox from './components/inputTranslateBox';
 import ResultTranslateBox from './components/resultTranslateBox';
-import HistoryTranslate from '../HistoryTranslate';
 import { useDispatch } from 'react-redux';
+// import HistoryTranslate from '../HistoryTranslate';
 import { sideBarHide } from '../../redux/actions/navbarAction';
 import FeedBack from './ModalFeedback';
 function TranslateScreen() {
@@ -116,7 +116,7 @@ function TranslateScreen() {
 					show={modalShow}
 					onHide={() => setModalShow(false)} />
 			</Container>
-			<HistoryTranslate />
+			{/* <HistoryTranslate /> */}
 		</>
 	);
 }
