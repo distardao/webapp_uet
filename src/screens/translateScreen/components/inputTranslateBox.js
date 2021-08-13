@@ -6,6 +6,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 // import { HiVolumeUp } from 'react-icons/hi';
 // import { BsFillMicFill } from 'react-icons/bs';
 import { CgClose } from 'react-icons/cg';
+import { MdVolumeUp } from 'react-icons/md';
 import styles from '../translateStyle.module.css';
 import { useTranslation  } from 'react-i18next';
 // import * as axiosHelper from '../../../helpers/axiosHelper';
@@ -23,19 +24,28 @@ function InputTranslateBox(props) {
 		makeTranslation,
 		toText,
 		autoDetectLang,
-		setFromLanguage
+		setFromLanguage,
 	} = props;
 	const { t } = useTranslation();
 	let timeOutID;
 	useEffect(() => {
 		if (isLoading){
 			if(textInputTranslate === ''){
-				setResultTranslate(t('Translate.bandich'));
+				setResultTranslate({
+					result: `${t('Translate.bandich')}`,
+					edit: `${t('Translate.bandich')}`,
+				});
 			}else{
-				setResultTranslate(t('Translate.dangdich'));
+				setResultTranslate({
+					result: `${t('Translate.dangdich')}`,
+					edit: `${t('Translate.dangdich')}`,
+				});
 			}
 		}else{
-			setResultTranslate(toText);
+			setResultTranslate({
+				result: toText,
+				edit: toText,
+			});
 		}
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isLoading, textInputTranslate, toText]);
@@ -67,7 +77,6 @@ function InputTranslateBox(props) {
 						} else {
 							langTextDetect = t('Translate.listLanguage.anh');
 							langCodeDetect = 'en';
-							console.log('không phát hiện', langTextDetect);
 						}
 						setFromLanguage((prevState) => ({
 							...prevState,
@@ -76,9 +85,6 @@ function InputTranslateBox(props) {
 						}));
 						fromLanguage.text = langTextDetect;
 						fromLanguage.code = langCodeDetect;
-						console.log('langCodeDetect', langCodeDetect);
-						console.log('langTextDetect', langTextDetect);
-						console.log('fromLanguage', fromLanguage);
 					}
 				});
 			}
@@ -89,11 +95,15 @@ function InputTranslateBox(props) {
 					await makeTranslation({ data: textInputTranslate, direction: `${fromLanguage.code}-${toLanguage.code}` });
 					setLoading(false);
 				} catch (error) {
-					console.log(error);
+					// console.log(error);
 				}
 			}, 1000);
 		}else{
-			setResultTranslate(t('Translate.bandich'));
+			setResultTranslate({
+				result: `${t('Translate.bandich')}`,
+				edit: `${t('Translate.bandich')}`,
+			});
+			// setResultTranslate(t('Translate.bandich'));
 		}
 	}, [textInputTranslate]);
 	const handleChange = async (event) => {
@@ -109,7 +119,11 @@ function InputTranslateBox(props) {
 	};
 	const closeInput = () => {
 		setTextInputTranslate('');
-		setResultTranslate(t('Translate.bandich'));
+		setResultTranslate({
+			result: `${t('Translate.bandich')}`,
+			edit: `${t('Translate.bandich')}`,
+		});
+		// setResultTranslate(t('Translate.bandich'));
 		setLoading(true);
 	};
 
@@ -133,10 +147,10 @@ function InputTranslateBox(props) {
 						className={[styles.from_language]}/>
 				</div>
 				<div md={1} style={{ padding: '0' }} className={['text-center']}>
-					{!isLoading?(<button onClick={closeInput} className={styles.buttonUtility}><CgClose size={20}/></button>):''}
+					{!isLoading?(<button onClick={closeInput} className={styles.buttonUtility}><CgClose size={22}/></button>):''}
 				</div>
 			</div>
-
+			{!isLoading?(<button onClick={() => {}} className={styles.buttonUtility}><MdVolumeUp size={22}/></button>):null}
 			{/* <Row className="align-items-center" style={{ height: '50px' }}>
 				<Col md={1}>
 					<button onClick={() => genRandomNoti()} className={styles.buttonUtility} ><BsFillMicFill /></button>
