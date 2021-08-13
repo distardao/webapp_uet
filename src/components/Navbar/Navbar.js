@@ -57,12 +57,12 @@ function Navbar() {
 	const onFailure = (res) => {
 		console.log('Login failed: res:', res);
 		alert(
-			'Failed to login.'
+			'Đăng nhập thất bại'
 		);
 	};
 
 	const onLogoutSuccess = () => {
-		alert('Logged out Successfully ✌');
+		alert('Đăng nhập thành công');
 		sessionStorage.clear();
 		window.location.replace('/login');
 	};

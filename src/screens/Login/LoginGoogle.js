@@ -14,7 +14,7 @@ function LoginHooks() {
 		// console.log('🚀 ~ file: LoginGoogle.js ~ line 12 ~ onSuccess ~ res', res);
 		// console.log('Login Success: currentUser:', res.profileObj);
 		alert(
-			`Logged in successfully welcome ${res.profileObj.name} 😍. \n See console for full profile object.`
+			`Đăng nhập thành công chào mừng ${res.profileObj.name}.`
 		);
 		refreshTokenSetup(res);
 		sessionStorage.setItem(IS_AUTH, res);
@@ -26,7 +26,7 @@ function LoginHooks() {
 	const onFailure = (res) => {
 		console.log('Login failed: res:', res);
 		alert(
-			'Failed to login. 😢 Please ping this to repo owner twitter.com/sivanesh_fiz'
+			'Đăng nhập thất bại'
 		);
 	};
 
