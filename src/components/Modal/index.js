@@ -9,7 +9,7 @@ function ModalInfo(props) {
 	} = useForm();
 
 	const ChangeInfo = () => {
-		console.log('Thay doi thong tin');
+		alert('Server chưa hỗ trợ');
 	};
 	return (
 		<Modal
@@ -58,7 +58,7 @@ function ModalInfo(props) {
 								Mật khẩu cũ
 							</p>
 						</div>
-						<input type="text" name="password" {...register('password', { required: true, minLength: 6, pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{6,}$/ })} style={{ borderColor: '#C4C4C4', borderStyle: 'solid', borderRadius: 7, width: '100%' }} />
+						<input type="password" name="password" {...register('password', { required: true, minLength: 6, pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{6,}$/ })} style={{ borderColor: '#C4C4C4', borderStyle: 'solid', borderRadius: 7, width: '100%' }} />
 						{errors.password?.type === 'required' && <span className="text-danger">Không được để trống</span>}
 						{errors.password?.type === 'minLength' && <span className="text-danger">Tối thiểu phải 6 ký tự</span>}
 						{errors.password?.type === 'pattern' && <span className="text-danger">Mật khẩu chưa đủ phức tạp</span>}
@@ -69,7 +69,7 @@ function ModalInfo(props) {
 								Mật khẩu mới
 							</p>
 						</div>
-						<input type="text" name="newPassword" {...register('newPassword', { required: true, minLength: 6, pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{6,}$/ })} style={{ borderColor: '#C4C4C4', borderStyle: 'solid', borderRadius: 7, width: '100%' }} />
+						<input type="password" name="newPassword" {...register('newPassword', { required: true, minLength: 6, pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{6,}$/ })} style={{ borderColor: '#C4C4C4', borderStyle: 'solid', borderRadius: 7, width: '100%' }} />
 						{errors.newPassword?.type === 'required' && <span className="text-danger">Không được để trống</span>}
 						{errors.newPassword?.type === 'minLength' && <span className="text-danger">Tối thiểu phải 6 ký tự</span>}
 						{errors.newPassword?.type === 'pattern' && <span className="text-danger">Mật khẩu chưa đủ phức tạp</span>}
@@ -80,7 +80,7 @@ function ModalInfo(props) {
 								xác nhận mật khẩu mới
 							</p>
 						</div>
-						<input type="text" name="reNewPassword" {...register('reNewPassword', { required: true, minLength: 6, pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{6,}$/ })} style={{ borderColor: '#C4C4C4', borderStyle: 'solid', borderRadius: 7, width: '100%' }} />
+						<input type="password" name="reNewPassword" {...register('reNewPassword', { required: true, minLength: 6, pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{6,}$/ })} style={{ borderColor: '#C4C4C4', borderStyle: 'solid', borderRadius: 7, width: '100%' }} />
 						{errors.reNewPassword?.type === 'required' && <span className="text-danger">Không được để trống</span>}
 						{errors.reNewPassword?.type === 'minLength' && <span className="text-danger">Tối thiểu phải 6 ký tự</span>}
 						{errors.reNewPassword?.type === 'pattern' && <span className="text-danger">Mật khẩu chưa đủ phức tạp</span>}

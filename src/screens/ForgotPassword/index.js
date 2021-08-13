@@ -8,7 +8,7 @@ function Forgot() {
 		register, handleSubmit, formState: { errors },
 	} = useForm();
 	const ForgotAccount = () => {
-		alert('Chưa thể đăng ký tài khoản');
+		alert('Server chưa hỗ trợ');
 	};
 	return (
 		<div style={{ height: '93.8vh', backgroundColor: '#4e73df' }}>
