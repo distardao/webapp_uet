@@ -9,7 +9,7 @@ function ModalFeedBack(props) {
 	} = useForm();
 
 	const ChangeInfo = () => {
-		console.log('Phan hoi');
+		alert('Server chưa hỗ trợ');
 	};
 	return (
 		<Modal

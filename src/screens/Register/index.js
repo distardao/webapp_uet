@@ -38,13 +38,13 @@ function Register() {
 													{errors.email && <span className="text-danger">Trường này là bắt buộc</span>}
 												</div>
 												<div className="form-group">
-													<input type="password" name='password' {...register('password', { required: true, minLength: 6, pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{6,}$/ })} className="form-control" id="exampleInputPassword" placeholder="Mật khẩu" />
+													<input type="password" name='password' style={{ height: 50, borderRadius: 15 }} {...register('password', { required: true, minLength: 6, pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{6,}$/ })} className="form-control" id="exampleInputPassword" placeholder="Mật khẩu" />
 													{errors.password?.type === 'required' && <span className="text-danger">Không được để trống</span>}
 													{errors.password?.type === 'minLength' && <span className="text-danger">Tối thiểu phải 6 ký tự</span>}
 													{errors.password?.type === 'pattern' && <span className="text-danger">Mật khẩu chưa đủ phức tạp</span>}
 												</div>
 												<div className="form-group">
-													<input type="password" name='rePassword' {...register('rePassword', { required: true, minLength: 6, pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{6,}$/ })} className="form-control" id="exampleInputPassword" placeholder="Xác nhận mật khẩu" />
+													<input type="password" name='rePassword' style={{ height: 50, borderRadius: 15 }} {...register('rePassword', { required: true, minLength: 6, pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{6,}$/ })} className="form-control" id="exampleInputPassword" placeholder="Xác nhận mật khẩu" />
 													{errors.rePassword?.type === 'required' && <span className="text-danger">Không được để trống</span>}
 													{errors.rePassword?.type === 'minLength' && <span className="text-danger">Tối thiểu phải 6 ký tự</span>}
 													{errors.rePassword?.type === 'pattern' && <span className="text-danger">Mật khẩu chưa đủ phức tạp</span>}
