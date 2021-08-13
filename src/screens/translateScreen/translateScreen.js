@@ -16,7 +16,7 @@ import ResultTranslateBox from './components/resultTranslateBox';
 import { useDispatch } from 'react-redux';
 // import HistoryTranslate from '../HistoryTranslate';
 import { sideBarHide } from '../../redux/actions/navbarAction';
-import FeedBack from './ModalFeedback';
+import FeedBack from './components/ModalFeedback';
 function TranslateScreen() {
 	const dispatch = useDispatch();
 	useEffect(() => {
@@ -39,7 +39,10 @@ function TranslateScreen() {
 	});
 	const [exchangeLanguage, setExchangeLanguahe] = useState(true);
 	const [textInputTranslate, setTextInputTranslate] = useState('');
-	const [resultTranslate, setResultTranslate] = useState('');
+	const [resultTranslate, setResultTranslate] = useState({
+		result: '',
+		edit: ''
+	});
 	return (
 		<>
 			{/* <Container fluid>
@@ -93,11 +96,11 @@ function TranslateScreen() {
 						) : (
 							<Row style={{ minHeight: '150px' }} className={styles.documentOption}>
 								<Col md={12} >
-									<span style={{ fontSize: '20px' }}>Chọn tài liệu</span><br />
-									<span style={{ color: '#616161' }}>Tải lên tệp .doc, .docx, .pdf, .txt trên máy tính của bạn</span>
+									<span style={{ fontSize: 22 }}>Chọn tài liệu</span><br />
+									<span style={{ color: '#616161',  fontSize: 18 }}>Tải lên tệp .doc, .docx, .pdf, .txt trên máy tính của bạn</span>
 								</Col>
 								<Col md={12} style={{ padding: '10px' }} >
-									<Button size='sm'>Chọn tệp của bạn</Button>
+									<Button size='md'>Chọn tệp của bạn</Button>
 								</Col>
 							</Row>
 						)}

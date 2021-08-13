@@ -21,7 +21,7 @@ function ModalFeedBack(props) {
 				</div>
 			</Modal.Body>
 			<Modal.Footer>
-				<Button type="summit" variant="primary">Đăng nhập</Button>
+				<a href='/login' variant="primary">Đăng nhập</a>
 				<Button variant="light" onClick={props.onHide}>Hủy</Button>
 			</Modal.Footer>
 		</Modal>
