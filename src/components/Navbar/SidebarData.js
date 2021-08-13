@@ -1,14 +1,22 @@
 export const SidebarData = [
 	{
-		title: 'Trang chủ',
-		path: '/',
-	},
-	{
 		title: 'Giới thiệu',
 		path: '/about',
 	},
 	{
-		title: 'Liên hệ',
-		path: '/contact',
+		title: 'Dịch',
+		path: '/',
+	},
+	{
+		title: 'Lịch sử và từ vựng',
+		path: '/HistoryAndFavorite',
+	},
+	{
+		title: 'Điều khoản và chính sách',
+		path: '/rules-and-policy',
+	},
+	{
+		title: 'Hỗ trợ',
+		path: '/help',
 	},
 ];
