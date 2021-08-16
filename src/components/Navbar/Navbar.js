@@ -62,7 +62,7 @@ function Navbar() {
 	};
 
 	const onLogoutSuccess = () => {
-		alert('Đăng nhập thành công');
+		alert('Đăng xuất thành công');
 		sessionStorage.clear();
 		window.location.replace('/login');
 	};
