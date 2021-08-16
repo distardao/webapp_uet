@@ -62,7 +62,7 @@ function Navbar() {
 	};
 
 	const onLogoutSuccess = () => {
-		alert('Đăng nhập thành công');
+		alert('Đăng xuất thành công');
 		sessionStorage.clear();
 		window.location.replace('/login');
 	};
@@ -103,7 +103,7 @@ function Navbar() {
 								<Dropdown.Menu>
 									<Dropdown.Item onClick={() => setModalShow(true)}>Chỉnh sửa thông tin</Dropdown.Item>
 									<Dropdown.Divider />
-									<Dropdown.Item onClick={signOut}>Đăng xuất</Dropdown.Item>
+									<Dropdown.Item onClick={() => signOut}>Đăng xuất</Dropdown.Item>
 								</Dropdown.Menu>
 							</Dropdown>
 						) : (
