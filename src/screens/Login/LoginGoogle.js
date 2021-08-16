@@ -34,7 +34,7 @@ function LoginHooks() {
 		onSuccess,
 		onFailure,
 		clientId,
-		isSignedIn: true,
+		isSignedIn: false,
 		accessType: 'offline',
 		// responseType: 'code',
 		// prompt: 'consent',
@@ -42,7 +42,7 @@ function LoginHooks() {
 
 	return (
 		<>
-			<button onClick={() => signIn} style={{ backgroundColor: '#EA4335', borderRadius: 10 }} className="btn btn-danger btn-block">
+			<button onClick={signIn} style={{ backgroundColor: '#EA4335', borderRadius: 10 }} className="btn btn-danger btn-block">
 				<i className="fab fa-google fa-fw" /> Đăng nhập với Google
 			</button>
 
