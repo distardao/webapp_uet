@@ -71,6 +71,8 @@ function Navbar() {
 		clientId,
 		onLogoutSuccess,
 		onFailure,
+		isSignedIn: false,
+		accessType: 'offline',
 	});
 
 	return (
@@ -103,7 +105,7 @@ function Navbar() {
 								<Dropdown.Menu>
 									<Dropdown.Item onClick={() => setModalShow(true)}>Chỉnh sửa thông tin</Dropdown.Item>
 									<Dropdown.Divider />
-									<Dropdown.Item onClick={() => signOut}>Đăng xuất</Dropdown.Item>
+									<Dropdown.Item onClick={signOut}>Đăng xuất</Dropdown.Item>
 								</Dropdown.Menu>
 							</Dropdown>
 						) : (
