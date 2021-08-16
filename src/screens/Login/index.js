@@ -45,8 +45,8 @@ function Login() {
 													Đăng nhập
 												</button>
 												<hr />
-												<LoginGoogle />
 											</form>
+											<LoginGoogle />
 											<hr />
 											<div className="text-center">
 												<a className="small" href="/forgot-password">Quên mật khẩu?</a>
