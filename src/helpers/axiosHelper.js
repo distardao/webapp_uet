@@ -25,3 +25,24 @@ export const createTranslation = (data) => {
 			});
 	});
 };
+
+/**
+   * @description Call api nhận dạng ngôn ngũ
+   * @input {
+   * 			data: string
+   * 		}
+   * @output {lang: string, lang_str: string, status: boolean}
+   */
+export const detectLang = (data) => {
+	return new Promise((resolve, reject) => {
+		axiosDefault
+			.post('detect_lang', data)
+			.then((result) => {
+				resolve(result.data);
+			})
+			.catch((error) => {
+			// console.warn('axios helper', error);
+				reject(error);
+			});
+	});
+};

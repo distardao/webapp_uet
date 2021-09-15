@@ -1,1 +1,1 @@
-export const CREATE_TRANSLATION = 'CREATE_TRANSLATION';
+export const CREATE_TRANSLATION = 'app/translate/CREATE_TRANSLATION';

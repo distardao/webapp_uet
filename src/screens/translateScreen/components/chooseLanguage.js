@@ -16,6 +16,7 @@ export default function ChooseLanguage(props) {
 		setToLanguage,
 		autoDetectLang,
 		setAutoDetectLang,
+		titleAutoDetect,
 		// setExchangeLanguah
 	} = props;
 	// const listLanguage = [t('Translate.listLanguage.trung'), t('Translate.listLanguage.lao'), t('Translate.listLanguage.khome')];
@@ -60,7 +61,12 @@ export default function ChooseLanguage(props) {
 					{
 						listLanguage.map((item, key) => 
 							<li key={key} className="nav-item" style={{ marginBottom: '-0.5px' }}>
-								<button className={`nav-link ${item.code === fromLanguage.code && !autoDetectLang? styles.activeChoose : styles.normal} `} onClick={() => changeFromLanguage(item)} >{item.text}</button>
+								<button 
+									className={`nav-link ${item.code === fromLanguage.code && !autoDetectLang? styles.activeChoose : styles.normal} `} 
+									onClick={() => changeFromLanguage(item)} 
+								>
+									{item.text}
+								</button>
 							</li>
 						)
 					}
@@ -68,16 +74,7 @@ export default function ChooseLanguage(props) {
 			</div>
 		);
 	};
-	const buttonDetectTrue = () => {
-		return (
-			<button className={styles.activeChoose} onClick={() => {autoDetect();}}>{t('Translate.phathienngonngu')}</button>
-		);
-	};
-	const buttonDetectFalse = () => {
-		return (
-			<button className={styles.normal} onClick={() => {autoDetect();}}>{t('Translate.phathienngonngu')}</button>
-		);
-	};
+
 	const buttonToLanguage = () => {
 		return (
 			<div>
@@ -85,7 +82,12 @@ export default function ChooseLanguage(props) {
 					{
 						listLanguageTo.map((item, key) => 
 							<li key={key} className="nav-item" style={{ marginBottom: '-0.5px' }}>
-								<button  className={`nav-link ${item.code === toLanguage.code ? styles.activeChoose : styles.normal} `} onClick={() => changeToLanguage(item)} >{item.text}</button>
+								<button  
+									className={`nav-link ${item.code === toLanguage.code ? styles.activeChoose : styles.normal} `} 
+									onClick={() => changeToLanguage(item)} 
+								>
+									{item.text}
+								</button>
 							</li>
 						)
 					}
@@ -106,7 +108,12 @@ export default function ChooseLanguage(props) {
 		<>
 			<div style={{ flex: 1, display: 'flex', overflow:'auto', whiteSpace: 'nowrap'}}>
 				<ButtonToolbar>
-					{autoDetectLang? buttonDetectTrue():buttonDetectFalse()}
+					<button 
+						className={autoDetectLang? styles.activeChoose : styles.normal} 
+						onClick={autoDetect}
+					>
+						{titleAutoDetect}
+					</button>
 					{exchangeLanguage ? buttonFromLanguage() : buttonToLanguage()}
 				</ButtonToolbar>
 			</div>

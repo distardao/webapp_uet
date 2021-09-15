@@ -15,6 +15,13 @@
 			"lao": "Lào",
 			"khome": "Khơme"
 		},
+		"phatHienNgonNgu": {
+			"anh": "Phát hiện - Anh",
+			"viet": "Phát hiện - Việt",
+			"trung": "Phát hiện - Trung",
+			"lao": "Phát hiện - Lào",
+			"khome": "Phát hiện - Khơme"
+		},
 		"daThemVaoTuVung": "Đã thêm vào từ vựng",
 		"daSaoChep": "Đã sao chép",
 		"vanban": "Văn bản",
