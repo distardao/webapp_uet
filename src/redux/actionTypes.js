@@ -1,4 +1,0 @@
-export const SAY_AN_DEP_TRAI = 'SAY_AN_DEP_TRAI';
-export const CREATE_TRANSLATION = 'CREATE_TRANSLATION';
-export const SIDE_BAR_SHOW = 'SHOW_SIDE_BAR';
-export const SIDE_BAR_HIDE = 'SIDE_BAR_HIDE';

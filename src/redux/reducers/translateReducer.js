@@ -1,4 +1,4 @@
-import { CREATE_TRANSLATION } from '../actionTypes';
+import { CREATE_TRANSLATION } from '../constant/translateTypes';
 
 const initialState = {
 	fromText: '',

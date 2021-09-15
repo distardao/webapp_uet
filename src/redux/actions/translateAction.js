@@ -1,4 +1,4 @@
-import { CREATE_TRANSLATION } from '../actionTypes';
+import { CREATE_TRANSLATION } from '../constant/translateTypes';
 import * as axiosHelper from '../../helpers/axiosHelper';
 
 
