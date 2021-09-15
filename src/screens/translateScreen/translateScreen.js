@@ -43,6 +43,7 @@ function TranslateScreen() {
 		result: '',
 		edit: ''
 	});
+	const [titleAutoDetect, setTitleAutoDetect] = useState(t('Translate.phathienngonngu'));
 
 	// fucntion map code => text.
 	// eslint-disable-next-line no-unused-vars
@@ -63,14 +64,33 @@ function TranslateScreen() {
 		}
 	};
 
+	const getTitleAutoDetect = (code) => {
+		switch (code) {
+		case 'en':
+			return t('Translate.phatHienNgonNgu.anh');
+		case 'zh':
+			return  t('Translate.phatHienNgonNgu.trung');
+		case 'lo':
+			return  t('Translate.phatHienNgonNgu.lao');
+		case 'km':
+			return  t('Translate.phatHienNgonNgu.khome');
+		case 'vi':
+			return  t('Translate.phatHienNgonNgu.viet');
+		default:
+			return t('Translate.phathienngonngu');
+		}
+	};
+
 	useEffect (() => {
 		const translateWithAutoDetect = async () => {
 			try {
 				const result = await detectLang({data: textInputTranslate});
 				const text = mapCodeToText(result.data.lang);
 				if(text === null || !result.data.status){
+					setTitleAutoDetect(t('Translate.phathienngonngu'));
 					throw 'error';
 				}
+				setTitleAutoDetect(getTitleAutoDetect(result.data.lang));
 				setFromLanguage({
 					text: mapCodeToText(result.data.lang),
 					code: result.data.lang,
@@ -84,6 +104,7 @@ function TranslateScreen() {
 					edit: resultTranslate.data.data,
 				});
 			} catch (e) {
+				setTitleAutoDetect(t('Translate.phathienngonngu'));
 				setLoading(false);
 			}
 		};
@@ -122,6 +143,7 @@ function TranslateScreen() {
 							setExchangeLanguahe={setExchangeLanguahe}
 							setAutoDetectLang={setAutoDetectLang}
 							autoDetectLang={autoDetectLang}
+							titleAutoDetect={titleAutoDetect}
 						/>
 					</div>
 					<Col md={12} className={styles.boxTranslate}>
@@ -138,6 +160,7 @@ function TranslateScreen() {
 										isLoading={isLoading}
 										autoDetectLang={autoDetectLang}
 										setFromLanguage={setFromLanguage}
+										setTitleAutoDetect={setTitleAutoDetect}
 									/>
 								</Col>
 								<ResultTranslateBox 

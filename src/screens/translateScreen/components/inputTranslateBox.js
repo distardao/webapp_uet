@@ -24,6 +24,7 @@ function InputTranslateBox(props) {
 		makeTranslation,
 		toText,
 		autoDetectLang,
+		setTitleAutoDetect,
 	} = props;
 	const { t } = useTranslation();
 	let timeOutID;
@@ -85,7 +86,7 @@ function InputTranslateBox(props) {
 			result: `${t('Translate.bandich')}`,
 			edit: `${t('Translate.bandich')}`,
 		});
-		// setResultTranslate(t('Translate.bandich'));
+		setTitleAutoDetect(t('Translate.phathienngonngu'));
 		setLoading(true);
 	};
 

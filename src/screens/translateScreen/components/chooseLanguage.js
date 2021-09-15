@@ -16,6 +16,7 @@ export default function ChooseLanguage(props) {
 		setToLanguage,
 		autoDetectLang,
 		setAutoDetectLang,
+		titleAutoDetect,
 		// setExchangeLanguah
 	} = props;
 	// const listLanguage = [t('Translate.listLanguage.trung'), t('Translate.listLanguage.lao'), t('Translate.listLanguage.khome')];
@@ -111,7 +112,7 @@ export default function ChooseLanguage(props) {
 						className={autoDetectLang? styles.activeChoose : styles.normal} 
 						onClick={autoDetect}
 					>
-						{t('Translate.phathienngonngu')}
+						{titleAutoDetect}
 					</button>
 					{exchangeLanguage ? buttonFromLanguage() : buttonToLanguage()}
 				</ButtonToolbar>
