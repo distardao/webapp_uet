@@ -24,7 +24,6 @@ function InputTranslateBox(props) {
 		makeTranslation,
 		toText,
 		autoDetectLang,
-		setFromLanguage,
 	} = props;
 	const { t } = useTranslation();
 	let timeOutID;
@@ -51,44 +50,7 @@ function InputTranslateBox(props) {
 	}, [isLoading, textInputTranslate, toText]);
 	useEffect(() => {
 		clearTimeout(timeOutID);
-		if(textInputTranslate !== ''){
-			const langdic = {
-				trung: /[\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]/,
-				lao: /[\u0E80-\u0EFF]/,
-				khmer: /[\u1780-\u17FF]/,
-				// add other languages her
-			};
-			// console.log('autodetect:', autoDetectLang);
-			if(autoDetectLang){
-				Object.entries(langdic).forEach(([key, value]) => {
-					// loop to read all the dictionary items if not true
-					if (value.test(textInputTranslate) === true) {
-						let langCodeDetect;
-						let langTextDetect;
-						if (key === 'trung') {
-							langTextDetect = t('Translate.listLanguage.trung');
-							langCodeDetect = 'zh';
-						} else if (key === 'lao') {
-							langTextDetect = t('Translate.listLanguage.lao');
-							langCodeDetect = 'lo';
-						} else if (key === 'khmer') {
-							langTextDetect = t('Translate.listLanguage.khome');
-							langCodeDetect = 'km';
-						} else {
-							langTextDetect = t('Translate.listLanguage.anh');
-							langCodeDetect = 'en';
-						}
-						setFromLanguage((prevState) => ({
-							...prevState,
-							text: langTextDetect,
-							code: langCodeDetect,
-						}));
-						fromLanguage.text = langTextDetect;
-						fromLanguage.code = langCodeDetect;
-					}
-				});
-			}
-			
+		if(textInputTranslate !== '' && !autoDetectLang){
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 			timeOutID = setTimeout(async () => {
 				try {
