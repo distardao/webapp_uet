@@ -1,19 +1,114 @@
-import { CREATE_TRANSLATION } from '../constant/translateTypes';
+import { 
+	TRANSLATION,
+	TRANSLATION_SUCCESS,
+	TRANSLATION_FAIL,
+	CHANGE_SOURCE, 
+	CHANGE_TARGET,
+	SWAP_TRANSLATE,
+	CHANGE_SOURCE_TEXT,
+	RESET,
+	DISABLEINPUT,
+} from '../constant/translateTypes';
+
+export const STATE = {
+	INIT: 'INIT',
+	LOADING: 'LOADING',
+	DISABLEINPUT: 'DISABLEINPUT',
+	SUCCESS: 'SUCCESS',
+	FAILURE: 'FAILURE',
+};
 
 const initialState = {
-	fromText: '',
-	toText: '',
-	direction: '',
+	currentState: STATE.INIT,
+	translateCode: {
+		sourceLang: 'vi',
+		targetLang: 'zh',
+	},
+	translateText: {
+		sourceText: '',
+		targetText: '',
+		editSourceText: '',
+	},
+	err: null,
 };
 
 export default function(state = initialState, action) {
 	switch (action.type) {
-	case CREATE_TRANSLATION: {
+	case TRANSLATION: {
 		return {
 			...state,
-			fromText: action.payload.fromText,
-			toText: action.payload.toText,
-			direction: action.payload.direction,
+			currentState: STATE.LOADING,
+		};
+	}
+	case TRANSLATION_SUCCESS: {
+		return {
+			...state,
+			currentState: STATE.SUCCESS,
+			translateText: {
+				...state.translateText,
+				targetText: action.payload.targetText,
+				editSourceText: action.payload.targetText,
+			}
+		};
+	}
+	case TRANSLATION_FAIL: {
+		return {
+			...state,
+			currentState: STATE.FAILURE,
+			err: action.payload.err,
+		};
+	}
+	case CHANGE_SOURCE: {
+		return {
+			...state,
+			translateCode: {
+				...state.translateCode,
+				sourceLang: action.payload.data,
+			}
+		};
+	}
+	case CHANGE_TARGET: {
+		return {
+			...state,
+			translateCode: {
+				...state.translateCode,
+				targetLang: action.payload.data,
+			}
+		};
+	}
+	case SWAP_TRANSLATE: {
+		return {
+			...state,
+			translateCode: {
+				sourceLang: action.payload.dataSource,
+				targetLang: action.payload.dataTarget,
+			}
+		};
+	}
+	case CHANGE_SOURCE_TEXT: {
+		return {
+			...state,
+			translateText: {
+				...state.translateText,
+				sourceText: action.payload.data,
+			},
+		};
+	}
+	case RESET: {
+		return {
+			...state,
+			currentState: STATE.INIT,
+			translateText: {
+				sourceText: '',
+				targetText: '',
+				editSourceText: '',
+			},
+		};
+	}
+	case DISABLEINPUT: {
+		return {
+			...state,
+			currentState: STATE.DISABLEINPUT,
 		};
 	}
 	default:

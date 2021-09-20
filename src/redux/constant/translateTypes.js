@@ -1,1 +1,9 @@
-export const CREATE_TRANSLATION = 'app/translate/CREATE_TRANSLATION';
+export const TRANSLATION = 'app/translate/TRANSLATION';
+export const TRANSLATION_SUCCESS = 'app/translate/TRANSLATION_SUCCESS';
+export const TRANSLATION_FAIL = 'app/translate/TRANSLATION_FAIL';
+export const CHANGE_SOURCE_TEXT = 'app/translate/CHANGE_SOURCE_TEXT';
+export const CHANGE_SOURCE = 'app/translate/CHANGE_SOURCE';
+export const CHANGE_TARGET = 'app/translate/CHANGE_TARGET';
+export const SWAP_TRANSLATE = 'app/translate/SWAP_TRANSLATE';
+export const RESET = 'app/translate/RESET';
+export const DISABLEINPUT = 'app/translate/DISABLEINPUT';
