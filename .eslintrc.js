@@ -42,6 +42,7 @@ module.exports = {
 			'error',
 			'always'
 		],
+		'react-hooks/exhaustive-deps': 0,
 		'no-unused-vars': 2,
 		'no-console': 0,
 	},
