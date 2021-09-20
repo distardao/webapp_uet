@@ -20,12 +20,12 @@ import styles from './navbarStyle.module.css';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import OutsideClick from '../../helpers/outsideClick';
-import { useGoogleLogout } from 'react-google-login';
+// import { useGoogleLogout } from 'react-google-login';
 import Modal from '../Modal';
 import { IS_AUTH } from '../../constants/envVar';
 
-const clientId =
-	'1006597644137-plgvccnt0d3keaojro5q3j69vkjudfvs.apps.googleusercontent.com';
+// const clientId =
+// 	'1006597644137-plgvccnt0d3keaojro5q3j69vkjudfvs.apps.googleusercontent.com';
 
 function Navbar() {
 	const boxRef = useRef(null);
@@ -54,26 +54,26 @@ function Navbar() {
 		dispatch(sideBarHide(false));
 	};
 
-	const onFailure = (res) => {
-		console.log('Login failed: res:', res);
-		alert(
-			'Đăng nhập thất bại'
-		);
-	};
+	// const onFailure = (res) => {
+	// 	console.log('Login failed: res:', res);
+	// 	alert(
+	// 		'Đăng nhập thất bại'
+	// 	);
+	// };
 
-	const onLogoutSuccess = () => {
-		alert('Đăng xuất thành công');
-		sessionStorage.clear();
-		window.location.replace('/login');
-	};
+	// const onLogoutSuccess = () => {
+	// 	alert('Đăng xuất thành công');
+	// 	sessionStorage.clear();
+	// 	window.location.replace('/login');
+	// };
 
-	const { signOut } = useGoogleLogout({
-		clientId,
-		onLogoutSuccess,
-		onFailure,
-		isSignedIn: false,
-		accessType: 'offline',
-	});
+	// const { signOut } = useGoogleLogout({
+	// 	clientId,
+	// 	onLogoutSuccess,
+	// 	onFailure,
+	// 	isSignedIn: false,
+	// 	accessType: 'offline',
+	// });
 
 	return (
 		// <div ref={boxRef} style={{display: 'flex', height: '6vh'}}>
@@ -105,7 +105,7 @@ function Navbar() {
 								<Dropdown.Menu>
 									<Dropdown.Item onClick={() => setModalShow(true)}>Chỉnh sửa thông tin</Dropdown.Item>
 									<Dropdown.Divider />
-									<Dropdown.Item onClick={signOut}>Đăng xuất</Dropdown.Item>
+									<Dropdown.Item onClick={() => {}}>Đăng xuất</Dropdown.Item>
 								</Dropdown.Menu>
 							</Dropdown>
 						) : (
