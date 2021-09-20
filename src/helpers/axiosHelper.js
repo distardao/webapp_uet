@@ -6,7 +6,8 @@ const axiosDefault = axios.create({
 	headers: {
 		'Content-Type': 'application/json',
 	},
-	timeout: 100000,
+	// timeout: 100000,
+	timeout: 10000,
 });
 
 // sample data

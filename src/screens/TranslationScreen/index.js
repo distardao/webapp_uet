@@ -5,7 +5,7 @@ import {
 	Button,
 } from 'react-bootstrap';
 import { VscWordWrap } from 'react-icons/vsc';
-import { BsFileEarmarkText } from 'react-icons/bs';
+// import { BsFileEarmarkText } from 'react-icons/bs';
 import styles from './translateStyle.module.css';
 import { IconButton, Tab, Tabs } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,14 +15,15 @@ import {
 	changeTarget, 
 	swapTranslate, 
 	translationAsync, 
+	translationAndDetectAsync,
 	changeSourceText, 
+	translationSuccess,
 	reset,
 } from '../../redux/actions/translateAction';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import TextareaAutosize from 'react-textarea-autosize';
 // import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import CloseIcon from '@mui/icons-material/Close';
-
 import { useTranslation } from 'react-i18next';
 
 function Index() {
@@ -39,6 +40,9 @@ function Index() {
 		switch (state.currentState) {
 		case STATE.SUCCESS:
 			break;
+		case STATE.FAILURE:
+			alert(`${state.err}`);
+			break;
 		default:
 			break;
 		}
@@ -49,11 +53,20 @@ function Index() {
 		evt.preventDefault();
 		dispatch(changeSourceText(evt.target.value));
 		if(evt.target.value !== '') {
-			dispatch(translationAsync({
-				sourceText: evt.target.value,
-				sourceLang: state.translateCode.sourceLang,
-				targetLang: state.translateCode.targetLang,
-			}));
+			if(state.translateCode.sourceLang){
+				dispatch(translationAsync({
+					sourceText: evt.target.value,
+					sourceLang: state.translateCode.sourceLang,
+					targetLang: state.translateCode.targetLang,
+				}));
+			} else {
+				dispatch(translationAndDetectAsync({
+					sourceText: evt.target.value,
+					targetLang: state.translateCode.targetLang,
+				}));
+			}
+		} else {
+			dispatch(translationSuccess({target_text: ''}));
 		}
 	};
 
@@ -73,29 +86,6 @@ function Index() {
 		dispatch(reset());
 		inputEl.current.focus();
 	};
-    
-	const listLanguage = [
-		// {
-		// 	text: t('Translate.listLanguage.anh'),
-		// 	code: 'en'
-		// },
-		{
-			text: t('Translate.listLanguage.viet'),
-			code: 'vi'
-		},
-		{
-			text: t('Translate.listLanguage.trung'),
-			code: 'zh'
-		},
-		{
-			text: t('Translate.listLanguage.lao'),
-			code: 'lo'
-		},
-		{
-			text: t('Translate.listLanguage.khome'),
-			code: 'km'
-		},
-	];
 
 	const isShow = () => {
 		if(state.currentState === STATE.LOADING || state.currentState === STATE.DISABLEINPUT) {
@@ -130,12 +120,12 @@ function Index() {
 						</div> 
 						{t('Translate.vanban')}
 					</Button>
-					<Button onClick={() => {}} style={{ display: 'flex', fontSize: 20, fontWeight: 500 }} variant={'primary'}>
+					{/* <Button onClick={() => {}} style={{ display: 'flex', fontSize: 20, fontWeight: 500 }} variant={'primary'}>
 						<div style={{paddingRight: 5, alignContent: 'center'}}>
 							<BsFileEarmarkText size={28}/> 
 						</div> 
 						{t('Translate.tailieu')}
-					</Button>
+					</Button> */}
 				</div>
 				<div className={styles.content} >
 					<div style={{ padding: '0px 20px', borderBottom: '1px solid #ccc', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}} >
@@ -147,11 +137,15 @@ function Index() {
 								variant="scrollable"
 								scrollButtons="auto"
 							>
-								{listLanguage.map(item => <Tab label={item.text} key={item.code} value={item.code}/>)}
+								<Tab label={t('Translate.phathienngonngu')} value={null} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={state.isSwap} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={!state.isSwap} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={!state.isSwap} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={!state.isSwap}style={{fontWeight: 'bold'}}/>
 							</Tabs>
 						</div>
 						<div style={{  alignSelf: 'center'}}>
-							<IconButton aria-label="Example" onClick={handleSwap}>
+							<IconButton aria-label="Example" onClick={handleSwap} disabled={state.translateCode.sourceLang === null}>
 								<SwapHorizIcon fontSize='medium'/>
 							</IconButton>
 						</div>
@@ -162,7 +156,10 @@ function Index() {
 								variant="scrollable"
 								scrollButtons="auto"
 							>
-								{listLanguage.map(item => <Tab label={item.text} key={item.code} value={item.code}/>)}
+								<Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={!state.isSwap} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={state.isSwap} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={state.isSwap} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={state.isSwap} style={{fontWeight: 'bold'}}/>
 							</Tabs>
 						</div>
 					</div>

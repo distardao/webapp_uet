@@ -31,7 +31,7 @@ function Navbar() {
 	const boxRef = useRef(null);
 	const boxOutsideClick = OutsideClick(boxRef);
 	const [modalShow, setModalShow] = React.useState(false);
-	const path = window.location.pathname;
+	// const path = window.location.pathname;
 
 	const fakeAuth = {
 		isAuthenticated: sessionStorage.getItem(IS_AUTH),
@@ -109,13 +109,14 @@ function Navbar() {
 								</Dropdown.Menu>
 							</Dropdown>
 						) : (
-							path == ('/login' || '/forgot-password' || '/register') ? (
-								null
-							) : (
-								<a href="/login" style={{ color: '#fff', alignSelf: 'center', marginRight: 20 }}>
-									Đăng nhập
-								</a>
-							)
+							null
+							// path == ('/login' || '/forgot-password' || '/register') ? (
+							// 	null
+							// ) : (
+							// 	<a href="/login" style={{ color: '#fff', alignSelf: 'center', marginRight: 20 }}>
+							// 		Đăng nhập
+							// 	</a>
+							// )
 						)}
 						<Modal
 							show={modalShow}

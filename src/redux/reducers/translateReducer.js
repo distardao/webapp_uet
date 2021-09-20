@@ -2,6 +2,9 @@ import {
 	TRANSLATION,
 	TRANSLATION_SUCCESS,
 	TRANSLATION_FAIL,
+	DETECTLANG,
+	DETECTLANG_FAIL,
+	DETECTLANG_SUCCESS,
 	CHANGE_SOURCE, 
 	CHANGE_TARGET,
 	SWAP_TRANSLATE,
@@ -21,7 +24,7 @@ export const STATE = {
 const initialState = {
 	currentState: STATE.INIT,
 	translateCode: {
-		sourceLang: 'vi',
+		sourceLang: null,
 		targetLang: 'zh',
 	},
 	translateText: {
@@ -29,6 +32,7 @@ const initialState = {
 		targetText: '',
 		editSourceText: '',
 	},
+	isSwap: false,
 	err: null,
 };
 
@@ -58,6 +62,34 @@ export default function(state = initialState, action) {
 			err: action.payload.err,
 		};
 	}
+	case DETECTLANG: {
+		return {
+			...state,
+			currentState: STATE.LOADING,
+		};
+	}
+	case DETECTLANG_SUCCESS: {
+		return {
+			...state,
+			currentState: STATE.SUCCESS,
+			translateCode: {
+				...state.translateCode,
+				sourceLang: action.payload.sourceLang,
+			},
+			translateText: {
+				...state.translateText,
+				targetText: action.payload.targetText,
+				editSourceText: action.payload.targetText,
+			}
+		};
+	}
+	case DETECTLANG_FAIL: {
+		return {
+			...state,
+			currentState: STATE.FAILURE,
+			err: action.payload.err,
+		};
+	}
 	case CHANGE_SOURCE: {
 		return {
 			...state,
@@ -79,6 +111,7 @@ export default function(state = initialState, action) {
 	case SWAP_TRANSLATE: {
 		return {
 			...state,
+			isSwap: !state.isSwap,
 			translateCode: {
 				sourceLang: action.payload.dataSource,
 				targetLang: action.payload.dataTarget,

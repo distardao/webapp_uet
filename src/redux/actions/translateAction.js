@@ -3,6 +3,9 @@ import {
 	CHANGE_SOURCE, 
 	CHANGE_SOURCE_TEXT,
 	CHANGE_TARGET, 
+	DETECTLANG,
+	DETECTLANG_FAIL,
+	DETECTLANG_SUCCESS,
 	SWAP_TRANSLATE,
 	TRANSLATION_FAIL,
 	TRANSLATION_SUCCESS,
@@ -121,6 +124,37 @@ export function translationFailed(err) {
 	};
 }
 
+export function detectLangLoading() {
+	return {
+	  type: DETECTLANG,
+	};
+}
+
+/**
+ * @description Thành công và trả về kết quả dịch
+ */
+export function detectLangSuccess(data) {
+	return {
+	  type: DETECTLANG_SUCCESS,
+	  payload: {
+			targetText: data.target_text,
+			sourceLang: data.source_lang,
+		}
+	};
+}
+
+/**
+ * @description Thành công và trả về err
+ */
+export function detectLangFailed(err) {
+	return {
+	  type: DETECTLANG_FAIL,
+	  payload: {
+			err,
+		}
+	};
+}
+
 /**
  * @description Do BE bắt fai kiểm tra status 
  * nên sẽ gọi lại API khi nào status được dịch.
@@ -166,10 +200,32 @@ const debouncedTranslate = debounce(async (body, dispatch) => {
  */
 // { "sourceText": "string", "sourceLang": "zh", "targetLang": "zh"
 export const translationAsync = (body) => (dispatch) => {
-	// dispatch(changeSourceText(body.sourceText));
 	if(body.sourceText.trim() !== '' ){
 		dispatch(translationLoading());
 		debouncedTranslate(body, dispatch);
+	}
+};
+
+const debouncedTranslateAndDetect = debounce(async (body, dispatch) => {
+	try {
+		dispatch(disableInput());
+		const postTranslationResult = await axiosHelper.postTranslate(body);
+		const getTranslationHistoryResult = await recursiveCheckStatus(postTranslationResult.data.translationHitoryId, postTranslationResult.data.taskId);
+		const getTranslationResult = await axiosHelper.getTranslateResult(getTranslationHistoryResult.data.resultUrl);
+		dispatch(detectLangSuccess(getTranslationResult));
+	} catch(error) {
+		dispatch(detectLangFailed(error));
+	}
+}, 1000);
+
+/**
+ * @description Thunk function cho việc dịch từ và lấy kết quả
+ */
+// { "sourceText": "string", "sourceLang": null, "targetLang": "zh"
+export const translationAndDetectAsync = (body) => (dispatch) => {
+	if(body.sourceText.trim() !== '' ){
+		dispatch(detectLangLoading());
+		debouncedTranslateAndDetect(body, dispatch);
 	}
 };
 
