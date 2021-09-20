@@ -5,17 +5,15 @@ import {
 	Button,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-// import { CgMenu } from 'react-icons/cg';
-// import { connect } from 'react-redux';
 import styles from './translateStyle.module.css';
-// import Logo from '../../assets/images/lg.png';
 import ChooseTextCategory from './components/chooseTextCategory';
 import ChooseLanguage from './components/chooseLanguage';
 import InputTranslateBox from './components/inputTranslateBox';
 import ResultTranslateBox from './components/resultTranslateBox';
 import { useDispatch } from 'react-redux';
-// import HistoryTranslate from '../HistoryTranslate';
 import { sideBarHide } from '../../redux/actions/navbarAction';
+import { createTranslation ,detectLang } from '../../helpers/axiosHelper';
+
 import FeedBack from './components/ModalFeedback';
 function TranslateScreen() {
 	const dispatch = useDispatch();
@@ -39,21 +37,97 @@ function TranslateScreen() {
 	});
 	const [exchangeLanguage, setExchangeLanguahe] = useState(true);
 	const [textInputTranslate, setTextInputTranslate] = useState('');
+	// Khi nhận kết quả, luôn luôn gán kết quả vảo result và edit 
+	// Hỗ trợ cho phần editing
 	const [resultTranslate, setResultTranslate] = useState({
 		result: '',
 		edit: ''
 	});
+	const [titleAutoDetect, setTitleAutoDetect] = useState(t('Translate.phathienngonngu'));
+
+	// fucntion map code => text.
+	// eslint-disable-next-line no-unused-vars
+	const mapCodeToText = (code) => {
+		switch (code) {
+		case 'en':
+			return t('Translate.listLanguage.anh');
+		case 'zh':
+			return  t('Translate.listLanguage.trung');
+		case 'lo':
+			return  t('Translate.listLanguage.lao');
+		case 'km':
+			return  t('Translate.listLanguage.khome');
+		case 'vi':
+			return  t('Translate.listLanguage.viet');
+		default:
+			return null;
+		}
+	};
+
+	const getTitleAutoDetect = (code) => {
+		switch (code) {
+		case 'en':
+			return t('Translate.phatHienNgonNgu.anh');
+		case 'zh':
+			return  t('Translate.phatHienNgonNgu.trung');
+		case 'lo':
+			return  t('Translate.phatHienNgonNgu.lao');
+		case 'km':
+			return  t('Translate.phatHienNgonNgu.khome');
+		case 'vi':
+			return  t('Translate.phatHienNgonNgu.viet');
+		default:
+			return t('Translate.phathienngonngu');
+		}
+	};
+
+	useEffect (() => {
+		const translateWithAutoDetect = async () => {
+			try {
+				const result = await detectLang({data: textInputTranslate});
+				const text = mapCodeToText(result.data.lang);
+				if(text === null || !result.data.status){
+					setTitleAutoDetect(t('Translate.phathienngonngu'));
+					throw 'error';
+				}
+				setTitleAutoDetect(getTitleAutoDetect(result.data.lang));
+				setFromLanguage({
+					text: mapCodeToText(result.data.lang),
+					code: result.data.lang,
+				});
+				const resultTranslate = await createTranslation({
+					data: textInputTranslate,
+					direction: `${fromLanguage.code}-${toLanguage.code}`
+				});
+				setResultTranslate({
+					result: resultTranslate.data.data,
+					edit: resultTranslate.data.data,
+				});
+			} catch (e) {
+				setTitleAutoDetect(t('Translate.phathienngonngu'));
+				setLoading(false);
+			}
+		};
+		if(autoDetectLang && textInputTranslate !== ''){
+			setLoading(true);
+			setResultTranslate({
+				result: `${t('Translate.dangdich')}`,
+				edit: `${t('Translate.dangdich')}`,
+			});
+			const timerId = setTimeout(() => {
+				translateWithAutoDetect();
+				setLoading(false);
+			 // make a request after 1 second since there's no typing 
+			}, 1000);
+			return () => {
+				clearTimeout(timerId);
+			};
+		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [autoDetectLang, textInputTranslate]);
+
 	return (
 		<>
-			{/* <Container fluid>
-				<Row className={styles.headerTop}>
-					<div className={styles.buttonSidebars}><button className={styles.buttonSidebar}><CgMenu /></button></div>
-					<div className={styles.title}> */}
-			{/* <Image style={{ width: '40px' }} src={Logo} alt="" roundedCircle /> */}
-			{/* {t('Translate.title')} */}
-			{/* </div>
-				</Row>
-			</Container> */}
 			<div className={styles.outerContainer}>
 				<div className={styles.outerTab}>
 					<ChooseTextCategory textCategory={textCategory} setTextCategory={setTextCategory} />
@@ -69,6 +143,7 @@ function TranslateScreen() {
 							setExchangeLanguahe={setExchangeLanguahe}
 							setAutoDetectLang={setAutoDetectLang}
 							autoDetectLang={autoDetectLang}
+							titleAutoDetect={titleAutoDetect}
 						/>
 					</div>
 					<Col md={12} className={styles.boxTranslate}>
@@ -85,6 +160,7 @@ function TranslateScreen() {
 										isLoading={isLoading}
 										autoDetectLang={autoDetectLang}
 										setFromLanguage={setFromLanguage}
+										setTitleAutoDetect={setTitleAutoDetect}
 									/>
 								</Col>
 								<ResultTranslateBox 
@@ -115,7 +191,6 @@ function TranslateScreen() {
 					show={modalShow}
 					onHide={() => setModalShow(false)} />
 			</div>
-			{/* <HistoryTranslate /> */}
 		</>
 	);
 }

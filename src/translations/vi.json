@@ -6,14 +6,23 @@
 	"Translate": {
 		"title" : "UET Multilingual Neural Machine Translation",
 		"phathienngonngu": "PHÁT HIỆN NGÔN NGỮ",
+		"nhapVanBan": "Nhập văn bản",
 		"bandich": "Bản dịch",
 		"dangdich": "Đang dịch ...",
+		"dangNhap": "Đang nhập ...",
 		"listLanguage": {
 			"anh": "Anh",
 			"viet": "Việt",
 			"trung": "Trung",
 			"lao": "Lào",
 			"khome": "Khơme"
+		},
+		"phatHienNgonNgu": {
+			"anh": "Phát hiện - Anh",
+			"viet": "Phát hiện - Việt",
+			"trung": "Phát hiện - Trung",
+			"lao": "Phát hiện - Lào",
+			"khome": "Phát hiện - Khơme"
 		},
 		"daThemVaoTuVung": "Đã thêm vào từ vựng",
 		"daSaoChep": "Đã sao chép",

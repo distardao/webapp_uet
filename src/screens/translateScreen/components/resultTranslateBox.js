@@ -19,6 +19,7 @@ export default function ResultTranslateBox(props) {
 		dispatchNoti(t('Translate.daSaoChep'));
 	};
 
+	// Reset lại box dịch
 	useEffect(() => {
 		if(isEditMode && resultTranslate.result === `${t('Translate.bandich')}`){
 			setEditMode(false);

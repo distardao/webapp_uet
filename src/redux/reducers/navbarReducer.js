@@ -1,4 +1,4 @@
-import { SIDE_BAR_SHOW, SIDE_BAR_HIDE } from '../actionTypes';
+import { SIDE_BAR_SHOW, SIDE_BAR_HIDE } from '../constant/navbarTypes';
 
 const initialState = {
 	shownavbar: false,
