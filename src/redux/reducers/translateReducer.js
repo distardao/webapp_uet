@@ -9,6 +9,7 @@ import {
 	CHANGE_TARGET,
 	SWAP_TRANSLATE,
 	CHANGE_SOURCE_TEXT,
+	CHANGE_TARGET_TEXT,
 	RESET,
 	DISABLEINPUT,
 } from '../constant/translateTypes';
@@ -124,6 +125,16 @@ export default function(state = initialState, action) {
 			translateText: {
 				...state.translateText,
 				sourceText: action.payload.data,
+			},
+		};
+	}
+	case CHANGE_TARGET_TEXT: {
+		return {
+			...state,
+			translateText: {
+				...state.translateText,
+				targetText: action.payload.data,
+				editSourceText: action.payload.data,
 			},
 		};
 	}

@@ -2,12 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { 
 	Row,
 	Col,
-	Button,
 } from 'react-bootstrap';
-import { VscWordWrap } from 'react-icons/vsc';
-// import { BsFileEarmarkText } from 'react-icons/bs';
 import styles from './translateStyle.module.css';
-import { IconButton, Tab, Tabs } from '@mui/material';
+import { IconButton, Tab, Tabs, Button } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { STATE } from '../../redux/reducers/translateReducer';
 import { 
@@ -17,12 +15,12 @@ import {
 	translationAsync, 
 	translationAndDetectAsync,
 	changeSourceText, 
-	translationSuccess,
 	reset,
+	changeTargetText,
 } from '../../redux/actions/translateAction';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import TextareaAutosize from 'react-textarea-autosize';
-// import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import TranslateIcon from '@mui/icons-material/Translate';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTranslation } from 'react-i18next';
 
@@ -49,24 +47,24 @@ function Index() {
 	}, [state.currentState]);
 
 
-	const handleTranslate = (evt) => {
+	const handleChangeSourceText = (evt) => {
 		evt.preventDefault();
 		dispatch(changeSourceText(evt.target.value));
-		if(evt.target.value !== '') {
-			if(state.translateCode.sourceLang){
-				dispatch(translationAsync({
-					sourceText: evt.target.value,
-					sourceLang: state.translateCode.sourceLang,
-					targetLang: state.translateCode.targetLang,
-				}));
-			} else {
-				dispatch(translationAndDetectAsync({
-					sourceText: evt.target.value,
-					targetLang: state.translateCode.targetLang,
-				}));
-			}
+		dispatch(changeTargetText(''));
+	};
+
+	const handleTranslate = () => {
+		if(state.translateCode.sourceLang){
+			dispatch(translationAsync({
+				sourceText: state.translateText.sourceText,
+				sourceLang: state.translateCode.sourceLang,
+				targetLang: state.translateCode.targetLang,
+			}));
 		} else {
-			dispatch(translationSuccess({target_text: ''}));
+			dispatch(translationAndDetectAsync({
+				sourceText: state.translateText.sourceText,
+				targetLang: state.translateCode.targetLang,
+			}));
 		}
 	};
 
@@ -87,8 +85,8 @@ function Index() {
 		inputEl.current.focus();
 	};
 
-	const isShow = () => {
-		if(state.currentState === STATE.LOADING || state.currentState === STATE.DISABLEINPUT) {
+	const isShowCloseButton = () => {
+		if(state.currentState === STATE.LOADING) {
 			return true;
 		}
 		if(state.translateText.sourceText === '') {
@@ -100,23 +98,13 @@ function Index() {
 		return false;
 	};
 
-	const showValueResult = () => {
-		if(state.currentState === STATE.LOADING){
-			return t('Translate.dangNhap');
-		}
-		if(state.currentState === STATE.DISABLEINPUT) {
-			return t('Translate.dangdich');
-		}
-		return state.translateText.targetText;
-	};
-
 	return (
 		<>
 			<div className={styles.outerContainer}>
 				<div className={styles.outerTab} >
-					<Button onClick={() => {}} style={{ display: 'flex', fontSize: 20, fontWeight: 500, marginRight: '20px'}} variant={'primary'}>
+					<Button onClick={() => {}} style={{ fontWeight: 'bold', marginRight: '20px'}} variant={'contained'}>
 						<div style={{paddingRight: 5, alignContent: 'center'}}>
-							<VscWordWrap size={28}/>	
+							<TranslateIcon/>	
 						</div> 
 						{t('Translate.vanban')}
 					</Button>
@@ -168,7 +156,7 @@ function Index() {
 						<Row style={{ minHeight: '150px' }}>
 							<Col md={6} style={{ 
 								borderRight: '1px solid #ccc', 
-								backgroundColor: state.currentState === STATE.DISABLEINPUT ? '#f3f3f3' : 'white'  
+								backgroundColor: state.currentState === STATE.LOADING ? '#f3f3f3' : 'white'  
 							}}>
 								<div style={{ 
 									paddingTop: '10px', 
@@ -179,30 +167,53 @@ function Index() {
 										<TextareaAutosize
 											ref={inputEl}
 											minRows={3}
-											disabled={state.currentState === STATE.DISABLEINPUT}
-											onChange={handleTranslate}
+											disabled={state.currentState === STATE.LOADING}
+											onChange={handleChangeSourceText}
 											value={state.translateText.sourceText}
-											className={[styles.from_language]}/>
+											className={[styles.from_language]}
+											onKeyPress={(e) => e.key === 'Enter' ? handleTranslate() : null }
+											placeholder={t('Translate.nhapVanBan')}
+										/>
 									</div>
 									<div md={1} style={{ padding: '0' }} className={['text-center']}>
-										{!isShow() ? 
+										{!isShowCloseButton() ? 
 											<IconButton aria-label="Example" onClick={handleResetInput}>
 												<CloseIcon fontSize='small'/>
 											</IconButton> : null}
 									</div>
 								</div>
 							</Col>
-		                    <Col md={6} className={styles.ResultTranslateBox} style={{backgroundColor:'white'}}>
-								<div className={styles.boxdich}>
-									<TextareaAutosize
-										disabled={true}
-										minRows={3}
-										style={{backgroundColor: 'white'}}
-										value={showValueResult()}
-										// className={[ state.currentState === STATE.LOADING || state.currentState === STATE.DISABLEINPUT ? styles.resultTranslate_bandich : styles.resultTranslate_dadich]}
-										className={[ styles.resultTranslate_bandich ]}
-									/>
-								</div>
+		                    <Col md={6} className={styles.ResultTranslateBox} 
+								style={{
+									backgroundColor: state.translateText.targetText === '' ? '#f3f3f3' : 'white'
+								}}>
+								{state.translateText.targetText !== '' ?
+									<div className={styles.boxdich}>
+										<TextareaAutosize
+											disabled={true}
+											minRows={3}
+											style={{backgroundColor: 'white'}}
+											value={state.translateText.targetText}
+											className={[ styles.resultTranslate_bandich ]}
+										/> 
+									</div>
+									: <div style={{
+										backgroundColor: state.translateText.targetText === '' ? '#f3f3f3' : 'white' , 
+										display: 'flex', 
+										flex: 1, 
+										alignItems: 'center', 
+										justifyContent: 'center',
+									}}>
+										<LoadingButton 
+											variant="contained" 
+											onClick={handleTranslate}
+											loading={state.currentState === STATE.LOADING}
+											disabled={state.translateText.sourceText === ''}
+										>
+											Dịch
+										</LoadingButton>
+									</div>								
+								}
 							</Col>
 						</Row>
 					</Col> 

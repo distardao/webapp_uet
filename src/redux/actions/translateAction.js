@@ -2,6 +2,7 @@ import {
 	TRANSLATION, 
 	CHANGE_SOURCE, 
 	CHANGE_SOURCE_TEXT,
+	CHANGE_TARGET_TEXT,
 	CHANGE_TARGET, 
 	DETECTLANG,
 	DETECTLANG_FAIL,
@@ -36,6 +37,19 @@ export const reset = () => {
 export const changeSourceText = (data) => {
 	return {
 		type: CHANGE_SOURCE_TEXT,
+		payload: {
+			data
+		}
+	};
+};
+
+
+/**
+ * @description Fix cứng outputText text được nhập vào
+ */
+export const changeTargetText = (data) => {
+	return {
+		type: CHANGE_TARGET_TEXT,
 		payload: {
 			data
 		}
@@ -161,19 +175,24 @@ export function detectLangFailed(err) {
  * Đặt thời gian mỗi lần gọi lại API 
  * ! => tránh việc gọi liên tục và ko cần thiết
  */
-const recursiveCheckStatus = async (translationHistoryId, taskId) => {
+const recursiveCheckStatus = async (translationHistoryId, taskId, time) => {
 	const getTranslationHistoryResult = await axiosHelper.getTranslateHistoryGetSingle({
 		translationHistoryId,
 		taskId,
 	});
 	if(getTranslationHistoryResult.data.status === STATUS.TRANSLATING){
-		// return await promiseHisoryResult(translationHistoryId, taskId);
-		return new Promise((resolve) => {
+		return new Promise((resolve, reject) => {
 			setTimeout(async () => {
-				const getTranslationHistoryResult = await recursiveCheckStatus(translationHistoryId, taskId);
-				resolve(getTranslationHistoryResult);
+				// 5 * 1000 = 5 sec
+				if (time !== 5) {
+					time += 1;
+					const getTranslationHistoryResult = await recursiveCheckStatus(translationHistoryId, taskId, time);
+					resolve(getTranslationHistoryResult);
+				} else {
+					reject('Time Out');
+				}
 			}, 1000);
-		});
+		}).catch(e => new Error(e));
 	} else {
 		return getTranslationHistoryResult;
 	}
@@ -185,15 +204,23 @@ const recursiveCheckStatus = async (translationHistoryId, taskId) => {
  */
 const debouncedTranslate = debounce(async (body, dispatch) => {
 	try {
-		dispatch(disableInput());
+		let time = 1;
 		const postTranslationResult = await axiosHelper.postTranslate(body);
-		const getTranslationHistoryResult = await recursiveCheckStatus(postTranslationResult.data.translationHitoryId, postTranslationResult.data.taskId);
-		const getTranslationResult = await axiosHelper.getTranslateResult(getTranslationHistoryResult.data.resultUrl);
-		dispatch(translationSuccess(getTranslationResult));
+		const getTranslationHistoryResult = await recursiveCheckStatus(
+			postTranslationResult.data.translationHitoryId, 
+			postTranslationResult.data.taskId, 
+			time
+		);		
+		if(getTranslationHistoryResult.message === 'Time Out'){
+			dispatch(detectLangFailed(getTranslationHistoryResult.message));
+		} else {
+			const getTranslationResult = await axiosHelper.getTranslateResult(getTranslationHistoryResult.data.resultUrl);
+			dispatch(detectLangSuccess(getTranslationResult));
+		}
 	} catch(error) {
 		dispatch(translationFailed(error));
 	}
-}, 1000);
+}, 0);
 
 /**
  * @description Thunk function cho việc dịch từ và lấy kết quả
@@ -208,15 +235,23 @@ export const translationAsync = (body) => (dispatch) => {
 
 const debouncedTranslateAndDetect = debounce(async (body, dispatch) => {
 	try {
-		dispatch(disableInput());
+		let time = 1;
 		const postTranslationResult = await axiosHelper.postTranslate(body);
-		const getTranslationHistoryResult = await recursiveCheckStatus(postTranslationResult.data.translationHitoryId, postTranslationResult.data.taskId);
-		const getTranslationResult = await axiosHelper.getTranslateResult(getTranslationHistoryResult.data.resultUrl);
-		dispatch(detectLangSuccess(getTranslationResult));
+		const getTranslationHistoryResult = await recursiveCheckStatus(
+			postTranslationResult.data.translationHitoryId, 
+			postTranslationResult.data.taskId, 
+			time
+		);
+		if(getTranslationHistoryResult.message === 'Time Out'){
+			dispatch(detectLangFailed(getTranslationHistoryResult.message));
+		} else {
+			const getTranslationResult = await axiosHelper.getTranslateResult(getTranslationHistoryResult.data.resultUrl);
+			dispatch(detectLangSuccess(getTranslationResult));
+		}
 	} catch(error) {
 		dispatch(detectLangFailed(error));
 	}
-}, 1000);
+}, 0);
 
 /**
  * @description Thunk function cho việc dịch từ và lấy kết quả
