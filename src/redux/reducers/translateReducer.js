@@ -25,7 +25,7 @@ export const STATE = {
 const initialState = {
 	currentState: STATE.INIT,
 	translateCode: {
-		sourceLang: null,
+		sourceLang: 'vi',
 		targetLang: 'zh',
 	},
 	translateText: {
