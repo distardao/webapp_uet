@@ -46,14 +46,24 @@ function Index() {
 		}
 	}, [state.currentState]);
 
-
+	/**
+ 	* @description Function thay đổi source text, đồng thời reset lại target text
+ 	*/
 	const handleChangeSourceText = (evt) => {
 		evt.preventDefault();
 		dispatch(changeSourceText(evt.target.value));
 		dispatch(changeTargetText(''));
 	};
 
+	/**
+ 	* @description Function dịch từ, (Ấn enter hoặc ấn nút dịch từ)
+	* 1. Trong trường hợp có kết quả dịch => reset lại kết quả dịch về rỗng => gọi lại dịch
+	* 2. Còn lại thì dịch vs 2 TH => sourcelang === null (Nhận dạng ngôn ngữ) và sourcelang === vi,cn .. 
+ 	*/
 	const handleTranslate = () => {
+		if( state.translateText.targetText !== '' ){
+			dispatch(changeTargetText(''));
+		}
 		if(state.translateCode.sourceLang){
 			dispatch(translationAsync({
 				sourceText: state.translateText.sourceText,
@@ -68,23 +78,64 @@ function Index() {
 		}
 	};
 
+	
+	/**
+ 	* @description Function thay đổi ngôn ngữ source
+	* Trong TH đã có kết quả dịch, sẽ reset kết quả về rỗng
+ 	*/
 	const handleChange = (event, newValue) => {
 		dispatch(changeSource(newValue));
+		if( state.translateText.targetText !== '' ){
+			dispatch(changeTargetText(''));
+		}
 	};
 
+	/**
+ 	* @description Function thay đổi ngôn ngữ target, 2 TH: 
+	* 1. Có kết quả dịch => reset lại target text => gọi lại hàm dịch.
+	* 2. Ko có kết quả dịch => không gọi lại hàm dịch.
+ 	*/
 	const handleChangeTo = (event, newValue) => {
 		dispatch(changeTarget(newValue));
+		if( state.translateText.targetText !== '' ){
+			dispatch(changeTargetText(''));
+			if(state.translateCode.sourceLang){
+				dispatch(translationAsync({
+					sourceText: state.translateText.sourceText,
+					sourceLang: state.translateCode.sourceLang,
+					targetLang: newValue,
+				}));
+			} else {
+				dispatch(translationAndDetectAsync({
+					sourceText: state.translateText.sourceText,
+					targetLang: newValue,
+				}));
+			}
+		}
 	};
 
+	/**
+ 	* @description Function hoán đổi loại ngôn ngữ
+ 	*/
 	const handleSwap = () => {
 		dispatch(swapTranslate(state.translateCode.targetLang,state.translateCode.sourceLang));
+		if( state.translateText.targetText !== '' ){
+			dispatch(changeSourceText(state.translateText.targetText));
+			dispatch(changeTargetText(state.translateText.sourceText));
+		}
 	};
 
+	/**
+ 	* @description Function reset text nhập vào về rỗng => reset cả output text về rỗng
+ 	*/
 	const handleResetInput = () => {
 		dispatch(reset());
 		inputEl.current.focus();
 	};
 
+	/**
+ 	* @description Function check điều kiện để hiển thị nút x
+ 	*/
 	const isShowCloseButton = () => {
 		if(state.currentState === STATE.LOADING) {
 			return true;
@@ -116,7 +167,7 @@ function Index() {
 					</Button> */}
 				</div>
 				<div className={styles.content} >
-					<div style={{ padding: '0px 20px', borderBottom: '1px solid #ccc', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}} >
+					<div style={{ borderBottom: '1px solid #ccc', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}} >
 						{/* ChooseLang */}
 						<div style={{ flex: 1, display: 'flex', overflow:'auto', whiteSpace: 'nowrap'}}>
 							<Tabs 
@@ -125,15 +176,15 @@ function Index() {
 								variant="scrollable"
 								scrollButtons="auto"
 							>
-								<Tab label={t('Translate.phathienngonngu')} value={null} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={state.isSwap} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={!state.isSwap} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={!state.isSwap} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={!state.isSwap}style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.phathienngonngu')} value={null} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={!state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={!state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={!state.isSwap || state.currentState === STATE.LOADING}style={{fontWeight: 'bold'}}/>
 							</Tabs>
 						</div>
 						<div style={{  alignSelf: 'center'}}>
-							<IconButton aria-label="Example" onClick={handleSwap} disabled={state.translateCode.sourceLang === null}>
+							<IconButton aria-label="Example" onClick={handleSwap} disabled={state.translateCode.sourceLang === null || state.currentState === STATE.LOADING}>
 								<SwapHorizIcon fontSize='medium'/>
 							</IconButton>
 						</div>
@@ -144,10 +195,10 @@ function Index() {
 								variant="scrollable"
 								scrollButtons="auto"
 							>
-								<Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={!state.isSwap} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={state.isSwap} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={state.isSwap} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={state.isSwap} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={!state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
 							</Tabs>
 						</div>
 					</div>
