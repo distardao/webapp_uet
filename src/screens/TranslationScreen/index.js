@@ -8,6 +8,7 @@ import { IconButton, Tab, Tabs, Button } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { STATE } from '../../redux/reducers/translateReducer';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { 
 	changeSource, 
 	changeTarget, 
@@ -239,14 +240,21 @@ function Index() {
 									backgroundColor: state.translateText.targetText === '' ? '#f3f3f3' : 'white'
 								}}>
 								{state.translateText.targetText !== '' ?
-									<div className={styles.boxdich}>
-										<TextareaAutosize
-											disabled={true}
-											minRows={3}
-											style={{backgroundColor: 'white'}}
-											value={state.translateText.targetText}
-											className={[ styles.resultTranslate_bandich ]}
-										/> 
+									<div>
+										<div className={styles.boxdich}>
+											<TextareaAutosize
+												disabled={true}
+												minRows={3}
+												style={{backgroundColor: 'white'}}
+												value={state.translateText.targetText}
+												className={[ styles.resultTranslate_bandich ]}
+											/> 
+										</div>
+										<div style={{ justifyContent: 'end', display: 'flex', paddingBottom: 5}}>
+											<IconButton aria-label="Example" onClick={() => navigator.clipboard.writeText(state.translateText.targetText)}>
+												<ContentCopyIcon fontSize='medium'/>
+											</IconButton>
+										</div>
 									</div>
 									: <div style={{
 										backgroundColor: state.translateText.targetText === '' ? '#f3f3f3' : 'white' , 

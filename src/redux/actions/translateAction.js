@@ -233,6 +233,10 @@ export const translationAsync = (body) => (dispatch) => {
 	}
 };
 
+/**
+ * @description Nhập từ input => đợi 1 khoảng thời gian đẻ nhận text
+ * ! Tránh việc gọi API ko cần thiêt và liên tục
+ */
 const debouncedTranslateAndDetect = debounce(async (body, dispatch) => {
 	try {
 		let time = 1;
@@ -246,7 +250,11 @@ const debouncedTranslateAndDetect = debounce(async (body, dispatch) => {
 			dispatch(detectLangFailed(getTranslationHistoryResult.message));
 		} else {
 			const getTranslationResult = await axiosHelper.getTranslateResult(getTranslationHistoryResult.data.resultUrl);
-			dispatch(detectLangSuccess(getTranslationResult));
+			if (getTranslationResult.status === 'closed'){
+				dispatch(detectLangFailed(getTranslationResult.message));
+			} else {
+				dispatch(detectLangSuccess(getTranslationResult));
+			}
 		}
 	} catch(error) {
 		dispatch(detectLangFailed(error));
