@@ -179,6 +179,7 @@ function Index() {
 							>
 								<Tab label={t('Translate.phathienngonngu')} value={null} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
 								<Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.anh')} value={'en'} disabled={!state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
 								<Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={!state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
 								<Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={!state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
 								<Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={!state.isSwap || state.currentState === STATE.LOADING}style={{fontWeight: 'bold'}}/>
@@ -197,6 +198,7 @@ function Index() {
 								scrollButtons="auto"
 							>
 								<Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={!state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.anh')} value={'en'} disabled={state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
 								<Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
 								<Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
 								<Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
