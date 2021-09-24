@@ -129,8 +129,6 @@ const DoHaveDictData = () => {
 };
 
 export default function HistoryTranslate() {
-
-
 	const { t } = useTranslation();
 	const [reload, setReload] = useState(false);
 	useContext(ReloadContext);
