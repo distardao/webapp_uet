@@ -4,7 +4,8 @@ import {
 	Col,
 } from 'react-bootstrap';
 import styles from './translateStyle.module.css';
-import { IconButton, Tab, Tabs, Button, CircularProgress } from '@mui/material';
+import { IconButton, Tab, Button, CircularProgress } from '@mui/material';
+import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { STATE } from '../../redux/reducers/translateReducer';
@@ -86,7 +87,7 @@ function Index() {
  	* @description Function thay đổi loại ngôn ngữ source
 	* Trong TH đã có kết quả dịch, sẽ reset kết quả về rỗng
  	*/
-	const handleChange = (event, newValue) => {
+	const handleChangeFrom = (event, newValue) => {
 		dispatch(changeSource(newValue));
 		// if( state.translateText.targetText !== '' ){
 		// 	dispatch(changeTargetText(''));
@@ -184,16 +185,21 @@ function Index() {
 						<div style={{ flex: 1, display: 'flex', overflow:'auto', whiteSpace: 'nowrap'}}>
 							<Tabs 
 								value={state.translateCode.sourceLang} 
-								onChange={handleChange} 
+								onChange={handleChangeFrom} 
 								variant="scrollable"
-								scrollButtons="auto"
+								scrollButtons='auto'
+								sx={{
+									[`& .${tabsClasses.scrollButtons}`]: {
+									  '&.Mui-disabled': { opacity: 0.3 },
+									},
+								  }}
 							>
 								<Tab label={t('Translate.phathienngonngu')} value={null} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.anh')} value={'en'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={state.currentState === STATE.LOADING}style={{fontWeight: 'bold'}}/>
+								{state.isSwap ? <Tab label={t('Translate.listLanguage.anh')} value={'en'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
+								{state.isSwap ? <Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
+								{state.isSwap ? <Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
+								{state.isSwap ? <Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={state.currentState === STATE.LOADING}style={{fontWeight: 'bold'}}/> : null}
+								{!state.isSwap ? <Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
 							</Tabs>
 						</div>
 						<div style={{  alignSelf: 'center'}}>
@@ -206,13 +212,18 @@ function Index() {
 								value={state.translateCode.targetLang} 
 								onChange={handleChangeTo} 
 								variant="scrollable"
-								scrollButtons="auto"
+								scrollButtons='auto'
+								sx={{
+									[`& .${tabsClasses.scrollButtons}`]: {
+									  '&.Mui-disabled': { opacity: 0.3 },
+									},
+								  }}
 							>
-								<Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.anh')} value={'en'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								{!state.isSwap ? <Tab label={t('Translate.listLanguage.anh')} value={'en'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
+								{!state.isSwap ? <Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
+								{!state.isSwap ? <Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
+								{!state.isSwap ? <Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={state.currentState === STATE.LOADING}style={{fontWeight: 'bold'}}/> : null}
+								{state.isSwap ? <Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
 							</Tabs>
 						</div>
 					</div>
