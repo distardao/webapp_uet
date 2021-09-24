@@ -4,7 +4,7 @@ import {
 	Col,
 } from 'react-bootstrap';
 import styles from './translateStyle.module.css';
-import { IconButton, Tab, Tabs, Button } from '@mui/material';
+import { IconButton, Tab, Tabs, Button, CircularProgress } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { STATE } from '../../redux/reducers/translateReducer';
@@ -53,7 +53,9 @@ function Index() {
 	const handleChangeSourceText = (evt) => {
 		evt.preventDefault();
 		dispatch(changeSourceText(evt.target.value));
-		dispatch(changeTargetText(''));
+		if(evt.target.value === ''){
+			dispatch(changeTargetText(''));
+		}
 	};
 
 	/**
@@ -81,14 +83,14 @@ function Index() {
 
 	
 	/**
- 	* @description Function thay đổi ngôn ngữ source
+ 	* @description Function thay đổi loại ngôn ngữ source
 	* Trong TH đã có kết quả dịch, sẽ reset kết quả về rỗng
  	*/
 	const handleChange = (event, newValue) => {
 		dispatch(changeSource(newValue));
-		if( state.translateText.targetText !== '' ){
-			dispatch(changeTargetText(''));
-		}
+		// if( state.translateText.targetText !== '' ){
+		// 	dispatch(changeTargetText(''));
+		// }
 	};
 
 	/**
@@ -154,7 +156,16 @@ function Index() {
 		<>
 			<div className={styles.outerContainer}>
 				<div className={styles.outerTab} >
-					<Button onClick={() => {}} style={{ fontWeight: 'bold', marginRight: '20px'}} variant={'contained'}>
+					<LoadingButton 
+						variant="contained" 
+						onClick={handleTranslate}
+						// loading={state.currentState === STATE.LOADING}
+						disabled={state.translateText.sourceText === '' || state.currentState === STATE.LOADING}
+						style={{ fontWeight: 'bold', marginRight: '20px', display: 'flex'}}
+					>
+						Dịch
+					</LoadingButton>
+					<Button onClick={() => {}} style={{ fontWeight: 'bold', marginRight: '20px', display: 'flex'}} variant={'contained'}>
 						<div style={{paddingRight: 5, alignContent: 'center'}}>
 							<TranslateIcon/>	
 						</div> 
@@ -178,11 +189,11 @@ function Index() {
 								scrollButtons="auto"
 							>
 								<Tab label={t('Translate.phathienngonngu')} value={null} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.anh')} value={'en'} disabled={!state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={!state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={!state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={!state.isSwap || state.currentState === STATE.LOADING}style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.anh')} value={'en'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={state.currentState === STATE.LOADING}style={{fontWeight: 'bold'}}/>
 							</Tabs>
 						</div>
 						<div style={{  alignSelf: 'center'}}>
@@ -197,11 +208,11 @@ function Index() {
 								variant="scrollable"
 								scrollButtons="auto"
 							>
-								<Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={!state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.anh')} value={'en'} disabled={state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
-								<Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={state.isSwap || state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.anh')} value={'en'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
 							</Tabs>
 						</div>
 					</div>
@@ -237,7 +248,9 @@ function Index() {
 									</div>
 								</div>
 							</Col>
-		                    <Col md={6} className={styles.ResultTranslateBox} 
+		                    <Col 
+								md={6} 
+								className={styles.ResultTranslateBox} 
 								style={{
 									backgroundColor: state.translateText.targetText === '' ? '#f3f3f3' : 'white'
 								}}>
@@ -264,16 +277,9 @@ function Index() {
 										flex: 1, 
 										alignItems: 'center', 
 										justifyContent: 'center',
-									}}>
-										<LoadingButton 
-											variant="contained" 
-											onClick={handleTranslate}
-											loading={state.currentState === STATE.LOADING}
-											disabled={state.translateText.sourceText === ''}
-										>
-											Dịch
-										</LoadingButton>
-									</div>								
+									}}>	
+										{state.currentState === STATE.LOADING ? <CircularProgress /> : null}
+									</div>
 								}
 							</Col>
 						</Row>

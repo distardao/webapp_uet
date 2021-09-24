@@ -25,15 +25,15 @@ export const STATE = {
 const initialState = {
 	currentState: STATE.INIT,
 	translateCode: {
-		sourceLang: 'vi',
-		targetLang: 'zh',
+		sourceLang: 'en',
+		targetLang: 'vi',
 	},
 	translateText: {
 		sourceText: '',
 		targetText: '',
 		editSourceText: '',
 	},
-	isSwap: false,
+	isSwap: true,
 	err: null,
 };
 
