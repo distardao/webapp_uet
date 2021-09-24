@@ -56,6 +56,22 @@ export const getTranslateResult = (resultUrl) => {
 	});
 };
 
+export const getHistory = (params) => {
+	return new Promise((resolve, reject) => {
+		axiosDefault({
+			url: 'translation-history',
+			method: 'GET',
+			params,
+		})
+			.then((result) => {
+				resolve(result.data);
+			})
+			.catch((error) => {
+				reject(error);
+			});
+	});	
+};
+
 // -------------- API từ dưới xuống là của http://nmtuet.ddns.net:1710/ ------------- //
 
 // sample data
