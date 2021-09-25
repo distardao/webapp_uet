@@ -4,7 +4,7 @@ import {
 	Col,
 } from 'react-bootstrap';
 import styles from './translateStyle.module.css';
-import { IconButton, Tab, Button, CircularProgress } from '@mui/material';
+import { IconButton, Tab, Button, Skeleton, Fab } from '@mui/material';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useSelector, useDispatch } from 'react-redux';
@@ -23,10 +23,12 @@ import {
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import TextareaAutosize from 'react-textarea-autosize';
 import TranslateIcon from '@mui/icons-material/Translate';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTranslation } from 'react-i18next';
+import ScrollTop from '../../components/ScrollTop';
 
-function Index() {
+function Index(props) {
 	const inputEl = useRef(null);
 	const state = useSelector(state => state.translateReducer);
 	const dispatch = useDispatch();
@@ -160,7 +162,7 @@ function Index() {
 					<LoadingButton 
 						variant="contained" 
 						onClick={handleTranslate}
-						// loading={state.currentState === STATE.LOADING}
+						loading={state.currentState === STATE.LOADING}
 						disabled={state.translateText.sourceText === '' || state.currentState === STATE.LOADING}
 						style={{ fontWeight: 'bold', marginRight: '20px', display: 'flex'}}
 					>
@@ -172,12 +174,6 @@ function Index() {
 						</div> 
 						{t('Translate.vanban')}
 					</Button>
-					{/* <Button onClick={() => {}} style={{ display: 'flex', fontSize: 20, fontWeight: 500 }} variant={'primary'}>
-						<div style={{paddingRight: 5, alignContent: 'center'}}>
-							<BsFileEarmarkText size={28}/> 
-						</div> 
-						{t('Translate.tailieu')}
-					</Button> */}
 				</div>
 				<div className={styles.content} >
 					<div style={{ borderBottom: '1px solid #ccc', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}} >
@@ -247,7 +243,7 @@ function Index() {
 											onChange={handleChangeSourceText}
 											value={state.translateText.sourceText}
 											className={[styles.from_language]}
-											onKeyPress={(e) => e.key === 'Enter' ? handleTranslate() : null }
+											// onKeyPress={(e) => e.key === 'Enter' ? handleTranslate() : null }
 											placeholder={t('Translate.nhapVanBan')}
 										/>
 									</div>
@@ -259,40 +255,41 @@ function Index() {
 									</div>
 								</div>
 							</Col>
-		                    <Col 
-								md={6} 
-								className={styles.ResultTranslateBox} 
-								style={{
-									backgroundColor: state.translateText.targetText === '' ? '#f3f3f3' : 'white'
-								}}>
-								{state.translateText.targetText !== '' ?
-									<div>
-										<div className={styles.boxdich}>
-											<TextareaAutosize
-												disabled={true}
-												minRows={3}
-												style={{backgroundColor: 'white'}}
-												value={state.translateText.targetText}
-												className={[ styles.resultTranslate_bandich ]}
-											/> 
+							{state.currentState !== STATE.LOADING ? 
+								<Col 
+									md={6} 
+									className={styles.ResultTranslateBox} 
+									style={{
+										backgroundColor: state.translateText.targetText === '' ? '#f3f3f3' : 'white'
+									}}>
+									{state.translateText.targetText !== '' ?
+										<div>
+											<div className={styles.boxdich}>
+												<TextareaAutosize
+													disabled={true}
+													minRows={3}
+													style={{backgroundColor: 'white'}}
+													value={state.translateText.targetText}
+													className={[ styles.resultTranslate_bandich ]}
+												/> 
+											</div>
+											<div style={{ justifyContent: 'end', display: 'flex', paddingBottom: 5}}>
+												<IconButton aria-label="Example" onClick={() => navigator.clipboard.writeText(state.translateText.targetText)}>
+													<ContentCopyIcon fontSize='medium'/>
+												</IconButton>
+											</div>
 										</div>
-										<div style={{ justifyContent: 'end', display: 'flex', paddingBottom: 5}}>
-											<IconButton aria-label="Example" onClick={() => navigator.clipboard.writeText(state.translateText.targetText)}>
-												<ContentCopyIcon fontSize='medium'/>
-											</IconButton>
-										</div>
-									</div>
-									: <div style={{
-										backgroundColor: state.translateText.targetText === '' ? '#f3f3f3' : 'white' , 
-										display: 'flex', 
-										flex: 1, 
-										alignItems: 'center', 
-										justifyContent: 'center',
-									}}>	
-										{state.currentState === STATE.LOADING ? <CircularProgress /> : null}
-									</div>
-								}
-							</Col>
+										: <div style={{
+											backgroundColor: state.translateText.targetText === '' ? '#f3f3f3' : 'white' , 
+											display: 'flex', 
+											flex: 1, 
+										}}/>	
+									}
+								</Col>
+								: <Col md={6} style={{backgroundColor: '#f3f3f3', padding: 0}}>
+									<Skeleton animation="wave" variant="rectangular" sx={{display: 'flex', flex: 1, height: '100%' }}/>
+								</Col>
+							}
 						</Row>
 					</Col> 
 				</div>
@@ -301,6 +298,11 @@ function Index() {
 						Gửi phản hồi
 					</button>
 				</div>
+				<ScrollTop {...props}>
+					<Fab color="primary" size="small" aria-label="scroll back to top">
+						<KeyboardArrowUpIcon />
+					</Fab>
+				</ScrollTop>
 			</div>
 		</>
 	);
