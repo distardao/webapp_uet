@@ -181,16 +181,16 @@ const recursiveCheckStatus = async (translationHistoryId, taskId, time) => {
 		taskId,
 	});
 	if(getTranslationHistoryResult.data.status === STATUS.TRANSLATING){
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			setTimeout(async () => {
-				// 5 * 1000 = 5 sec
-				if (time !== 5) {
-					time += 1;
-					const getTranslationHistoryResult = await recursiveCheckStatus(translationHistoryId, taskId, time);
-					resolve(getTranslationHistoryResult);
-				} else {
-					reject('Time Out');
-				}
+				// 10 * 1000 = 10 sec
+				// if (time !== 10) {
+				// time += 1;
+				const getTranslationHistoryResult = await recursiveCheckStatus(translationHistoryId, taskId, time);
+				resolve(getTranslationHistoryResult);
+				// } else {
+				// reject('Time Out');
+				// }
 			}, 1000);
 		}).catch(e => new Error(e));
 	} else {
@@ -212,10 +212,14 @@ const debouncedTranslate = debounce(async (body, dispatch) => {
 			time
 		);		
 		if(getTranslationHistoryResult.message === 'Time Out'){
-			dispatch(detectLangFailed(getTranslationHistoryResult.message));
+			dispatch(translationFailed(getTranslationHistoryResult.message));
 		} else {
 			const getTranslationResult = await axiosHelper.getTranslateResult(getTranslationHistoryResult.data.resultUrl);
-			dispatch(detectLangSuccess(getTranslationResult));
+			if (getTranslationResult.status === 'closed'){
+				dispatch(translationFailed(getTranslationHistoryResult.message));
+			}else{
+				dispatch(translationSuccess(getTranslationResult));
+			}
 		}
 	} catch(error) {
 		dispatch(translationFailed(error));
