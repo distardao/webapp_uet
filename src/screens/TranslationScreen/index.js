@@ -58,7 +58,10 @@ function Index(props) {
 	const handleChangeSourceText = (evt) => {
 		evt.preventDefault();
 		dispatch(changeSourceText(evt.target.value));
-		if(evt.target.value === ''){
+		// if(evt.target.value === ''){
+		// 	dispatch(changeTargetText(''));
+		// }
+		if( state.translateText.targetText !== '' ){
 			dispatch(changeTargetText(''));
 		}
 	};
@@ -93,9 +96,9 @@ function Index(props) {
  	*/
 	const handleChangeFrom = (event, newValue) => {
 		dispatch(changeSource(newValue));
-		// if( state.translateText.targetText !== '' ){
-		// 	dispatch(changeTargetText(''));
-		// }
+		if( state.translateText.targetText !== '' ){
+			dispatch(changeTargetText(''));
+		}
 	};
 
 	/**
@@ -198,11 +201,11 @@ function Index(props) {
 									value={null} disabled={state.currentState === STATE.LOADING} 
 									style={{fontWeight: 'bold'}}
 								/>
-								{state.isSwap || state.detectLang === 'en' ? <Tab label={t('Translate.listLanguage.anh')} value={'en'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
-								{state.isSwap || state.detectLang === 'zh' ? <Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
-								{state.isSwap || state.detectLang === 'lo' ? <Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
-								{state.isSwap || state.detectLang === 'km'? <Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={state.currentState === STATE.LOADING}style={{fontWeight: 'bold'}}/> : null}
-								{!state.isSwap || state.detectLang === 'vi'? <Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
+								{state.isSwap ? <Tab label={t('Translate.listLanguage.anh')} value={'en'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
+								{state.isSwap ? <Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
+								{state.isSwap ? <Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
+								{state.isSwap ? <Tab label={t('Translate.listLanguage.khome')} value={'km'} disabled={state.currentState === STATE.LOADING}style={{fontWeight: 'bold'}}/> : null}
+								{!state.isSwap ? <Tab label={t('Translate.listLanguage.viet')} value={'vi'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
 							</Tabs>
 						</div>
 						<div style={{  alignSelf: 'center'}}>
