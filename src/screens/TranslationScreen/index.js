@@ -4,7 +4,7 @@ import {
 	Col,
 } from 'react-bootstrap';
 import styles from './translateStyle.module.css';
-import { IconButton, Tab, Button, Skeleton, Fab } from '@mui/material';
+import { IconButton, Tab, Button, Fab, Tooltip } from '@mui/material';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useSelector, useDispatch } from 'react-redux';
@@ -20,6 +20,8 @@ import {
 	reset,
 	changeTargetText,
 } from '../../redux/actions/translateAction';
+import PageviewIcon from '@mui/icons-material/Pageview';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import TextareaAutosize from 'react-textarea-autosize';
 import TranslateIcon from '@mui/icons-material/Translate';
@@ -56,7 +58,10 @@ function Index(props) {
 	const handleChangeSourceText = (evt) => {
 		evt.preventDefault();
 		dispatch(changeSourceText(evt.target.value));
-		if(evt.target.value === ''){
+		// if(evt.target.value === ''){
+		// 	dispatch(changeTargetText(''));
+		// }
+		if( state.translateText.targetText !== '' ){
 			dispatch(changeTargetText(''));
 		}
 	};
@@ -91,9 +96,9 @@ function Index(props) {
  	*/
 	const handleChangeFrom = (event, newValue) => {
 		dispatch(changeSource(newValue));
-		// if( state.translateText.targetText !== '' ){
-		// 	dispatch(changeTargetText(''));
-		// }
+		if( state.translateText.targetText !== '' ){
+			dispatch(changeTargetText(''));
+		}
 	};
 
 	/**
@@ -159,20 +164,17 @@ function Index(props) {
 		<>
 			<div className={styles.outerContainer}>
 				<div className={styles.outerTab} >
-					<LoadingButton 
-						variant="contained" 
-						onClick={handleTranslate}
-						loading={state.currentState === STATE.LOADING}
-						disabled={state.translateText.sourceText === '' || state.currentState === STATE.LOADING}
-						style={{ fontWeight: 'bold', marginRight: '20px', display: 'flex'}}
-					>
-						Dịch
-					</LoadingButton>
-					<Button onClick={() => {}} style={{ fontWeight: 'bold', marginRight: '20px', display: 'flex'}} variant={'contained'}>
+					<Button onClick={() => {}} style={{ fontWeight: 'bold', marginRight: '20px', display: 'flex', backgroundColor: 'white', color: 'grey'}} variant={'contained'}>
 						<div style={{paddingRight: 5, alignContent: 'center'}}>
 							<TranslateIcon/>	
 						</div> 
 						{t('Translate.vanban')}
+					</Button>
+					<Button onClick={() => {}} style={{ fontWeight: 'bold', marginRight: '20px', display: 'flex'}} variant={'contained'} disabled>
+						<div style={{paddingRight: 5, alignContent: 'center'}}>
+							<InsertDriveFileIcon/>	
+						</div> 
+						{t('Translate.tailieu')}
 					</Button>
 				</div>
 				<div className={styles.content} >
@@ -190,7 +192,15 @@ function Index(props) {
 									},
 								  }}
 							>
-								<Tab label={t('Translate.phathienngonngu')} value={null} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/>
+								<Tab
+									icon={<Tooltip title={t('Translate.phathienngonngu')}><PageviewIcon fontSize='medium'/></Tooltip>} 
+									sx={{
+										minWidth: 'auto',
+										// minHeight: 'auto',
+									}}
+									value={null} disabled={state.currentState === STATE.LOADING} 
+									style={{fontWeight: 'bold'}}
+								/>
 								{state.isSwap ? <Tab label={t('Translate.listLanguage.anh')} value={'en'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
 								{state.isSwap ? <Tab label={t('Translate.listLanguage.trung')} value={'zh'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
 								{state.isSwap ? <Tab label={t('Translate.listLanguage.lao')} value={'lo'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}
@@ -255,41 +265,53 @@ function Index(props) {
 									</div>
 								</div>
 							</Col>
-							{state.currentState !== STATE.LOADING ? 
-								<Col 
-									md={6} 
-									className={styles.ResultTranslateBox} 
-									style={{
-										backgroundColor: state.translateText.targetText === '' ? '#f3f3f3' : 'white'
-									}}>
-									{state.translateText.targetText !== '' ?
-										<div>
-											<div className={styles.boxdich}>
-												<TextareaAutosize
-													disabled={true}
-													minRows={3}
-													style={{backgroundColor: 'white'}}
-													value={state.translateText.targetText}
-													className={[ styles.resultTranslate_bandich ]}
-												/> 
-											</div>
-											<div style={{ justifyContent: 'end', display: 'flex', paddingBottom: 5}}>
-												<IconButton aria-label="Example" onClick={() => navigator.clipboard.writeText(state.translateText.targetText)}>
-													<ContentCopyIcon fontSize='medium'/>
-												</IconButton>
-											</div>
+							{/* {state.currentState !== STATE.LOADING ?  */}
+							<Col 
+								md={6} 
+								className={styles.ResultTranslateBox} 
+								style={{
+									backgroundColor: state.translateText.targetText === '' ? '#f3f3f3' : 'white'
+								}}>
+								{state.translateText.targetText !== '' ?
+									<div>
+										<div className={styles.boxdich}>
+											<TextareaAutosize
+												disabled={true}
+												minRows={3}
+												style={{backgroundColor: 'white'}}
+												value={state.translateText.targetText}
+												className={[ styles.resultTranslate_bandich ]}
+											/> 
 										</div>
-										: <div style={{
-											backgroundColor: state.translateText.targetText === '' ? '#f3f3f3' : 'white' , 
-											display: 'flex', 
-											flex: 1, 
-										}}/>	
-									}
-								</Col>
-								: <Col md={6} style={{backgroundColor: '#f3f3f3', padding: 0}}>
+										<div style={{ justifyContent: 'end', display: 'flex', paddingBottom: 5}}>
+											<IconButton aria-label="Example" onClick={() => navigator.clipboard.writeText(state.translateText.targetText)}>
+												<ContentCopyIcon fontSize='medium'/>
+											</IconButton>
+										</div>
+									</div>
+									: <div style={{
+										backgroundColor: state.translateText.targetText === '' ? '#f3f3f3' : 'white' , 
+										display: 'flex', 
+										paddingTop: 10,
+										paddingBottom: 10,
+										justifyContent: 'start'
+									}}>
+										<LoadingButton 
+											variant="contained" 
+											onClick={handleTranslate}
+											loading={state.currentState === STATE.LOADING}
+											disabled={state.translateText.sourceText === '' || state.currentState === STATE.LOADING}
+											style={{ fontWeight: 'bold', display: 'flex'}}
+										>
+											Dịch
+										</LoadingButton>
+									</div>	
+								}
+							</Col>
+							{/* : <Col md={6} style={{backgroundColor: '#f3f3f3', padding: 0}}>
 									<Skeleton animation="wave" variant="rectangular" sx={{display: 'flex', flex: 1, height: '100%' }}/>
 								</Col>
-							}
+							} */}
 						</Row>
 					</Col> 
 				</div>
@@ -299,7 +321,7 @@ function Index(props) {
 					</button>
 				</div>
 				<ScrollTop {...props}>
-					<Fab color="primary" size="small" aria-label="scroll back to top">
+					<Fab color="primary" size="medium" aria-label="scroll back to top">
 						<KeyboardArrowUpIcon />
 					</Fab>
 				</ScrollTop>
