@@ -19,6 +19,7 @@ import {
 	changeSourceText, 
 	reset,
 	changeTargetText,
+	changeDetectLang,
 } from '../../redux/actions/translateAction';
 import PageviewIcon from '@mui/icons-material/Pageview';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
@@ -96,7 +97,8 @@ function Index(props) {
  	*/
 	const handleChangeFrom = (event, newValue) => {
 		dispatch(changeSource(newValue));
-		if( state.translateText.targetText !== '' ){
+		dispatch(changeDetectLang(null));
+		if( state.translateText.targetText !== ''){
 			dispatch(changeTargetText(''));
 		}
 	};
@@ -193,12 +195,14 @@ function Index(props) {
 								  }}
 							>
 								<Tab
-									icon={<Tooltip title={t('Translate.phathienngonngu')}><PageviewIcon fontSize='medium'/></Tooltip>} 
+									icon={<Tooltip title={t('Translate.phathienngonngu')}><PageviewIcon fontSize='medium'/></Tooltip>}
+									label={state.translateCode.detectLang ? t(state.translateCode.detectLang) : null}
 									sx={{
 										minWidth: 'auto',
-										// minHeight: 'auto',
+										minHeight: 'auto',
 									}}
-									value={null} disabled={state.currentState === STATE.LOADING} 
+									value={null}
+									disabled={state.currentState === STATE.LOADING} 
 									style={{fontWeight: 'bold'}}
 								/>
 								{state.isSwap ? <Tab label={t('Translate.listLanguage.anh')} value={'en'} disabled={state.currentState === STATE.LOADING} style={{fontWeight: 'bold'}}/> : null}

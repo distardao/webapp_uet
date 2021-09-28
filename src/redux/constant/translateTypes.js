@@ -8,6 +8,7 @@ export const CHANGE_SOURCE_TEXT = 'app/translate/CHANGE_SOURCE_TEXT';
 export const CHANGE_TARGET_TEXT = 'app/translate/CHANGE_TARGET_TEXT';
 export const CHANGE_SOURCE = 'app/translate/CHANGE_SOURCE';
 export const CHANGE_TARGET = 'app/translate/CHANGE_TARGET';
+export const CHANGE_DETECT_LANG = 'app/translate/CHANGE_DETECT_LANG';
 export const SWAP_TRANSLATE = 'app/translate/SWAP_TRANSLATE';
 export const RESET = 'app/translate/RESET';
 export const DISABLEINPUT = 'app/translate/DISABLEINPUT';
