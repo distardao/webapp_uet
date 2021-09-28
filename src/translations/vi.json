@@ -3,6 +3,11 @@
 		"AnDepTrai": "Test"
 	},
 	"loi": "Lỗi!!",
+	"en": "Anh",
+	"vi": "Việt",
+	"zh": "Trung",
+	"lo": "Lào",
+	"km": "Khơme",
 	"Translate": {
 		"khongHoTro": "Không hỗ trợ dịnh",
 		"title2" : "UET Multilingual Neural Machine Translation",
@@ -18,13 +23,6 @@
 			"trung": "Trung",
 			"lao": "Lào",
 			"khome": "Khơme"
-		},
-		"phatHienNgonNgu": {
-			"anh": "Phát hiện - Anh",
-			"viet": "Phát hiện - Việt",
-			"trung": "Phát hiện - Trung",
-			"lao": "Phát hiện - Lào",
-			"khome": "Phát hiện - Khơme"
 		},
 		"daThemVaoTuVung": "Đã thêm vào từ vựng",
 		"daSaoChep": "Đã sao chép",

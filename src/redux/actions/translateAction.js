@@ -10,6 +10,7 @@ import {
 	SWAP_TRANSLATE,
 	TRANSLATION_FAIL,
 	TRANSLATION_SUCCESS,
+	CHANGE_DETECT_LANG,
 	DISABLEINPUT,
 	RESET,
 } from '../constant/translateTypes';
@@ -62,6 +63,18 @@ export const changeTargetText = (data) => {
 export const changeSource = (data) => {
 	return {
 		type: CHANGE_SOURCE,
+		payload: {
+			data
+		}
+	};
+};
+
+/**
+ * @description Thay đổi ngôn ngữ phát hiện
+ */
+export const changeDetectLang = (data) => {
+	return {
+		type: CHANGE_DETECT_LANG,
 		payload: {
 			data
 		}
@@ -152,7 +165,7 @@ export function detectLangSuccess(data) {
 	  type: DETECTLANG_SUCCESS,
 	  payload: {
 			targetText: data.target_text,
-			sourceLang: data.source_lang,
+			detectLang: data.source_lang,
 		}
 	};
 }
@@ -160,10 +173,11 @@ export function detectLangSuccess(data) {
 /**
  * @description Thành công và trả về err
  */
-export function detectLangFailed(err) {
+export function detectLangFailed(err, detectLang) {
 	return {
 	  type: DETECTLANG_FAIL,
 	  payload: {
+			detectLang,
 			err,
 		}
 	};
@@ -251,17 +265,17 @@ const debouncedTranslateAndDetect = debounce(async (body, dispatch) => {
 			time
 		);
 		if(getTranslationHistoryResult.message === 'Time Out'){
-			dispatch(detectLangFailed(getTranslationHistoryResult.message));
+			dispatch(detectLangFailed(getTranslationHistoryResult.message, 'unknown'));
 		} else {
 			const getTranslationResult = await axiosHelper.getTranslateResult(getTranslationHistoryResult.data.resultUrl);
 			if (getTranslationResult.status === 'closed'){
-				dispatch(detectLangFailed(getTranslationResult.message));
+				dispatch(detectLangFailed(getTranslationResult.message, getTranslationResult.source_lang));
 			} else {
 				dispatch(detectLangSuccess(getTranslationResult));
 			}
 		}
 	} catch(error) {
-		dispatch(detectLangFailed(error));
+		dispatch(detectLangFailed(error, 'unknown'));
 	}
 }, 0);
 

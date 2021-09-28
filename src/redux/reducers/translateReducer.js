@@ -10,6 +10,7 @@ import {
 	SWAP_TRANSLATE,
 	CHANGE_SOURCE_TEXT,
 	CHANGE_TARGET_TEXT,
+	CHANGE_DETECT_LANG,
 	RESET,
 	DISABLEINPUT,
 } from '../constant/translateTypes';
@@ -25,6 +26,7 @@ export const STATE = {
 const initialState = {
 	currentState: STATE.INIT,
 	translateCode: {
+		detectLang: null,
 		sourceLang: 'en',
 		targetLang: 'vi',
 	},
@@ -75,7 +77,7 @@ export default function(state = initialState, action) {
 			currentState: STATE.SUCCESS,
 			translateCode: {
 				...state.translateCode,
-				sourceLang: action.payload.sourceLang,
+				detectLang: action.payload.detectLang,
 			},
 			translateText: {
 				...state.translateText,
@@ -88,6 +90,10 @@ export default function(state = initialState, action) {
 		return {
 			...state,
 			currentState: STATE.FAILURE,
+			translateCode: {
+				...state.translateCode,
+				detectLang: action.payload.detectLang,
+			},
 			err: action.payload.err,
 		};
 	}
@@ -153,6 +159,15 @@ export default function(state = initialState, action) {
 		return {
 			...state,
 			currentState: STATE.DISABLEINPUT,
+		};
+	}
+	case CHANGE_DETECT_LANG: {
+		return {
+			...state,
+			translateCode: {
+				...state.translateCode,
+				detectLang: action.payload.data,
+			},
 		};
 	}
 	default:
