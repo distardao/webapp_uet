@@ -1,12 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
 	Container,
 	Row,
 	Image,
 	Dropdown,
 } from 'react-bootstrap';
-// import * as FaIcons from 'react-icons/fa';
-import { CgMenu } from 'react-icons/cg';
+import { IconButton, Typography } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import { AiOutlineUser } from 'react-icons/ai';
 
 import { Link } from 'react-router-dom';
@@ -17,7 +17,8 @@ import styles from './navbarStyle.module.css';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import OutsideClick from '../../helpers/outsideClick';
-import { useGoogleLogout } from 'react-google-login';
+import { useGoogleLogout, useGoogleLogin } from 'react-google-login';
+import Button from '@mui/material/Button';
 import Modal from '../Modal';
 import { IS_AUTH } from '../../constants/envVar';
 
@@ -27,28 +28,43 @@ const clientId =
 function Navbar() {
 	const boxRef = useRef(null);
 	const boxOutsideClick = OutsideClick(boxRef);
-	const [modalShow, setModalShow] = React.useState(false);
-	const path = window.location.pathname;
-
-	const fakeAuth = {
-		isAuthenticated: sessionStorage.getItem(IS_AUTH),
-	};
+	const [modalShow, setModalShow] = useState(false);
+	const [isSignIn, setIsSigIn] = useState(false);
+	// const path = window.location.pathname;
 
 	// const [sidebar, setSidebar] = useState(false);
 	const sidebar = useSelector(state => state.navbarReducer.shownavbar);
 	const dispatch = useDispatch();
 	const { t } = useTranslation();
+	
 	useEffect(() => {
 		if (boxOutsideClick) {
 			dispatch(sideBarHide(false));
 		}
 	}, [boxOutsideClick, dispatch]);
+
+	useEffect(() => {
+		if(sessionStorage.getItem(IS_AUTH)){
+			setIsSigIn(true);
+		}
+	}, []);
+
 	const showSidebar = () => {
 		dispatch(sideBarShow(true));
 	};
 
 	const hideSidebar = () => {
 		dispatch(sideBarHide(false));
+	};
+
+	const onSuccess = (res) => {
+		setIsSigIn(true);
+		console.log('Login Success: currentUser:', res.accessToken);
+		alert(
+			`Đăng nhập thành công chào mừng ${res.profileObj.name}.`
+		);
+		// refreshTokenSetup(res);
+		sessionStorage.setItem(IS_AUTH, res);
 	};
 
 	// eslint-disable-next-line no-unused-vars
@@ -61,8 +77,17 @@ function Navbar() {
 	const onLogoutSuccess = () => {
 		alert('Đăng xuất thành công');
 		sessionStorage.clear();
-		window.location.replace('/login');
+		setIsSigIn(false);
+		// window.location.replace('/login');
 	};
+
+	const { signIn } = useGoogleLogin({
+		onSuccess,
+		onFailure,
+		clientId,
+		isSignedIn: false,
+		accessType: 'offline',
+	});
 
 	const { signOut } = useGoogleLogout({
 		clientId,
@@ -77,13 +102,12 @@ function Navbar() {
 		<div ref={boxRef}>
 			<Container fluid>
 				<Row className={styles.headerTop}>
-					<div className={styles.buttonSidebars}><button onClick={() => showSidebar()} className={styles.buttonSidebar}><CgMenu /></button></div>
+					<IconButton onClick={() => showSidebar()}><MenuIcon size="large" sx={{color: 'white'}}/></IconButton>
 					<div style={{ display: 'flex', flex: 1, justifyContent: 'space-between' }}>
-						<div className={styles.title}>
-							{/* <Image style={{ width: '40px' }} src={Logo} alt="" roundedCircle /> */}
+						<Typography sx={{}} variant="h5" className={styles.title}>
 							{t('Translate.title')}
-						</div>
-						{fakeAuth.isAuthenticated ? (
+						</Typography>
+						{isSignIn ? (
 							<Dropdown style={{ alignSelf: 'center', paddingRight: 10 }}>
 								<Dropdown.Toggle style={{ display: 'flex', alignItems: 'center' }}>
 									<AiOutlineUser size={25} />
@@ -91,18 +115,17 @@ function Navbar() {
 								<Dropdown.Menu>
 									<Dropdown.Item onClick={() => setModalShow(true)}>Chỉnh sửa thông tin</Dropdown.Item>
 									<Dropdown.Divider />
-									<Dropdown.Item onClick={() => signOut()}>Đăng xuất</Dropdown.Item>
+									<Dropdown.Item onClick={() => signOut()}>Đăng nhập</Dropdown.Item>
 								</Dropdown.Menu>
 							</Dropdown>
-						) : (
-							path == ('/login' || '/forgot-password' || '/register') ? (
+						) : <Button variant="text" sx={{color: 'white'}} onClick={() => signIn()}>{t('dangNhapVoiGoogle')}</Button>}
+						{/* path == ('/login' || '/forgot-password' || '/register') ? (
 								null
 							) : (
 								<a href="/login" style={{ color: '#fff', alignSelf: 'center', marginRight: 20 }}>
 							 		Đăng nhập
 							 	</a>
-							 )
-						)}
+							 ) */}
 						<Modal
 							show={modalShow}
 							onHide={() => setModalShow(false)} />

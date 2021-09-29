@@ -1,7 +1,8 @@
 {
-	"App": {
-		"AnDepTrai": "Test"
-	},
+	"email": "Email",
+	"matKhau": "Mật khẩu",
+	"dangNhap": "Đăng nhập",
+	"dangNhapVoiGoogle": "Đăng nhập với Google",
 	"loi": "Lỗi!!",
 	"en": "Anh",
 	"vi": "Việt",

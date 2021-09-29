@@ -1,19 +1,22 @@
-/* eslint-disable semi */
 import React from 'react';
-// import './bootstrap.css';
 import Flat from '../../assets/images/Image_flag.png';
-import { Image } from 'react-bootstrap'
-import LoginGoogle from './LoginGoogle'
-import { useForm } from 'react-hook-form';
+import { Image } from 'react-bootstrap';
+import LoginGoogle from './LoginGoogle';
+import TextField from '@mui/material/TextField';
+import { useTranslation } from 'react-i18next';
+import { Controller, useForm } from 'react-hook-form';
 
 function Login() {
+	const { t } = useTranslation();
+
 	const {
-		register, handleSubmit, formState: { errors },
+		control, handleSubmit, formState: { errors },
 	} = useForm();
 
 	const LoginNormal = () => {
-		alert('Chưa thể đăng nhập')
-	}
+		alert('Chưa thể đăng nhập');
+	};
+
 	return (
 		<div style={{ height: '93.8vh', backgroundColor: '#4e73df' }}>
 			<div className="container">
@@ -34,12 +37,53 @@ function Login() {
 											</div>
 											<form className="user" onSubmit={handleSubmit(LoginNormal)}>
 												<div className="form-group">
-													<input type="email"   {...register('account', { required: true })} style={{ height: 50, borderRadius: 15 }} className="mb-4 form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." />
-													{errors.account && <span className="text-danger">Trường này là bắt buộc</span>}
+
+													{/* <input type="email"   {...register('account', { required: true })} style={{ height: 50, borderRadius: 15 }} className="mb-4 form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." /> */}
+													<Controller
+														control={control}
+														rules={{
+															required: true,
+														}}
+														render={({ field: { onChange, value } }) => (
+															<TextField
+																error={errors.account}
+																helperText={errors.account ? 'Trường này là bắt buộc' : null}
+																value={value}
+																onChange={onChange}
+																fullWidth
+																id="outlined-basic" 
+																label={t('email')} 
+																variant="outlined" 
+															/>
+														)}
+														name="account"
+														defaultValue=""
+													/>
+													{/* {errors.account && <span className="text-danger">Trường này là bắt buộc</span>} */}
 												</div>
 												<div className="form-group">
-													<input type="password"  {...register('password', { required: true })} style={{ height: 50, borderRadius: 15 }} className="mb-4 form-control" id="exampleInputPassword" placeholder="Password" />
-													{errors.password && <span className="text-danger">Trường này là bắt buộc</span>}
+													{/* <input type="password"  {...register('password', { required: true })} style={{ height: 50, borderRadius: 15 }} className="mb-4 form-control" id="exampleInputPassword" placeholder="Password" /> */}
+													<Controller
+														control={control}
+														rules={{
+															required: true,
+														}}
+														render={({ field: { onChange, value } }) => (
+															<TextField
+																error={errors.password}
+																helperText={errors.password ? 'Trường này là bắt buộc' : null}
+																value={value}
+																onChange={onChange}
+																fullWidth
+																type="password"
+																id="outlined-basic" 
+																label={t('matKhau')} 
+																variant="outlined" 
+															/>
+														)}
+														name="password"
+														defaultValue=""
+													/>
 												</div>
 												<button type="summit" style={{ backgroundColor: '#4E73DF', borderRadius: 10 }} className="btn btn-primary btn-block">
 													Đăng nhập
@@ -63,7 +107,7 @@ function Login() {
 				</div>
 			</div>
 		</div>
-	)
+	);
 }
 
 export default Login;
