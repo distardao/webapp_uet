@@ -20,7 +20,8 @@ import OutsideClick from '../../helpers/outsideClick';
 import { useGoogleLogout, useGoogleLogin } from 'react-google-login';
 import Button from '@mui/material/Button';
 import Modal from '../Modal';
-import { IS_AUTH } from '../../constants/envVar';
+import * as axiosHelper from '../../helpers/axiosHelper';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../constants/envVar';
 
 const clientId =
 	'1006597644137-plgvccnt0d3keaojro5q3j69vkjudfvs.apps.googleusercontent.com';
@@ -44,7 +45,7 @@ function Navbar() {
 	}, [boxOutsideClick, dispatch]);
 
 	useEffect(() => {
-		if(sessionStorage.getItem(IS_AUTH)){
+		if(localStorage.getItem(ACCESS_TOKEN)){
 			setIsSigIn(true);
 		}
 	}, []);
@@ -57,14 +58,19 @@ function Navbar() {
 		dispatch(sideBarHide(false));
 	};
 
-	const onSuccess = (res) => {
-		setIsSigIn(true);
-		console.log('Login Success: currentUser:', res.accessToken);
-		alert(
-			`Đăng nhập thành công chào mừng ${res.profileObj.name}.`
-		);
+	const onSuccess = async (res) => {
+		try {
+			const siginInResult = await axiosHelper.SignIn({
+				access_token: res.accessToken,
+				platform: 'web'
+			});
+			setIsSigIn(true);
+			localStorage.setItem(ACCESS_TOKEN, siginInResult.data.accessToken);
+			localStorage.setItem(REFRESH_TOKEN, siginInResult.data.refreshToken);
+		}catch (e) {
+			alert(e);
+		}
 		// refreshTokenSetup(res);
-		sessionStorage.setItem(IS_AUTH, res);
 	};
 
 	// eslint-disable-next-line no-unused-vars
@@ -74,10 +80,14 @@ function Navbar() {
 		);
 	};
 
-	const onLogoutSuccess = () => {
-		alert('Đăng xuất thành công');
-		sessionStorage.clear();
-		setIsSigIn(false);
+	const onLogoutSuccess = async () => {
+		try {
+			await axiosHelper.SignOut();
+			localStorage.clear();
+			setIsSigIn(false);
+		}catch (e){
+			alert(e);
+		}
 		// window.location.replace('/login');
 	};
 
@@ -113,9 +123,9 @@ function Navbar() {
 									<AiOutlineUser size={25} />
 								</Dropdown.Toggle>
 								<Dropdown.Menu>
-									<Dropdown.Item onClick={() => setModalShow(true)}>Chỉnh sửa thông tin</Dropdown.Item>
+									<Dropdown.Item onClick={() => setModalShow(true)}>{t('chinhSuaThongTin')}</Dropdown.Item>
 									<Dropdown.Divider />
-									<Dropdown.Item onClick={() => signOut()}>Đăng nhập</Dropdown.Item>
+									<Dropdown.Item onClick={() => signOut()}>{t('dangXuat')}</Dropdown.Item>
 								</Dropdown.Menu>
 							</Dropdown>
 						) : <Button variant="text" sx={{color: 'white'}} onClick={() => signIn()}>{t('dangNhapVoiGoogle')}</Button>}

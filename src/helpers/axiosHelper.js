@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ACCESS_TOKEN } from '../constants/envVar';
 
 const axiosDefault = axios.create({
 	// baseURL: 'http://nmtuet.ddns.net:1710/',
@@ -6,9 +7,52 @@ const axiosDefault = axios.create({
 	headers: {
 		'Content-Type': 'application/json',
 	},
-	// timeout: 100000,
 	timeout: 10000,
 });
+
+axiosDefault.interceptors.request.use(
+	async config => {
+	  config.headers.Authorization = `${localStorage.getItem(ACCESS_TOKEN)}`;
+	  return config;
+	},
+	error => Promise.reject(error),
+);
+
+export const SignIn = (body) => {
+	return new Promise((resolve, reject) => {
+		axiosDefault.post('user/auth', body)
+			.then((result) => {
+				resolve(result.data);
+			})
+			.catch((error) => {
+				reject(error);
+			});
+	});
+};
+
+export const SignOut = () => {
+	return new Promise((resolve, reject) => {
+		axiosDefault.post('user/logout')
+			.then((result) => {
+				resolve(result.data);
+			})
+			.catch((error) => {
+				reject(error);
+			});
+	});
+};
+
+export const RefreshToken = (body) => {
+	return new Promise((resolve, reject) => {
+		axiosDefault.post('user/auth', body)
+			.then((result) => {
+				resolve(result.data);
+			})
+			.catch((error) => {
+				reject(error);
+			});
+	});
+};
 
 // sample data
 // { "sourceText": "string", "sourceLang": "zh", "targetLang": "zh"
