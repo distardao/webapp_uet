@@ -22,8 +22,9 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { MdArrowForward, MdStarBorder, MdContentCopy, MdVolumeUp } from 'react-icons/md';
-
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import SendIcon from '@mui/icons-material/Send';
 
 const history = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 const favorite = [17, 18 ];
@@ -56,10 +57,10 @@ export default function HistoryAndFavorite() {
 			<Card variant="outlined" style={{borderRadius: 0}}>
 				<CardActionArea>
 					<CardContent>
-						<Typography gutterBottom variant="h5" component="div"> 
+						<Typography gutterBottom variant="body2" component="div"> 
             				Text 1
 						</Typography>
-						<Typography gutterBottom variant="h5" component="div" color="text.secondary">
+						<Typography gutterBottom variant="body2" component="div" color="text.secondary">
             				Text 2
 						</Typography>
 						<Typography variant="body2" color="text.secondary">Trung <ArrowForwardIcon sx={{fontSize: 20}}/> Viet</Typography>
@@ -127,39 +128,39 @@ export default function HistoryAndFavorite() {
 						</div>
 					</div>
 					<div className={styles.innerBodyRight}>
-						<div style={{display: 'flex', justifyContent: 'space-between', marginBottom: 20}}>
-							<div style={{fontWeight: 500, fontSize: 22, textTransform: 'uppercase' }}>
-								Trung <MdArrowForward style={{marginLeft: 10, marginRight: 10}}/> Viet
-							</div>
+						<div style={{display: 'flex', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center'}}>
+							<Typography style={{fontWeight: 500, fontSize: 22, textTransform: 'uppercase' }}>
+								Trung <ArrowForwardIcon style={{marginLeft: 10, marginRight: 10}}/> Viet
+							</Typography>
 							<div style={{display: 'flex'}}>
-								<button className={styles.buttonDropDown}>
-									<MdStarBorder size={30}/>
-								</button>
-								<button className={styles.buttonDropDown}>
-									<MdArrowForward size={30} />
-								</button>
+								<IconButton aria-label="directions" id="basic-button">
+									<StarBorderIcon />
+								</IconButton>
+								<IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+									<SendIcon />
+								</IconButton>
 							</div>
 						</div>
 						<div className={styles.innerBodyRightBox} style={{marginBottom: 40}}>
 							Text 1
 							<div style={{marginTop: 30, display: 'flex', justifyContent: 'flex-end'}}>
-								<button className={styles.buttonDropDown}>
-									<MdContentCopy size={25}/>
-								</button>
-								<button className={styles.buttonDropDown}>
-									<MdVolumeUp size={25} />
-								</button>
+								<IconButton type="submit" sx={{ p: '10px' }} aria-label="search" size='large'>
+									<ContentCopyIcon />
+								</IconButton>
+								<IconButton type="submit" sx={{ p: '10px' }} aria-label="search" size='large'>
+									<VolumeUpIcon />
+								</IconButton>
 							</div>
 						</div>
 						<div className={styles.innerBodyRightBox}>
 							Text 2
 							<div style={{marginTop: 30, display: 'flex', justifyContent: 'flex-end'}}>
-								<button className={styles.buttonDropDown}>
-									<MdContentCopy size={25}/>
-								</button>
-								<button className={styles.buttonDropDown}>
-									<MdVolumeUp size={25} />
-								</button>
+								<IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+									<ContentCopyIcon />
+								</IconButton>
+								<IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+									<VolumeUpIcon />
+								</IconButton>
 							</div>
 						</div>
 					</div>
