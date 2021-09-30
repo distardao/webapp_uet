@@ -44,7 +44,7 @@ module.exports = {
 		],
 		'react-hooks/exhaustive-deps': 0,
 		'no-unused-vars': 2,
-		'no-console': 1,
+		'no-console': 0,
 	},
 	'settings': {
 		'react': {

@@ -1,6 +1,7 @@
 stages:
     - deploy_build
-    - deploy_up
+    - deploy_up_dev
+    - deploy_up_rel
 
 deploy_build:
   image: node:12
@@ -21,12 +22,26 @@ deploy_build:
   only:
     refs:
       - master
+      - development
 
-deploy_up:
+deploy_up_dev:
   image: docker/compose
-  stage: deploy_up
+  stage: deploy_up_dev
   script:
-    - cp -rf docker/* ./
+    - cp -rf docker/developement/* ./
+    - docker-compose down --remove-orphans
+    - docker-compose up -d --build
+  dependencies:
+      - deploy_build
+  only:
+    refs:
+      - development
+
+deploy_up_rel:
+  image: docker/compose
+  stage: deploy_up_rel
+  script:
+    - cp -rf docker/release/* ./
     - docker-compose down --remove-orphans
     - docker-compose up -d --build
   dependencies:
