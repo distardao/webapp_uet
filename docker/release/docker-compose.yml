@@ -1,0 +1,25 @@
+version: '3'
+services:
+
+  # The Application
+  web-uettrans:
+    container_name: web-uettrans
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    networks:
+      - traefik_traefik
+      - default
+    # volumes:
+    #   - ./:/var/www
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web-uettrans.entrypoints=http"
+      - "traefik.http.routers.web-uettrans.rule=Host(`uettranslation.ksechain.com`)"
+      - "traefik.docker.network=traefik_traefik"
+      - "traefik.http.services.web-uettrans.loadbalancer.server.port=80"
+networks:
+  traefik_traefik:
+    external: true
