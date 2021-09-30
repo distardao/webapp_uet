@@ -29,7 +29,7 @@ deploy_up_dev:
   stage: deploy_up_dev
   script:
     - cp -rf docker/developement/* ./
-    - docker-compose down --remove-orphans
+    - docker-compose down
     - docker-compose up -d --build
   dependencies:
       - deploy_build
