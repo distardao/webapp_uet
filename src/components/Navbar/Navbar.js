@@ -74,11 +74,7 @@ function Navbar() {
 	};
 
 	// eslint-disable-next-line no-unused-vars
-	const onFailure = (res) => {
-		alert(
-			'Đăng nhập thất bại'
-		);
-	};
+	const onFailure = (res) => {};
 
 	const onLogoutSuccess = async () => {
 		try {
