@@ -42,7 +42,7 @@ deploy_up_rel:
   stage: deploy_up_rel
   script:
     - cp -rf docker/release/* ./
-    - docker-compose down --remove-orphans
+    - docker-compose down
     - docker-compose up -d --build
   dependencies:
       - deploy_build
