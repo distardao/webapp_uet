@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { 
 	Row,
 	Col,
 } from 'react-bootstrap';
 import styles from './translateStyle.module.css';
-import { IconButton, Tab, Button, Fab, Tooltip } from '@mui/material';
+import { IconButton, Tab, Button, Fab, Tooltip, Typography } from '@mui/material';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useSelector, useDispatch } from 'react-redux';
@@ -36,6 +36,8 @@ function Index(props) {
 	const state = useSelector(state => state.translateReducer);
 	const dispatch = useDispatch();
 	const { t } = useTranslation();
+	const [isTranslate, setIsTranslate] = useState(true);
+	const [file, setFile] = useState(null);
 
 	/**
 	 * @description useEffect cho việc check kết quả và báo noti cho 
@@ -59,9 +61,6 @@ function Index(props) {
 	const handleChangeSourceText = (evt) => {
 		evt.preventDefault();
 		dispatch(changeSourceText(evt.target.value));
-		// if(evt.target.value === ''){
-		// 	dispatch(changeTargetText(''));
-		// }
 		if( state.translateText.targetText !== '' ){
 			dispatch(changeTargetText(''));
 		}
@@ -73,20 +72,22 @@ function Index(props) {
 	* 2. Còn lại thì dịch vs 2 TH => sourcelang === null (Nhận dạng ngôn ngữ) và sourcelang === vi,cn .. 
  	*/
 	const handleTranslate = () => {
-		if( state.translateText.targetText !== '' ){
-			dispatch(changeTargetText(''));
-		}
-		if(state.translateCode.sourceLang){
-			dispatch(translationAsync({
-				sourceText: state.translateText.sourceText,
-				sourceLang: state.translateCode.sourceLang,
-				targetLang: state.translateCode.targetLang,
-			}));
-		} else {
-			dispatch(translationAndDetectAsync({
-				sourceText: state.translateText.sourceText,
-				targetLang: state.translateCode.targetLang,
-			}));
+		if(isTranslate){
+			if( state.translateText.targetText !== '' ){
+				dispatch(changeTargetText(''));
+			}
+			if(state.translateCode.sourceLang){
+				dispatch(translationAsync({
+					sourceText: state.translateText.sourceText,
+					sourceLang: state.translateCode.sourceLang,
+					targetLang: state.translateCode.targetLang,
+				}));
+			} else {
+				dispatch(translationAndDetectAsync({
+					sourceText: state.translateText.sourceText,
+					targetLang: state.translateCode.targetLang,
+				}));
+			}
 		}
 	};
 
@@ -97,9 +98,11 @@ function Index(props) {
  	*/
 	const handleChangeFrom = (event, newValue) => {
 		dispatch(changeSource(newValue));
-		dispatch(changeDetectLang(null));
-		if( state.translateText.targetText !== ''){
-			dispatch(changeTargetText(''));
+		if(isTranslate){
+			dispatch(changeDetectLang(null));
+			if( state.translateText.targetText !== ''){
+				dispatch(changeTargetText(''));
+			}
 		}
 	};
 
@@ -110,19 +113,21 @@ function Index(props) {
  	*/
 	const handleChangeTo = (event, newValue) => {
 		dispatch(changeTarget(newValue));
-		if( state.translateText.targetText !== '' ){
-			dispatch(changeTargetText(''));
-			if(state.translateCode.sourceLang){
-				dispatch(translationAsync({
-					sourceText: state.translateText.sourceText,
-					sourceLang: state.translateCode.sourceLang,
-					targetLang: newValue,
-				}));
-			} else {
-				dispatch(translationAndDetectAsync({
-					sourceText: state.translateText.sourceText,
-					targetLang: newValue,
-				}));
+		if(isTranslate){
+			if( state.translateText.targetText !== '' ){
+				dispatch(changeTargetText(''));
+				if(state.translateCode.sourceLang){
+					dispatch(translationAsync({
+						sourceText: state.translateText.sourceText,
+						sourceLang: state.translateCode.sourceLang,
+						targetLang: newValue,
+					}));
+				} else {
+					dispatch(translationAndDetectAsync({
+						sourceText: state.translateText.sourceText,
+						targetLang: newValue,
+					}));
+				}
 			}
 		}
 	};
@@ -162,17 +167,47 @@ function Index(props) {
 		return false;
 	};
 
+	const isDisableTranslateButton = () => {
+		if(state.currentState === STATE.LOADING) {
+			return true;
+		}
+		if(state.translateText.sourceText === '' && isTranslate) {
+			return true;
+		}
+		if(file === null && !isTranslate) {
+			return true;
+		}
+		return false;
+	};
+
 	return (
 		<>
 			<div className={styles.outerContainer}>
 				<div className={styles.outerTab} >
-					<Button onClick={() => {}} style={{ fontWeight: 'bold', marginRight: '20px', display: 'flex', backgroundColor: 'white', color: 'grey'}} variant={'contained'}>
+					<Button 
+						onClick={() => {
+							setIsTranslate(true);
+							setFile(null);
+						}} 
+						style={{ fontWeight: 'bold', marginRight: '20px', display: 'flex', backgroundColor: 'white', color: 'grey', borderColor: 'grey'}} 
+						variant={isTranslate ? 'outlined' : null}
+						disabled={state.currentState === STATE.LOADING}
+					>
 						<div style={{paddingRight: 5, alignContent: 'center'}}>
 							<TranslateIcon/>	
 						</div> 
 						{t('Translate.vanban')}
 					</Button>
-					<Button onClick={() => {}} style={{ fontWeight: 'bold', marginRight: '20px', display: 'flex'}} variant={'contained'} disabled>
+					<Button 
+						onClick={() => {
+							setIsTranslate(false);
+							dispatch(changeTargetText(''));
+							dispatch(changeSourceText(''));
+						}} 
+						style={{ fontWeight: 'bold', marginRight: '20px', display: 'flex', backgroundColor: 'white', color: 'grey', borderColor: 'grey'}} 
+						variant={!isTranslate ? 'outlined' : null}
+						disabled={state.currentState === STATE.LOADING}
+					>
 						<div style={{paddingRight: 5, alignContent: 'center'}}>
 							<InsertDriveFileIcon/>	
 						</div> 
@@ -244,29 +279,75 @@ function Index(props) {
 								borderRight: '1px solid #ccc', 
 								backgroundColor: state.currentState === STATE.LOADING ? '#f3f3f3' : 'white'  
 							}}>
-								<div style={{ 
+								<div style={{
 									paddingTop: '10px', 
 									paddingBottom: '30px', 
 									display: 'flex',
 								}}>
-									<div style={{ paddingRight: '0', flex: 1 }} >
-										<TextareaAutosize
-											ref={inputEl}
-											minRows={3}
-											disabled={state.currentState === STATE.LOADING}
-											onChange={handleChangeSourceText}
-											value={state.translateText.sourceText}
-											className={[styles.from_language]}
-											// onKeyPress={(e) => e.key === 'Enter' ? handleTranslate() : null }
-											placeholder={t('Translate.nhapVanBan')}
-										/>
-									</div>
-									<div md={1} style={{ padding: '0' }} className={['text-center']}>
-										{!isShowCloseButton() ? 
-											<IconButton aria-label="Example" onClick={handleResetInput}>
-												<CloseIcon fontSize='small'/>
-											</IconButton> : null}
-									</div>
+									{ isTranslate ? 
+										<>
+											<div style={{ paddingRight: '0', flex: 1 }} >
+												<TextareaAutosize
+													ref={inputEl}
+													minRows={3}
+													disabled={state.currentState === STATE.LOADING}
+													onChange={handleChangeSourceText}
+													value={state.translateText.sourceText}
+													className={[styles.from_language]}
+													// onKeyPress={(e) => e.key === 'Enter' ? handleTranslate() : null }
+													placeholder={t('Translate.nhapVanBan')}
+												/>
+											</div>
+											<div md={1} style={{ padding: '0' }} className={['text-center']}>
+												{!isShowCloseButton() ? 
+													<IconButton aria-label="Example" onClick={handleResetInput} type="file">
+														<CloseIcon fontSize='small'/>
+													</IconButton> : null}
+											</div>
+										</> : 
+										<div style={{ 
+											flex: 1, 
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'center',
+											flexDirection: file ? 'row' : 'column'
+										}}> 
+											{file === null ?
+												<>
+													<Typography variant="h6">
+														{t('chonTaiLieu')}
+													</Typography>
+													<Typography p={1}>
+														{t('taiTep')}
+													</Typography>
+													<input
+														type="file"
+														accept="*"
+														style={{ display: 'none' }}
+														id="contained-button-file"
+														onChange={(event) => {
+															setFile(event.target.files[0]);
+														}}
+													/>
+													<label htmlFor="contained-button-file">
+														<Button variant="contained" size='small' component="span">
+															{t('timTepTenMayBan')}
+														</Button>
+													</label>
+												</> : 
+												<>
+													<Typography variant="h6">
+														{file.name}
+													</Typography>
+													<div md={1} style={{ padding: '0' }} className={['text-center']}>
+														<IconButton aria-label="Example" onClick={() => setFile(null)} type="file">
+															<CloseIcon fontSize='small'/>
+														</IconButton> 
+													</div>
+												</>
+											}
+										</div>
+									}
 								</div>
 							</Col>
 							{/* {state.currentState !== STATE.LOADING ?  */}
@@ -284,7 +365,7 @@ function Index(props) {
 												minRows={3}
 												style={{backgroundColor: 'white'}}
 												value={state.translateText.targetText}
-												className={[ styles.resultTranslate_bandich ]}
+												className={[ styles.from_language ]}
 											/> 
 										</div>
 										<div style={{ justifyContent: 'end', display: 'flex', paddingBottom: 5}}>
@@ -304,7 +385,7 @@ function Index(props) {
 											variant="contained" 
 											onClick={handleTranslate}
 											loading={state.currentState === STATE.LOADING}
-											disabled={state.translateText.sourceText === '' || state.currentState === STATE.LOADING}
+											disabled={isDisableTranslateButton()}
 											style={{ fontWeight: 'bold', display: 'flex'}}
 										>
 											Dịch
