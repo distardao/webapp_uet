@@ -23,8 +23,10 @@ import Modal from '../Modal';
 import * as axiosHelper from '../../helpers/axiosHelper';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../constants/envVar';
 
-const clientId =
-	'1006597644137-plgvccnt0d3keaojro5q3j69vkjudfvs.apps.googleusercontent.com';
+// const clientId =
+// 	'1006597644137-plgvccnt0d3keaojro5q3j69vkjudfvs.apps.googleusercontent.com';
+
+const clientId = '678502825589-nqgohudq0erdrtpghipkg00vj27v6q1r.apps.googleusercontent.com';
 
 function Navbar() {
 	const boxRef = useRef(null);
