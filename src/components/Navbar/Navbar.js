@@ -3,11 +3,9 @@ import {
 	Container,
 	Row,
 	Image,
-	Dropdown,
 } from 'react-bootstrap';
 import { IconButton, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { AiOutlineUser } from 'react-icons/ai';
 
 import { Link } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
@@ -17,10 +15,11 @@ import styles from './navbarStyle.module.css';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import OutsideClick from '../../helpers/outsideClick';
-import { useGoogleLogout, useGoogleLogin } from 'react-google-login';
+import { useGoogleLogin } from 'react-google-login';
 import Button from '@mui/material/Button';
 import Modal from '../Modal';
 import * as axiosHelper from '../../helpers/axiosHelper';
+import NavBarProfile from './NavBarProfile';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../constants/envVar';
 
 // const clientId =
@@ -31,9 +30,6 @@ function Navbar() {
 	const boxOutsideClick = OutsideClick(boxRef);
 	const [modalShow, setModalShow] = useState(false);
 	const [isSignIn, setIsSigIn] = useState(false);
-	// const path = window.location.pathname;
-
-	// const [sidebar, setSidebar] = useState(false);
 	const sidebar = useSelector(state => state.navbarReducer.shownavbar);
 	const dispatch = useDispatch();
 	const { t } = useTranslation();
@@ -76,31 +72,11 @@ function Navbar() {
 	// eslint-disable-next-line no-unused-vars
 	const onFailure = (res) => {};
 
-	const onLogoutSuccess = async () => {
-		try {
-			await axiosHelper.SignOut();
-			localStorage.clear();
-			setIsSigIn(false);
-		}catch (e){
-			alert(e);
-		}
-		// window.location.replace('/login');
-	};
-
 	const { signIn } = useGoogleLogin({
 		onSuccess,
 		onFailure,
 		// eslint-disable-next-line no-undef
 		clientId: process.env.REACT_APP_CLIENT_ID,
-		isSignedIn: false,
-		accessType: 'offline',
-	});
-
-	const { signOut } = useGoogleLogout({
-		// eslint-disable-next-line no-undef
-		clientId: process.env.REACT_APP_CLIENT_ID,
-		onLogoutSuccess,
-		onFailure,
 		isSignedIn: false,
 		accessType: 'offline',
 	});
@@ -116,24 +92,8 @@ function Navbar() {
 							{t('Translate.title')}
 						</Typography>
 						{isSignIn ? (
-							<Dropdown style={{ alignSelf: 'center', paddingRight: 10 }}>
-								<Dropdown.Toggle style={{ display: 'flex', alignItems: 'center' }}>
-									<AiOutlineUser size={25} />
-								</Dropdown.Toggle>
-								<Dropdown.Menu>
-									<Dropdown.Item onClick={() => setModalShow(true)}>{t('chinhSuaThongTin')}</Dropdown.Item>
-									<Dropdown.Divider />
-									<Dropdown.Item onClick={() => signOut()}>{t('dangXuat')}</Dropdown.Item>
-								</Dropdown.Menu>
-							</Dropdown>
+							<NavBarProfile setIsSigIn={setIsSigIn} setModalShow={setModalShow}/>
 						) : <Button variant="text" sx={{color: 'white'}} onClick={() => signIn()}>{t('dangNhapVoiGoogle')}</Button>}
-						{/* path == ('/login' || '/forgot-password' || '/register') ? (
-								null
-							) : (
-								<a href="/login" style={{ color: '#fff', alignSelf: 'center', marginRight: 20 }}>
-							 		Đăng nhập
-							 	</a>
-							 ) */}
 						<Modal
 							show={modalShow}
 							onHide={() => setModalShow(false)} />
