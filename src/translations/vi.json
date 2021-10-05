@@ -1,4 +1,10 @@
 {
+	"chinhSuaTaiKhoan": "Chỉnh sửa tài khoản",
+	"huyBo": "Hủy bỏ",
+	"ten": "Tên",
+	"matKhauCu": "Mật khẩu cũ",
+	"matKhauMoi": "Mật khẩu mới",
+	"xacNhanMatKhauMoi": "Xác nhận mật khẩu mới",
 	"caiDatTaiKhoan": "Cài đặt tài khoản",
 	"chonTaiLieu": "Chọn tài liệu",
 	"taiTep": "Tải lên tệp .doc, .docx",
@@ -9,6 +15,7 @@
 	"dangNhapVoiGoogle": "Đăng nhập với Google",
 	"dangXuat": "Đăng xuất",
 	"chinhSuaThongTin": "Chỉnh sửa thông tin",
+	"thongTinCaNhan": "Thông tin cá nhân",
 	"loi": "Lỗi!!",
 	"en": "Anh",
 	"vi": "Việt",

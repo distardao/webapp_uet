@@ -4,7 +4,7 @@ import {
 	Row,
 	Image,
 } from 'react-bootstrap';
-import { IconButton, Typography } from '@mui/material';
+import { IconButton, Typography, CircularProgress } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import { Link } from 'react-router-dom';
@@ -16,11 +16,11 @@ import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import OutsideClick from '../../helpers/outsideClick';
 import { useGoogleLogin } from 'react-google-login';
-import Button from '@mui/material/Button';
 import Modal from '../Modal';
 import * as axiosHelper from '../../helpers/axiosHelper';
 import NavBarProfile from './NavBarProfile';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../constants/envVar';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { ACCESS_TOKEN, REFRESH_TOKEN, USER_IMG_URL } from '../../constants/envVar';
 
 // const clientId =
 // 	'1006597644137-plgvccnt0d3keaojro5q3j69vkjudfvs.apps.googleusercontent.com';
@@ -30,6 +30,7 @@ function Navbar() {
 	const boxOutsideClick = OutsideClick(boxRef);
 	const [modalShow, setModalShow] = useState(false);
 	const [isSignIn, setIsSigIn] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const sidebar = useSelector(state => state.navbarReducer.shownavbar);
 	const dispatch = useDispatch();
 	const { t } = useTranslation();
@@ -56,6 +57,7 @@ function Navbar() {
 
 	const onSuccess = async (res) => {
 		try {
+			setIsLoading(true);
 			const siginInResult = await axiosHelper.SignIn({
 				access_token: res.accessToken,
 				platform: 'web'
@@ -63,7 +65,10 @@ function Navbar() {
 			setIsSigIn(true);
 			localStorage.setItem(ACCESS_TOKEN, siginInResult.data.accessToken);
 			localStorage.setItem(REFRESH_TOKEN, siginInResult.data.refreshToken);
+			localStorage.setItem(USER_IMG_URL, res.profileObj.imageUrl);
+			setIsLoading(false);
 		}catch (e) {
+			setIsLoading(false);
 			alert(e);
 		}
 		// refreshTokenSetup(res);
@@ -93,7 +98,17 @@ function Navbar() {
 						</Typography>
 						{isSignIn ? (
 							<NavBarProfile setIsSigIn={setIsSigIn} setModalShow={setModalShow}/>
-						) : <Button variant="text" sx={{color: 'white'}} onClick={() => signIn()}>{t('dangNhapVoiGoogle')}</Button>}
+						) : 
+							<LoadingButton 
+								loadingIndicator={<CircularProgress sx={{color: 'white'}} size={20} />} 
+								loading={isLoading}
+								variant="text" 
+								sx={{color: 'white'}} 
+								onClick={() => signIn()}
+							>
+								{t('dangNhapVoiGoogle')}
+							</LoadingButton>
+						}
 						<Modal
 							show={modalShow}
 							onHide={() => setModalShow(false)} />

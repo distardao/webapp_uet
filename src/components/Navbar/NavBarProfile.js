@@ -8,7 +8,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { useTranslation } from 'react-i18next';
 import { useGoogleLogout } from 'react-google-login';
 import * as axiosHelper from '../../helpers/axiosHelper';
-import PersonIcon from '@mui/icons-material/Person';
+import { USER_IMG_URL } from '../../constants/envVar';
 
 function NavBarProfile(props) {
 	const { t } = useTranslation();
@@ -51,7 +51,7 @@ function NavBarProfile(props) {
 		<>
 			<Tooltip title={t('caiDatTaiKhoan')}>
 				<IconButton onClick={handleClick} size="small" sx={{ mr: 2 }}>
-					<Avatar sx={{ width: 30, height: 30 }}><PersonIcon /></Avatar>
+					<Avatar sx={{ width: 30, height: 30 }} src={localStorage.getItem(USER_IMG_URL)} />
 				</IconButton>
 			</Tooltip>
 			<Menu
@@ -67,7 +67,7 @@ function NavBarProfile(props) {
 					props.setModalShow(true);
 					handleClose();
 				}}>
-					{t('chinhSuaThongTin')}
+					{t('thongTinCaNhan')}
 				</MenuItem>
 				<MenuItem onClick={signOut}>{t('dangXuat')}</MenuItem>
 			</Menu>
