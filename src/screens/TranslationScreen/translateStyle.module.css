@@ -133,6 +133,7 @@
   box-shadow: none;
   overflow: hidden;
   font-size: 24px;
+  color: black;
 }
 .to_language {
   resize: none;
