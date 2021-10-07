@@ -7,6 +7,9 @@ import {
 	DETECTLANG,
 	DETECTLANG_FAIL,
 	DETECTLANG_SUCCESS,
+	DETECTLANGINSTANT,
+	DETECTLANGINSTANT_SUCCESS,
+	DETECTLANGINSTANT_FAIL,
 	SWAP_TRANSLATE,
 	TRANSLATION_FAIL,
 	TRANSLATION_SUCCESS,
@@ -183,6 +186,37 @@ export function detectLangFailed(err, detectLang) {
 	};
 }
 
+export function detectLangInstantLoading() {
+	return {
+	  type: DETECTLANGINSTANT,
+	};
+}
+
+/**
+ * @description Thành công và trả về kết quả dịch
+ */
+export function detectLangInstantSuccess(data) {
+	return {
+	  type: DETECTLANGINSTANT_SUCCESS,
+	  payload: {
+			detectLang: data.source_lang,
+		}
+	};
+}
+
+/**
+ * @description Thành công và trả về err
+ */
+export function detectLangInstantFailed(err, detectLang) {
+	return {
+	  type: DETECTLANGINSTANT_FAIL,
+	  payload: {
+			detectLang,
+			err,
+		}
+	};
+}
+
 /**
  * @description Do BE bắt fai kiểm tra status 
  * nên sẽ gọi lại API khi nào status được dịch.
@@ -280,6 +314,34 @@ const debouncedTranslateAndDetect = debounce(async (body, dispatch) => {
 }, 0);
 
 /**
+ * @description Nhập từ input => đợi 1 khoảng thời gian đẻ nhận text
+ * ! Tránh việc gọi API ko cần thiêt và liên tục
+ */
+const debouncedDetectLangInstant = debounce(async (body, dispatch) => {
+	try {
+		let time = 1;
+		const postTranslationResult = await axiosHelper.detectLangInstant(body);
+		const getTranslationHistoryResult = await recursiveCheckStatus(
+			postTranslationResult.data.translationHitoryId, 
+			postTranslationResult.data.taskId, 
+			time
+		);
+		if(getTranslationHistoryResult.message === 'Time Out'){
+			dispatch(detectLangInstantFailed(getTranslationHistoryResult.message, 'unknown'));
+		} else {
+			const getTranslationResult = await axiosHelper.getTranslateResult(getTranslationHistoryResult.data.resultUrl);
+			if (getTranslationResult.status === 'closed'){
+				dispatch(detectLangInstantFailed(getTranslationResult.message, getTranslationResult.source_lang));
+			} else {
+				dispatch(detectLangInstantSuccess(getTranslationResult));
+			}
+		}
+	} catch(error) {
+		dispatch(detectLangFailed(error, 'unknown'));
+	}
+}, 0);
+
+/**
  * @description Thunk function cho việc dịch từ và lấy kết quả
  */
 // { "sourceText": "string", "sourceLang": null, "targetLang": "zh"
@@ -290,6 +352,12 @@ export const translationAndDetectAsync = (body) => (dispatch) => {
 	}
 };
 
+export const detectLangInstantAsync = (body) => (dispatch) => {
+	if(body.sourceText.trim() !== '' ){
+		dispatch(detectLangInstantLoading());
+		debouncedDetectLangInstant(body, dispatch);
+	}
+};
 
 export const makeTranslation = (translationResult, translationData) => {
 	const dataTo = translationResult;

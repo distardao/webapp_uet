@@ -108,6 +108,22 @@ export const getTranslateHistoryGetSingle = (params) => {
 };
 
 // sample data
+// { "sourceTexr": "string",
+export const detectLangInstant = (params) => {
+	return new Promise((resolve, reject) => {
+		axiosDefault.get('detect-lang', {
+			params
+		})
+			.then((result) => {
+				resolve(result.data);
+			})
+			.catch((error) => {
+				reject(error);
+			});
+	});
+};
+
+// sample data
 export const getTranslateResult = (resultUrl) => {
 	return new Promise((resolve, reject) => {
 		axiosDefault({

@@ -11,6 +11,9 @@ import {
 	CHANGE_SOURCE_TEXT,
 	CHANGE_TARGET_TEXT,
 	CHANGE_DETECT_LANG,
+	DETECTLANGINSTANT,
+	DETECTLANGINSTANT_FAIL,
+	DETECTLANGINSTANT_SUCCESS,
 	RESET,
 	DISABLEINPUT,
 } from '../constant/translateTypes';
@@ -33,7 +36,7 @@ const initialState = {
 	translateText: {
 		sourceText: '',
 		targetText: '',
-		editSourceText: '',
+		editTargetText: '',
 	},
 	isSwap: true,
 	err: null,
@@ -54,7 +57,7 @@ export default function(state = initialState, action) {
 			translateText: {
 				...state.translateText,
 				targetText: action.payload.targetText,
-				editSourceText: action.payload.targetText,
+				editTargetText: action.payload.targetText,
 			}
 		};
 	}
@@ -82,7 +85,7 @@ export default function(state = initialState, action) {
 			translateText: {
 				...state.translateText,
 				targetText: action.payload.targetText,
-				editSourceText: action.payload.targetText,
+				editTargetText: action.payload.targetText,
 			}
 		};
 	}
@@ -140,7 +143,7 @@ export default function(state = initialState, action) {
 			translateText: {
 				...state.translateText,
 				targetText: action.payload.data,
-				editSourceText: action.payload.data,
+				editTargetText: action.payload.data,
 			},
 		};
 	}
@@ -148,10 +151,14 @@ export default function(state = initialState, action) {
 		return {
 			...state,
 			currentState: STATE.INIT,
+			translateCode: {
+				...state.translateCode,
+				detectLang: null,
+			},
 			translateText: {
 				sourceText: '',
 				targetText: '',
-				editSourceText: '',
+				editTargetText: '',
 			},
 		};
 	}
@@ -168,6 +175,33 @@ export default function(state = initialState, action) {
 				...state.translateCode,
 				detectLang: action.payload.data,
 			},
+		};
+	}
+	case DETECTLANGINSTANT: {
+		return {
+			...state,
+			currentState: STATE.LOADING,
+		};
+	}
+	case DETECTLANGINSTANT_SUCCESS: {
+		return {
+			...state,
+			currentState: STATE.SUCCESS,
+			translateCode: {
+				...state.translateCode,
+				detectLang: action.payload.detectLang,
+			},
+		};
+	}
+	case DETECTLANGINSTANT_FAIL: {
+		return {
+			...state,
+			currentState: STATE.FAILURE,
+			translateCode: {
+				...state.translateCode,
+				detectLang: action.payload.detectLang,
+			},
+			err: action.payload.err,
 		};
 	}
 	default:
