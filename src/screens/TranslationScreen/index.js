@@ -56,13 +56,16 @@ function Index(props) {
 	}, [state.currentState]);
 
 	/**
- 	* @description Function thay đổi source text, đồng thời reset lại target text
+ 	* @description Function thay đổi source text, đồng thời reset lại target text, detectLang
  	*/
 	const handleChangeSourceText = (evt) => {
 		evt.preventDefault();
 		dispatch(changeSourceText(evt.target.value));
 		if( state.translateText.targetText !== '' ){
 			dispatch(changeTargetText(''));
+		}
+		if( state.translateCode.detectLang ){
+			dispatch(changeDetectLang(null));
 		}
 	};
 
@@ -180,6 +183,13 @@ function Index(props) {
 		return false;
 	};
 
+	const showColorText = () => {
+		if(state.currentState === STATE.FAILURE){
+			return '#ff1744';
+		}
+		return null;
+	};
+
 	return (
 		<>
 			<div className={styles.outerContainer}>
@@ -230,8 +240,13 @@ function Index(props) {
 								  }}
 							>
 								<Tab
-									icon={<Tooltip title={t('Translate.phathienngonngu')}><PageviewIcon fontSize='medium'/></Tooltip>}
-									label={state.translateCode.detectLang ? t(state.translateCode.detectLang) : null}
+									icon={state.translateCode.detectLang? 
+										null : 
+										<Tooltip title={t('Translate.phathienngonngu')}><PageviewIcon fontSize='medium'/></Tooltip>}
+									label={state.translateCode.detectLang? 
+										<Typography color={showColorText()}>{state.translateCode.detectLang}</Typography>:
+										null
+									}
 									sx={{
 										minWidth: 'auto',
 										minHeight: 'auto',
