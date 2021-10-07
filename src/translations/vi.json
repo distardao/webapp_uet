@@ -1,4 +1,7 @@
 {
+	"title": "This Neural Machine Translation system is fully supported by the project 'Developing a multilingual translation system between Vietnamese and several other languages' funded by the Science and Technology Program KC 4.0, No. KC-4.0.12/19-25.",
+	"contact": "Contact KC-4.0.12/19-25 Team",
+	"footer": "© 2021 KC-4.0.12/19-25 Machine Translation Team",
 	"chinhSuaTaiKhoan": "Chỉnh sửa tài khoản",
 	"huyBo": "Hủy bỏ",
 	"ten": "Tên",
