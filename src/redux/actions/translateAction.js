@@ -321,15 +321,15 @@ const debouncedDetectLangInstant = debounce(async (body, dispatch) => {
 	try {
 		let time = 1;
 		const postTranslationResult = await axiosHelper.detectLangInstant(body);
-		const getTranslationHistoryResult = await recursiveCheckStatus(
+		const getTranslationDetectInstantResult = await recursiveCheckStatus(
 			postTranslationResult.data.translationHitoryId, 
 			postTranslationResult.data.taskId, 
 			time
 		);
-		if(getTranslationHistoryResult.message === 'Time Out'){
-			dispatch(detectLangInstantFailed(getTranslationHistoryResult.message, 'unknown'));
+		if(getTranslationDetectInstantResult.message === 'Time Out'){
+			dispatch(detectLangInstantFailed(getTranslationDetectInstantResult.message, 'unknown'));
 		} else {
-			const getTranslationResult = await axiosHelper.getTranslateResult(getTranslationHistoryResult.data.resultUrl);
+			const getTranslationResult = await axiosHelper.getTranslateResult(getTranslationDetectInstantResult.data.resultUrl);
 			if (getTranslationResult.status === 'closed'){
 				dispatch(detectLangInstantFailed(getTranslationResult.message, getTranslationResult.source_lang));
 			} else {
@@ -352,6 +352,9 @@ export const translationAndDetectAsync = (body) => (dispatch) => {
 	}
 };
 
+/**
+ * @description Thunk function cho việc xác định loại ngôn ngữ
+ */
 export const detectLangInstantAsync = (body) => (dispatch) => {
 	if(body.sourceText.trim() !== '' ){
 		dispatch(detectLangInstantLoading());

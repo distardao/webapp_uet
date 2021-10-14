@@ -21,6 +21,20 @@ axiosDefault.interceptors.request.use(
 	error => Promise.reject(error),
 );
 
+export const downloadFile = (url) => {
+	axios({
+		url,
+		method: 'GET',
+		responseType: 'blob', // important
+	  }).then((response) => {
+		const url = window.URL.createObjectURL(new Blob([response.data]));
+		const link = document.createElement('a');
+		link.href = url;
+		link.setAttribute('download', 'file.docx');
+		document.body.appendChild(link);
+		link.click();
+	  });
+};
 
 // Add a response interceptor
 axiosDefault.interceptors.response.use(function (response) {
