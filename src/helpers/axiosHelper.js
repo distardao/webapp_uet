@@ -12,7 +12,10 @@ const axiosDefault = axios.create({
 
 axiosDefault.interceptors.request.use(
 	async config => {
-	  config.headers.Authorization = `${localStorage.getItem(ACCESS_TOKEN)}`;
+	  const acc_token = localStorage.getItem(ACCESS_TOKEN);
+	  if(acc_token){
+			config.headers.Authorization = `${acc_token}`;
+	  }
 	  return config;
 	},
 	error => Promise.reject(error),
@@ -75,6 +78,26 @@ export const RefreshToken = (body) => {
 				reject(error);
 			});
 	});
+};
+
+export const translateFile = (body) => {
+	return new Promise((resolve, reject) => {
+		axiosDefault({
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+			method: 'POST',
+			url: 'translate_f',
+			data: body,
+			// body: body,
+		})
+			.then((result) => {
+				resolve(result.data);
+			})
+			.catch((error) => {
+				reject(error);
+			});
+	});	
 };
 
 // sample data
