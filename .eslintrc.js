@@ -10,7 +10,8 @@ module.exports = {
 		'plugin:react-hooks/recommended',
 		'plugin:jsx-a11y/recommended',
 		'plugin:import/errors',
-		'prettier'
+		'prettier',
+		'plugin:react-redux/recommended',
 	],
 	'parserOptions': {
 		'ecmaFeatures': {
@@ -23,7 +24,8 @@ module.exports = {
 		'react',
 		'react-hooks',
 		'jsx-a11y',
-		'import'
+		'import',
+		'react-redux',
 	],
 	'rules': {
 		'indent': [
@@ -45,6 +47,9 @@ module.exports = {
 		'react-hooks/exhaustive-deps': 0,
 		'no-unused-vars': 2,
 		'no-console': 0,
+		'react-redux/connect-prefer-named-arguments': 2,
+		'react-redux/prefer-separate-component-file': 0,
+		'react-redux/useSelector-prefer-selectors': 0,
 	},
 	'settings': {
 		'react': {
