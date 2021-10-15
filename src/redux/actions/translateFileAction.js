@@ -80,18 +80,22 @@ const recursiveCheckStatus = async (translationHistoryId, taskId, time) => {
 		taskId,
 	});
 	if(getTranslationHistoryResult.data.status === STATUS.TRANSLATING){
-		return new Promise((resolve) => {
+		return new Promise((resolve, reject) => {
 			setTimeout(async () => {
 				// 10 * 1000 = 10 sec
 				// if (time !== 10) {
 				// time += 1;
-				const getTranslationHistoryResult = await recursiveCheckStatus(translationHistoryId, taskId, time);
-				resolve(getTranslationHistoryResult);
+				try {
+					const getTranslationHistoryResult = await recursiveCheckStatus(translationHistoryId, taskId, time);
+					resolve(getTranslationHistoryResult);
+				} catch (e) {
+					reject(e);
+				}
 				// } else {
 				// reject('Time Out');
 				// }
 			}, 1000);
-		}).catch(e => new Error(e));
+		});
 	} else {
 		return getTranslationHistoryResult;
 	}

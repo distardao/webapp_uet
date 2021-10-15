@@ -24,6 +24,7 @@ const STATUS = {
 	TRANSLATING: 'translating',
 	TRANSLATED: 'translated',
 	CANCELLED: 'cancelled',
+	DETECTING: 'detecting'
 };
 
 /**
@@ -229,20 +230,45 @@ const recursiveCheckStatus = async (translationHistoryId, taskId, time) => {
 		taskId,
 	});
 	if(getTranslationHistoryResult.data.status === STATUS.TRANSLATING){
-		return new Promise((resolve) => {
+		return new Promise((resolve, reject) => {
 			setTimeout(async () => {
-				// 10 * 1000 = 10 sec
-				// if (time !== 10) {
-				// time += 1;
-				const getTranslationHistoryResult = await recursiveCheckStatus(translationHistoryId, taskId, time);
-				resolve(getTranslationHistoryResult);
-				// } else {
-				// reject('Time Out');
-				// }
+				try {
+					const getTranslationHistoryResult = await recursiveCheckStatus(translationHistoryId, taskId, time);
+					resolve(getTranslationHistoryResult);
+				} catch (e) {
+					reject(e);
+				}
 			}, 1000);
-		}).catch(e => new Error(e));
+		});
 	} else {
 		return getTranslationHistoryResult;
+	}
+};
+
+/**
+ * @description Do BE bắt fai kiểm tra status 
+ * nên sẽ gọi lại API khi nào status được dịch.
+ * Đặt thời gian mỗi lần gọi lại API 
+ * ! => tránh việc gọi liên tục và ko cần thiết
+ */
+const recursiveDetectionCheckStatus = async (translationHistoryId, taskId, time) => {
+	const getDetectionHistoryResult = await axiosHelper.getDetectionHistoryGetSingle({
+		translationHistoryId,
+		taskId,
+	});
+	if(getDetectionHistoryResult.data.status === STATUS.DETECTING){
+		return new Promise((resolve, reject) => {
+			setTimeout(async () => {
+				try{
+					const getDetectionHistoryResult = await recursiveDetectionCheckStatus(translationHistoryId, taskId, time);
+					resolve(getDetectionHistoryResult);
+				} catch (e) {
+					reject(e);
+				}
+			}, 1000);
+		});
+	} else {
+		return getDetectionHistoryResult;
 	}
 };
 
@@ -258,7 +284,7 @@ const debouncedTranslate = debounce(async (body, dispatch) => {
 			postTranslationResult.data.translationHitoryId, 
 			postTranslationResult.data.taskId, 
 			time
-		);		
+		);  
 		if(getTranslationHistoryResult.message === 'Time Out'){
 			dispatch(translationFailed(getTranslationHistoryResult.message));
 		} else {
@@ -292,20 +318,40 @@ export const translationAsync = (body) => (dispatch) => {
 const debouncedTranslateAndDetect = debounce(async (body, dispatch) => {
 	try {
 		let time = 1;
-		const postTranslationResult = await axiosHelper.postTranslate(body);
-		const getTranslationHistoryResult = await recursiveCheckStatus(
-			postTranslationResult.data.translationHitoryId, 
-			postTranslationResult.data.taskId, 
+		// Phát hiện ngôn ngữ
+		const getDetectLangInstant = await axiosHelper.detectLangInstant({sourceText: body.sourceText});
+		const getSourceLang = await recursiveDetectionCheckStatus(
+			getDetectLangInstant.data.translationHitoryId, 
+			getDetectLangInstant.data.taskId, 
 			time
-		);
-		if(getTranslationHistoryResult.message === 'Time Out'){
-			dispatch(detectLangFailed(getTranslationHistoryResult.message, 'unknown'));
+		); 
+		if(getSourceLang.message === 'Time Out'){
+			dispatch(detectLangFailed(getSourceLang.message, 'unknown'));
 		} else {
-			const getTranslationResult = await axiosHelper.getTranslateResult(getTranslationHistoryResult.data.resultUrl);
-			if (getTranslationResult.status === 'closed'){
-				dispatch(detectLangFailed(getTranslationResult.message, getTranslationResult.source_lang));
+			const getDetectResult = await axiosHelper.getTranslateResult(getSourceLang.data.resultUrl);
+			if (getDetectResult.status === 'closed'){
+				dispatch(detectLangFailed(getDetectResult.message, getDetectResult.source_lang));
 			} else {
-				dispatch(detectLangSuccess(getTranslationResult));
+				// Sử dụng ngôn ngữ phát hiện được và dịch
+				const postTranslationResult = await axiosHelper.postTranslate({
+					...body,
+					sourceLang: getDetectResult.source_lang,
+				});
+				const getTranslationHistoryResult = await recursiveCheckStatus(
+					postTranslationResult.data.translationHitoryId, 
+					postTranslationResult.data.taskId, 
+					time
+				);
+				if(getTranslationHistoryResult.message === 'Time Out'){
+					dispatch(detectLangFailed(getTranslationHistoryResult.message, 'unknown'));
+				} else {
+					const getTranslationResult = await axiosHelper.getTranslateResult(getTranslationHistoryResult.data.resultUrl);
+					if (getTranslationResult.status === 'closed'){
+						dispatch(detectLangFailed(getTranslationResult.message, getTranslationResult.source_lang));
+					} else {
+						dispatch(detectLangSuccess(getTranslationResult));
+					}
+				}
 			}
 		}
 	} catch(error) {

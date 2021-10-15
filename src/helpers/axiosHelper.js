@@ -21,20 +21,6 @@ axiosDefault.interceptors.request.use(
 	error => Promise.reject(error),
 );
 
-export const downloadFile = (url) => {
-	axios({
-		url,
-		method: 'GET',
-		responseType: 'blob', // important
-	  }).then((response) => {
-		const url = window.URL.createObjectURL(new Blob([response.data]));
-		const link = document.createElement('a');
-		link.href = url;
-		link.setAttribute('download', 'file.docx');
-		document.body.appendChild(link);
-		link.click();
-	  });
-};
 
 // Add a response interceptor
 axiosDefault.interceptors.response.use(function (response) {
@@ -55,6 +41,21 @@ export const SignIn = (body) => {
 				reject(error);
 			});
 	});
+};
+
+export const downloadFile = (url) => {
+	axios({
+		url,
+		method: 'GET',
+		responseType: 'blob', // important
+	  }).then((response) => {
+		const url = window.URL.createObjectURL(new Blob([response.data]));
+		const link = document.createElement('a');
+		link.href = url;
+		link.setAttribute('download', 'file.docx');
+		document.body.appendChild(link);
+		link.click();
+	  });
 };
 
 export const SignOut = () => {
@@ -132,7 +133,25 @@ export const postTranslate = (body) => {
 // { "translationHistoryId": "string", "taskId": "string",
 export const getTranslateHistoryGetSingle = (params) => {
 	return new Promise((resolve, reject) => {
-		axiosDefault.get('translation-history/get-single', {
+		axiosDefault({
+			method: 'GET',
+			url: 'translation-history/get-single',
+			params,
+		})
+			.then((result) => {
+				resolve(result.data);
+			})
+			.catch((error) => {
+				reject(error);
+			});
+	});
+};
+
+// sample data
+// { "translationHistoryId": "string", "taskId": "string",
+export const getDetectionHistoryGetSingle = (params) => {
+	return new Promise((resolve, reject) => {
+		axiosDefault.get('lang-detection-history/get-single', {
 			params
 		})
 			.then((result) => {
@@ -146,11 +165,9 @@ export const getTranslateHistoryGetSingle = (params) => {
 
 // sample data
 // { "sourceTexr": "string",
-export const detectLangInstant = (params) => {
+export const detectLangInstant = (body) => {
 	return new Promise((resolve, reject) => {
-		axiosDefault.get('detect-lang', {
-			params
-		})
+		axiosDefault.post('detect-lang', body)
 			.then((result) => {
 				resolve(result.data);
 			})

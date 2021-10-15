@@ -38,7 +38,7 @@ const initialState = {
 		targetText: '',
 		editTargetText: '',
 	},
-	isSwap: true,
+	isSwap: true, // True: en, zh, lo, km => vn , False: vn => en, zh, lo, km
 	err: null,
 };
 
