@@ -11,9 +11,6 @@ import {
 	CHANGE_SOURCE_TEXT,
 	CHANGE_TARGET_TEXT,
 	CHANGE_DETECT_LANG,
-	DETECTLANGINSTANT,
-	DETECTLANGINSTANT_FAIL,
-	DETECTLANGINSTANT_SUCCESS,
 	RESET,
 	DISABLEINPUT,
 } from '../constant/translateTypes';
@@ -80,7 +77,8 @@ export default function(state = initialState, action) {
 			currentState: STATE.SUCCESS,
 			translateCode: {
 				...state.translateCode,
-				detectLang: action.payload.detectLang,
+				// detectLang: action.payload.detectLang,
+				sourceLang: action.payload.detectLang,
 			},
 			translateText: {
 				...state.translateText,
@@ -95,7 +93,7 @@ export default function(state = initialState, action) {
 			currentState: STATE.FAILURE,
 			translateCode: {
 				...state.translateCode,
-				detectLang: action.payload.detectLang,
+				// detectLang: action.payload.detectLang,
 			},
 			err: action.payload.err,
 		};
@@ -175,33 +173,6 @@ export default function(state = initialState, action) {
 				...state.translateCode,
 				detectLang: action.payload.data,
 			},
-		};
-	}
-	case DETECTLANGINSTANT: {
-		return {
-			...state,
-			currentState: STATE.LOADING,
-		};
-	}
-	case DETECTLANGINSTANT_SUCCESS: {
-		return {
-			...state,
-			currentState: STATE.SUCCESS,
-			translateCode: {
-				...state.translateCode,
-				detectLang: action.payload.detectLang,
-			},
-		};
-	}
-	case DETECTLANGINSTANT_FAIL: {
-		return {
-			...state,
-			currentState: STATE.FAILURE,
-			translateCode: {
-				...state.translateCode,
-				detectLang: action.payload.detectLang,
-			},
-			err: action.payload.err,
 		};
 	}
 	default:

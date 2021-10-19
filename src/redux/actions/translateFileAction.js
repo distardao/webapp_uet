@@ -115,17 +115,17 @@ const debouncedTranslationFile = debounce(async (body, dispatch) => {
 			time
 		);
 		if(getTranslationFileResult.message === 'Time Out'){
-			dispatch(translationFileFailed(getTranslationFileResult.message, 'unknown'));
+			dispatch(translationFileFailed(getTranslationFileResult.message));
 		} else {
 			const getTranslationResult = await axiosHelper.getTranslateResult(getTranslationFileResult.data.resultUrl);
 			if (getTranslationResult.status === 'closed'){
-				dispatch(translationFileFailed(getTranslationResult.message, getTranslationResult.source_lang));
+				dispatch(translationFileFailed(getTranslationResult.message));
 			} else {
 				dispatch(translationFileSuccess(getTranslationResult));
 			}
 		}
 	} catch(error) {
-		dispatch(translationFileFailed(error, 'unknown'));
+		dispatch(translationFileFailed(error));
 	}
 }, 0);
 
