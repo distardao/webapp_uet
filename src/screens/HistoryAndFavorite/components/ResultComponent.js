@@ -36,9 +36,9 @@ function ResultComponent(props) {
 		<div className={styles.innerBodyRight}>
 			<div style={{display: 'flex', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center'}}>
 				<Typography variant='h5'>
-					{changeCodeToText(get(historyState.currentHistory, 'source_lang', null))} 
+					{changeCodeToText(get(historyState.currentHistory, 'source_lang', ''))} 
 					<ArrowForwardIcon style={{marginLeft: 10, marginRight: 10}}/> 
-					{changeCodeToText(get(historyState.currentHistory, 'target_lang', null))} 
+					{changeCodeToText(get(historyState.currentHistory, 'target_lang', ''))} 
 				</Typography>
 				<div style={{display: 'flex'}}>
 					<IconButton aria-label="directions" id="basic-button">
@@ -52,12 +52,18 @@ function ResultComponent(props) {
 			<div className={styles.innerBodyRightBox} style={{marginBottom: 40}}>
 				<TextareaAutosize
 					minRows={3}
-					disable
-					value={get(historyState.currentHistory, 'source_text', null)}
+					disabled
+					value={get(historyState.currentHistory, 'source_text', '')}
 					className={[styles.from_language]}
 				/>
 				<div style={{marginTop: 30, display: 'flex', justifyContent: 'flex-end'}}>
-					<IconButton type="submit" sx={{ p: '10px' }} aria-label="search" size='large'>
+					<IconButton 
+						type="submit" 
+						sx={{ p: '10px' }} 
+						aria-label="search" 
+						size='large' 
+						onClick={() => navigator.clipboard.writeText(historyState.currentHistory.source_text)}
+					>
 						<ContentCopyIcon />
 					</IconButton>
 				</div>
@@ -65,12 +71,18 @@ function ResultComponent(props) {
 			<div className={styles.innerBodyRightBox}>
 				<TextareaAutosize
 					minRows={3}
-					disable
-					value={get(historyState.currentHistory, 'target_text', null)}
+					disabled
+					value={get(historyState.currentHistory, 'target_text', '')}
 					className={[styles.from_language]}
 				/>
 				<div style={{marginTop: 30, display: 'flex', justifyContent: 'flex-end'}}>
-					<IconButton type="submit" sx={{ p: '10px' }} aria-label="search" size='large'>
+					<IconButton 
+						type="submit" 
+						sx={{ p: '10px' }} 
+						aria-label="search" 
+						size='large' 
+						onClick={() => navigator.clipboard.writeText(historyState.currentHistory.target_text)}
+					>
 						<ContentCopyIcon fontSize='medium'/>
 					</IconButton>
 				</div>
@@ -80,7 +92,7 @@ function ResultComponent(props) {
 }
 
 ResultComponent.propTypes = {
-	historyState: PropTypes.func,
+	historyState: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({

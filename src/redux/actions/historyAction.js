@@ -61,7 +61,10 @@ export const getHistoryAsync = (params) => async (dispatch) => {
 		const result = await axiosHelper.getTranslateHistory(params);
 		const list = await Promise.all(result.data.list.map(async (item) => {
 			const result = await axiosHelper.getTranslateResult(item.resultUrl);
-			return result;
+			return {
+				id: item.id,
+				...result
+			};
 		}));
 		dispatch(getHistorySuccess(list));
 	}catch(e) {

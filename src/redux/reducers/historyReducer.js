@@ -10,7 +10,12 @@ export const STATE = {
 const initialState = {
 	currentState: STATE.INIT,
 	listHistory: [],
-	currentHistory: null,
+	currentHistory: {
+		source_lang: '',
+		target_lang: '',
+		source_text: '',
+		target_text: '',
+	},
 	err: null,
 };
 

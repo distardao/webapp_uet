@@ -61,7 +61,7 @@ function HistoryAndFavorite(props) {
 	const List = () => {
 		if(option === 'history'){
 			return isEmpty(historyState.listHistory) ?  <TextListEmpty /> : 
-				historyState.listHistory.map((item) => <TranslationItem key={item.taskId} item={item} id={item.taskId}/>);
+				historyState.listHistory.map((item) => <TranslationItem key={item.id} item={item} id={item.taskId}/>);
 		} else {
 			return isEmpty(favorite) ? <TextListEmpty /> : favorite.map((item) => <TranslationItem key={item.toString()} id={item}/>);
 		}
@@ -71,7 +71,7 @@ function HistoryAndFavorite(props) {
 		<div style={{ display: 'flex', flex: 1, backgroundColor: 'white', height:'94vh' }}>
 			<div className={styles.innerBox}>
 				<div className={styles.tabBox}>
-					<Tabs Text
+					<Tabs
 						value={option}
 						onChange={(event, newValue) => setOption(newValue)}
 						variant="scrollable"
