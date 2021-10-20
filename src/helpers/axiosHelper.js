@@ -193,7 +193,7 @@ export const getTranslateResult = (resultUrl) => {
 	});
 };
 
-export const getHistory = (params) => {
+export const getTranslateHistory = (params) => {
 	return new Promise((resolve, reject) => {
 		axiosDefault({
 			url: 'translation-history',

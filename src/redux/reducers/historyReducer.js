@@ -1,4 +1,4 @@
-import { GETHISTORY, GETHISTORY_FAIL, GETHISTORY_SUCCESS } from '../constant/historyTypes';
+import { GETHISTORY, GETHISTORY_FAIL, GETHISTORY_SUCCESS, CHANGEHISTORY } from '../constant/historyTypes';
 
 export const STATE = {
 	INIT: 'INIT',
@@ -10,6 +10,7 @@ export const STATE = {
 const initialState = {
 	currentState: STATE.INIT,
 	listHistory: [],
+	currentHistory: null,
 	err: null,
 };
 
@@ -33,6 +34,12 @@ export default function(state = initialState, action) {
 			...state,
 			currentState: STATE.FAILURE,
 			err: action.payload.err,
+		};
+	}
+	case CHANGEHISTORY: {
+		return {
+			...state,
+			currentHistory: action.payload.data,
 		};
 	}
 	default:
