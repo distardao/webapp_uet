@@ -4,12 +4,12 @@ import { Typography, IconButton } from '@mui/material';
 import styles from '../historyAndFavorite.module.css';
 import { connect } from 'react-redux';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
 import TextareaAutosize from 'react-textarea-autosize';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { useTranslation } from 'react-i18next';
 import SendIcon from '@mui/icons-material/Send';
 import { get } from 'lodash';
+import { Link } from 'react-router-dom';
 
 function ResultComponent(props) {
 	const {historyState} = props;
@@ -41,12 +41,11 @@ function ResultComponent(props) {
 					{changeCodeToText(get(historyState.currentHistory, 'target_lang', ''))} 
 				</Typography>
 				<div style={{display: 'flex'}}>
-					<IconButton aria-label="directions" id="basic-button">
-						<StarBorderIcon />
-					</IconButton>
-					<IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
-						<SendIcon />
-					</IconButton>
+					<Link to='/'>
+						<IconButton type="submit" sx={{ p: '10px' }} aria-label="search" >
+							<SendIcon />
+						</IconButton>
+					</Link>
 				</div>
 			</div>
 			<div className={styles.innerBodyRightBox} style={{marginBottom: 40}}>
