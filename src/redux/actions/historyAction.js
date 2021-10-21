@@ -30,11 +30,12 @@ export function getHistoryLoading() {
 /**
  * @description Thành công và trả về kết quả dịch
  */
-export function getHistorySuccess(data) {
+export function getHistorySuccess(list, total) {
 	return {
 	  type: GETHISTORY_SUCCESS,
 	  payload: {
-			data,
+			data: list,
+			total,
 		}
 	};
 }
@@ -66,7 +67,7 @@ export const getHistoryAsync = (params) => async (dispatch) => {
 				...result
 			};
 		}));
-		dispatch(getHistorySuccess(list));
+		dispatch(getHistorySuccess(list, result.data.total_entries));
 	}catch(e) {
 		dispatch(getHistoryFailed(e));
 	}

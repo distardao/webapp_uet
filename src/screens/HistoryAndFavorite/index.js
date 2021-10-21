@@ -5,6 +5,7 @@ import {
 	Tabs, 
 	Typography, 
 	LinearProgress,
+	Divider,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 // import { IS_AUTH } from '../../constants/envVar';
@@ -12,12 +13,15 @@ import FeedBack from './components/ModalFeedBack';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import ResultComponent from './components/ResultComponent';
-import TranslationItem from './components/TranslationItem';
 import { STATE } from '../../redux/reducers/historyReducer';
 import { getHistoryAsync } from '../../redux/actions/historyAction';
 import { isEmpty } from 'lodash';
+import TranslationItem from './components/TranslationItem';
+import Pagination from '@mui/material/Pagination';
 
-const favorite = [17, 18 ];
+const PER_PAGE = 9;
+const STATUS = 'translated';
+const TRANSLATIONTYPE = 'public_plain_text_translation';
 
 function HistoryAndFavorite(props) {
 	const { historyState } = props;
@@ -27,7 +31,6 @@ function HistoryAndFavorite(props) {
 	// const [modelShown, setModelShown] = useState(!fakeAuth.isAuthenticated);
 
 	const [modelShown, setModelShown] = useState(false);
-	const [option, setOption] = useState('history');
 	// const [shownId, setShownId] = useState(1);
 	const { t } = useTranslation();
 
@@ -47,24 +50,44 @@ function HistoryAndFavorite(props) {
 		}
 	}, [historyState.currentState]);
 
+	/**
+	 * @description useEffect cho việc gọi danh sách lúc đầu vào trang
+	 */
 	useEffect(() => {
 		props.getHistoryAsync({
-			status: 'translated',
-			translationType: 'public_plain_text_translation',
+			status: STATUS,
+			translationType: TRANSLATIONTYPE,
+			perPage: PER_PAGE,
+			page: 1,
 		});
 	}, []);
 
+	/**
+	 * @description Hàm gọi danh sách khi thay đổi trang
+	 */
+	const handleChange = (event, value) => {
+		props.getHistoryAsync({
+			status: STATUS,
+			translationType: TRANSLATIONTYPE,
+			perPage: PER_PAGE,
+			page: value,
+		});
+	};
+
+	/**
+	 * @description Trả về element chữ cho trường hợp danh sách rỗng
+	 */
 	const TextListEmpty = () => {
 		return  <Typography sx={{p: 2}} align="center" variant="subtitle1">{t('danhSachTrong')}</Typography>;
 	};
 
-	const List = () => {
-		if(option === 'history'){
-			return isEmpty(historyState.listHistory) ?  <TextListEmpty /> : 
-				historyState.listHistory.map((item) => <TranslationItem key={item.id} item={item} id={item.taskId}/>);
-		} else {
-			return isEmpty(favorite) ? <TextListEmpty /> : favorite.map((item) => <TranslationItem key={item.toString()} id={item}/>);
-		}
+	/**
+	 * @description Tính toán số trang hiện thị ở pagnination
+	 * VD: total: 100 và perPage: 9, => getCount() trả về 12 
+	 * ? Kết quả thực tế là 11.111 => Làm tròn lên thành 12.
+	 */
+	const getCount = (total) => {
+		return Math.ceil(total/9);
 	};
 
 	return (
@@ -72,13 +95,11 @@ function HistoryAndFavorite(props) {
 			<div className={styles.innerBox}>
 				<div className={styles.tabBox}>
 					<Tabs
-						value={option}
-						onChange={(event, newValue) => setOption(newValue)}
+						value="history"
 						variant="scrollable"
 						scrollButtons="auto"
 					>
 						<Tab label={t('History.lichsu')} value={'history'} style={{fontWeight: 'bold'}}/>
-						<Tab label={t('History.tuvung')} disabled value={'favorite'} style={{fontWeight: 'bold'}}/>
 					</Tabs>
 				</div>
 				<div className={styles.innerBody}>
@@ -93,10 +114,20 @@ function HistoryAndFavorite(props) {
 								<SearchIcon />
 							</IconButton>
 						</div> */}
-						<div className="form-select" style={{flex: 1, overflow: 'auto'}}>
-						    {historyState.currentState === STATE.LOADING ? <LinearProgress /> : null}
-							<List />
+						{historyState.currentState === STATE.LOADING ? <LinearProgress /> : null}
+						<div className="form-select" style={{flex: 1, overflow: 'auto'}} id='list'>
+							{isEmpty(historyState.listHistory) ?  
+								<TextListEmpty /> 
+								: props.historyState.listHistory.map((item) => <TranslationItem key={item.id} item={item} id={item.taskId}/>)
+							}
 						</div>
+						<Divider />
+						<Pagination
+							sx={{display: 'flex', marginTop: 1, marginBottom: 1, justifyContent: 'center'}}
+							size="large"
+							onChange={handleChange}
+							count={getCount(props.historyState.total)}
+						/>
 					</div>
 					<ResultComponent />
 				</div>
