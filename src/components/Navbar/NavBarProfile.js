@@ -29,7 +29,6 @@ function NavBarProfile(props) {
 		}catch (e){
 			alert(e);
 		}
-		handleClose();
 	};
 
 	// eslint-disable-next-line no-unused-vars

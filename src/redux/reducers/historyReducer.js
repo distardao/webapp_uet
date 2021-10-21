@@ -15,12 +15,7 @@ export const STATE = {
 const initialState = {
 	currentState: STATE.INIT,
 	listHistory: [],
-	currentHistory: {
-		source_lang: '',
-		target_lang: '',
-		source_text: '',
-		target_text: '',
-	},
+	currentHistory: null,
 	total: 0,
 	err: null,
 };

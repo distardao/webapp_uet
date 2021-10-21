@@ -10,9 +10,16 @@ import { useTranslation } from 'react-i18next';
 import SendIcon from '@mui/icons-material/Send';
 import { get } from 'lodash';
 import { Link } from 'react-router-dom';
+import { 
+	changeSource,
+	changeSourceText,
+	changeTarget,
+	changeTargetText,
+	swapTranslate
+} from '../../../redux/actions/translateAction';
 
 function ResultComponent(props) {
-	const {historyState} = props;
+	const {historyState, translateState} = props;
 	const { t } = useTranslation();
 
 	const changeCodeToText = (code) => {
@@ -40,13 +47,33 @@ function ResultComponent(props) {
 					<ArrowForwardIcon style={{marginLeft: 10, marginRight: 10}}/> 
 					{changeCodeToText(get(historyState.currentHistory, 'target_lang', ''))} 
 				</Typography>
-				<div style={{display: 'flex'}}>
-					<Link to='/'>
-						<IconButton type="submit" sx={{ p: '10px' }} aria-label="search" >
-							<SendIcon />
-						</IconButton>
-					</Link>
-				</div>
+				{historyState.currentHistory ? 
+					<div style={{display: 'flex'}}>
+						<Link to='/'>
+							<IconButton type="submit" sx={{ p: '10px' }} aria-label="search" onClick={() => {
+								// Swap true: en, zh, lo, km => vn , False: vn => en, zh, lo, km
+								if(translateState.isSwap){
+									if(historyState.currentHistory.source_lang === 'vi'){
+										props.swapTranslate(historyState.currentHistory.source_lang, historyState.currentHistory.target_lang);
+									}else {
+										props.changeSource(historyState.currentHistory.source_lang);
+										props.changeTarget(historyState.currentHistory.target_lang);
+									}
+								}else{
+									if(historyState.currentHistory.source_lang !== 'vi'){
+										props.swapTranslate(historyState.currentHistory.source_lang, historyState.currentHistory.target_lang);
+									}else{
+										props.changeSource(historyState.currentHistory.source_lang);
+										props.changeTarget(historyState.currentHistory.target_lang);
+									}
+								}
+								props.changeSourceText(historyState.currentHistory.source_text);
+								props.changeTargetText(historyState.currentHistory.target_text);
+							}}>
+								<SendIcon />
+							</IconButton>
+						</Link>
+					</div> : null}
 			</div>
 			<div className={styles.innerBodyRightBox} style={{marginBottom: 40}}>
 				<TextareaAutosize
@@ -92,11 +119,25 @@ function ResultComponent(props) {
 
 ResultComponent.propTypes = {
 	historyState: PropTypes.object,
+	translateState: PropTypes.object,
+	changeSource: PropTypes.func,
+	changeSourceText: PropTypes.func,
+	changeTarget: PropTypes.func,
+	changeTargetText: PropTypes.func,
+	swapTranslate: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
 	historyState: state.historyReducer,
+	translateState: state.translateReducer,
 });
 
+const mapDispatchToProps = { 
+	changeSource,
+	changeSourceText,
+	changeTarget,
+	changeTargetText,
+	swapTranslate,
+};
 
-export default connect(mapStateToProps)(ResultComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(ResultComponent);
