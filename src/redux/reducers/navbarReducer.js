@@ -1,7 +1,8 @@
-import { SIDE_BAR_SHOW, SIDE_BAR_HIDE } from '../constant/navbarTypes';
+import { SIDE_BAR_SHOW, SIDE_BAR_HIDE, CHANGE_IS_LOGIN } from '../constant/navbarTypes';
 
 const initialState = {
 	shownavbar: false,
+	isLogin: false,
 };
 
 export default function(state = initialState, action) {
@@ -16,6 +17,12 @@ export default function(state = initialState, action) {
 		return {
 			...state,
 			shownavbar: false,
+		};
+	}
+	case CHANGE_IS_LOGIN: {
+		return {
+			...state,
+			isLogin: action.data
 		};
 	}
 	default:

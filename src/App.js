@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
-// import TranslateScreen from './screens/translateScreen/translateScreen';
 import TranslateScreen from './screens/TranslationScreen';
 import About from './screens/about';
 import HistoryAndFavorite from './screens/HistoryAndFavorite';

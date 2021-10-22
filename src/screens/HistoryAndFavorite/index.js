@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styles from './historyAndFavorite.module.css';
 import { 
 	Tab, 
@@ -8,8 +8,6 @@ import {
 	Divider,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-// import { IS_AUTH } from '../../constants/envVar';
-import FeedBack from './components/ModalFeedBack';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import ResultComponent from './components/ResultComponent';
@@ -24,14 +22,7 @@ const STATUS = 'translated';
 const TRANSLATIONTYPE = 'public_plain_text_translation';
 
 function HistoryAndFavorite(props) {
-	const { historyState } = props;
-	// const fakeAuth = {
-	// 	isAuthenticated: sessionStorage.getItem(IS_AUTH),
-	// };
-	// const [modelShown, setModelShown] = useState(!fakeAuth.isAuthenticated);
-
-	const [modelShown, setModelShown] = useState(false);
-	// const [shownId, setShownId] = useState(1);
+	const { historyState, navbarState } = props;
 	const { t } = useTranslation();
 
 	/**
@@ -60,7 +51,7 @@ function HistoryAndFavorite(props) {
 			perPage: PER_PAGE,
 			page: 1,
 		});
-	}, []);
+	}, [navbarState.isLogin]);
 
 	/**
 	 * @description Hàm gọi danh sách khi thay đổi trang
@@ -132,21 +123,23 @@ function HistoryAndFavorite(props) {
 					<ResultComponent />
 				</div>
 			</div>
-			<FeedBack
+			{/* <FeedBack
 				show={modelShown}
 				onHide={() => setModelShown(false)} 
-			/>
+			/> */}
 		</div>
 	);
 }
 
 HistoryAndFavorite.propTypes = {
 	historyState: PropTypes.object,
+	navbarState: PropTypes.object,
 	getHistoryAsync: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
 	historyState: state.historyReducer,
+	navbarState: state.navbarReducer,
 });
 
 const mapDispatchToProps = { 

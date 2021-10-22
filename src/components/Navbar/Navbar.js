@@ -10,7 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
 import Logo from '../../assets/images/lg.png';
-import { sideBarHide, sideBarShow } from '../../redux/actions/navbarAction';
+import { sideBarHide, sideBarShow, changeIsLogin } from '../../redux/actions/navbarAction';
 import styles from './navbarStyle.module.css';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,16 +22,12 @@ import NavBarProfile from './NavBarProfile';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { ACCESS_TOKEN, REFRESH_TOKEN, USER_IMG_URL } from '../../constants/envVar';
 
-// const clientId =
-// 	'1006597644137-plgvccnt0d3keaojro5q3j69vkjudfvs.apps.googleusercontent.com';
-
 function Navbar() {
 	const boxRef = useRef(null);
 	const boxOutsideClick = OutsideClick(boxRef);
 	const [modalShow, setModalShow] = useState(false);
-	const [isSignIn, setIsSigIn] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const sidebar = useSelector(state => state.navbarReducer.shownavbar);
+	const navBarState = useSelector(state => state.navbarReducer);
 	const dispatch = useDispatch();
 	const { t } = useTranslation();
 	
@@ -43,7 +39,7 @@ function Navbar() {
 
 	useEffect(() => {
 		if(localStorage.getItem(ACCESS_TOKEN)){
-			setIsSigIn(true);
+			dispatch(changeIsLogin(true));
 		}
 	}, []);
 
@@ -62,7 +58,7 @@ function Navbar() {
 				access_token: res.accessToken,
 				platform: 'web'
 			});
-			setIsSigIn(true);
+			dispatch(changeIsLogin(true));
 			localStorage.setItem(ACCESS_TOKEN, siginInResult.data.accessToken);
 			localStorage.setItem(REFRESH_TOKEN, siginInResult.data.refreshToken);
 			localStorage.setItem(USER_IMG_URL, res.profileObj.imageUrl);
@@ -87,7 +83,7 @@ function Navbar() {
 	});
 
 	return (
-		// 	<nav className={sidebar ? [styles.nav_menu,styles.active].join(' ') : styles.nav_menu}>
+		// 	<nav className={navBarState.shownavbar ? [styles.nav_menu,styles.active].join(' ') : styles.nav_menu}>
 		<div ref={boxRef}>
 			<Container fluid>
 				<Row className={styles.headerTop}>
@@ -96,8 +92,8 @@ function Navbar() {
 						<Typography sx={{}} variant="h5" className={styles.title}>
 							{t('Translate.title')}
 						</Typography>
-						{isSignIn ? (
-							<NavBarProfile setIsSigIn={setIsSigIn} setModalShow={setModalShow}/>
+						{navBarState.isLogin ? (
+							<NavBarProfile setIsSigIn={(value) => dispatch(changeIsLogin(value))} setModalShow={setModalShow}/>
 						) : 
 							<LoadingButton 
 								loadingIndicator={<CircularProgress sx={{color: 'white'}} size={20} />} 
@@ -115,7 +111,7 @@ function Navbar() {
 					</div>
 				</Row>
 			</Container>
-			<nav className={sidebar ? [styles.nav_menu, styles.active].join(' ') : styles.nav_menu}>
+			<nav className={navBarState.shownavbar ? [styles.nav_menu, styles.active].join(' ') : styles.nav_menu}>
 				<ul className={styles.nav_menu_items}>
 					<li className={styles.logo}>
 						<div className={styles.logosub}>

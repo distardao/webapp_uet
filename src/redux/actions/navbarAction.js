@@ -1,4 +1,4 @@
-import { SIDE_BAR_SHOW, SIDE_BAR_HIDE } from '../constant/navbarTypes';
+import { SIDE_BAR_SHOW, SIDE_BAR_HIDE, CHANGE_IS_LOGIN } from '../constant/navbarTypes';
 
 
 export const sideBarShow = content => ({
@@ -11,3 +11,7 @@ export const sideBarHide = content => ({
 	content
 });
 
+export const changeIsLogin = data => ({
+	type: CHANGE_IS_LOGIN,
+	data
+});
