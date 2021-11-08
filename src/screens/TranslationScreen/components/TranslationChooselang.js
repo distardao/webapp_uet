@@ -117,8 +117,7 @@ function TranslationChooselang(props) {
 								minHeight: 'auto',
 							}}
 							value={null}
-							// disabled={isDisableTab()} 
-							disabled
+							disabled={isDisableTab()} 
 							style={{fontWeight: 'bold'}}
 						/> : null}
 					{translationState.isSwap ? <Tab label={t('Translate.listLanguage.anh')} value={'en'} disabled={isDisableTab()} style={{fontWeight: 'bold'}}/> : null}
